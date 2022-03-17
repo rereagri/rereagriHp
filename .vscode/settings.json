@@ -1,0 +1,6 @@
+{
+    "workbench.colorTheme": "Vue Theme",
+    "[javascript]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    }
+}
