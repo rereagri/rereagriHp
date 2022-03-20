@@ -28,10 +28,7 @@ export default {
   plugins: [
     '~/plugins/firebase',
     '~/plugins/auth',
-    { 
-      src: '@/plugins/vue-mavon-editor', 
-      srr: false 
-    }
+    { src: '@/plugins/quill', mode: 'client' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

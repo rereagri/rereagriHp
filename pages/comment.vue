@@ -14,7 +14,9 @@
             <v-form>
               <v-text-field v-model="blog.title" disabled label="Blog Title" />
               <v-text-field v-model="blog.user_name" disabled label="Author" />
-              <v-textarea v-model="comment" rows="6" outlined autofocus label="Your Comment" />
+              <!-- <v-textarea v-model="comment" rows="6" outlined autofocus label="Your Comment" /> -->
+              <!-- <quill-editor v-model="editor" /> -->
+              <quill-editor v-model="comment" />
             </v-form>
           </v-card-text>
           <v-card-actions>
@@ -70,4 +72,7 @@ export default {
 </script>
 
 <style>
+.quill-editor {
+  height: px;
+}
 </style>

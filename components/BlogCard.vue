@@ -17,8 +17,11 @@
     </v-card-actions>
     <v-expand-transition>
       <div v-show="open">
-        <v-card-text class="pre-wrap" v-text="blog.content" />
+        <!-- <v-card-text class="pre-wrap" v-text="blog.content" /> -->
+        <!-- eslint-disable-next-line vue/no-v-html -->
+        <v-card-text class="pre-wrap" v-html="blog.content" />
         <v-container>
+          <!-- コメントカード -->
           <v-card v-for="comment in blog.comments" :key="comment.comment" class="my-2">
             <v-card-text class="pb-1">
               <div class="d-inline-block">
@@ -26,9 +29,11 @@
                 <span class="pl-5 font-weight-bold">{{ comment.comment_user_name }}</span>
               </div>
             </v-card-text>
-            <v-card-text>
+            <!-- <v-card-text>
               {{ comment.comment }}
-            </v-card-text>
+            </v-card-text> -->
+            <!-- eslint-disable-next-line vue/no-v-html -->
+            <v-card-text v-html="comment.comment" />
           </v-card>
         </v-container>
         <v-divider />
