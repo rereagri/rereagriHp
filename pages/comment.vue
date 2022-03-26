@@ -41,6 +41,9 @@ export default {
       blogId: '',
       blog: {},
       comment: ''
+      // editorOption: {
+      //   theme: 'bubble'
+      // }
     }
   },
   mounted () {
@@ -57,7 +60,9 @@ export default {
       getDoc(docRef).then((doc) => {
         const data = doc.data().comments || []
         // const serverTimestamp = serverTimestamp()
+        const commentId = this.getRandomStrings()
         data.push({
+          comment_id: commentId,
           comment: this.comment,
           comment_created_at: newDate,
           comment_user_id: this.$store.state.user.uid,
@@ -66,6 +71,18 @@ export default {
         updateDoc(docRef, { comments: data })
         this.$router.push('/')
       })
+    },
+    getRandomStrings () {
+      const str = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&=~/*-+'
+      // 桁数の定義
+      const len = 12
+      // ランダムな文字列の生成
+      let result = ''
+      for (let i = 0; i < len; i++) {
+        result += str.charAt(Math.floor(Math.random() * str.length))
+      }
+      // console.log(result)
+      return result
     }
   }
 }

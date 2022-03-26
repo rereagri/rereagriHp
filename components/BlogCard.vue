@@ -21,8 +21,8 @@
         <!-- eslint-disable-next-line vue/no-v-html -->
         <v-card-text class="pre-wrap" v-html="blog.content" />
         <v-container>
-          <!-- コメントカード -->
-          <v-card v-for="comment in blog.comments" :key="comment.comment" class="my-2">
+          <!-- ***コメントカード*** -->
+          <v-card v-for="(comment, index) in blog.comments" :key="index" class="my-2">
             <v-card-text class="pb-1">
               <div class="d-inline-block">
                 <span>{{ comment.comment_created_at }} </span>
@@ -34,6 +34,16 @@
             </v-card-text> -->
             <!-- eslint-disable-next-line vue/no-v-html -->
             <v-card-text v-html="comment.comment" />
+            <v-card-actions>
+              <v-btn text x-small color="primary" class="mb-2">
+                <v-icon>mdi-thumb-up</v-icon>
+                <span>1</span>
+              </v-btn>
+              <v-spacer />
+              <v-btn v-if="stateUserId(comment)" icon x-small color="secondary" @click="removeComment(comment, index)">
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
+            </v-card-actions>
           </v-card>
         </v-container>
         <v-divider />
@@ -41,6 +51,10 @@
           <v-btn text x-small color="primary">
             <v-icon>mdi-message-reply-text</v-icon>
             <span>{{ commentCount }}</span>
+          </v-btn>
+          <v-btn text x-small color="primary">
+            <v-icon>mdi-eye</v-icon>
+            <span>{{ blog.viewCount }}</span>
           </v-btn>
           <v-btn
             v-show="$store.getters.isAuthenticated"
@@ -63,7 +77,7 @@
 </template>
 
 <script>
-// import moment from 'moment'
+import { doc, updateDoc } from '@firebase/firestore'
 export default {
   props: {
     blog: { type: Object, default: null }
@@ -89,10 +103,21 @@ export default {
       return blog.comments && blog.comments.length ? blog.comments.length : 0
     }
   },
+  mounted () {
+    // this.viewCount = this.blog.viewCount
+  },
   methods: {
     remove () {
       if (confirm('Are you sure?')) {
         this.$store.dispatch('blogs/remove', this.blog.id)
+      }
+    },
+    removeComment (comment, index) {
+      if (confirm('Are you sure?')) {
+        // console.log('commentsIndex:', index)
+        // console.log('comment:', comment)
+        // console.log('this.blog.id:', this.blog.id)
+        this.$store.dispatch('blogs/removeComment', { blogId: this.blog.id, commentObj: comment, commentsIndex: index })
       }
     },
     addComment () {
@@ -100,11 +125,24 @@ export default {
     },
     toggle () {
       const open = this.open
-      if (!open) { this.$emit('close') }
+      if (!open) {
+        this.addViewCount()
+        this.$emit('close')
+      }
       this.open = !open
     },
     close () {
       this.open = false
+    },
+    addViewCount () {
+      const docRef = doc(this.$db, 'blogs', this.blog.id)
+      // console.log('docRef:', docRef)
+      updateDoc(docRef, { viewCount: this.blog.viewCount + 1 })
+    },
+    stateUserId (comment) {
+      if (this.$store.getters.isAuthenticated && this.$store.state.user.uid === comment.comment_user_id) {
+        return true
+      }
     }
   }
 }
