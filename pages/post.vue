@@ -4,7 +4,7 @@
       <v-col cols="12">
         <v-card>
           <v-toolbar dense dark color="secondary">
-            <v-toolbar-title>New Blog</v-toolbar-title>
+            <v-toolbar-title>New Q&A</v-toolbar-title>
             <v-spacer />
             <v-btn icon @click="$router.back()">
               <v-icon>mdi-close</v-icon>
@@ -48,7 +48,8 @@ export default {
         created_at: serverTimestamp(),
         user_id: this.$store.state.user.uid,
         user_name: this.$store.state.user.displayName,
-        viewCount: 0
+        viewCount: 0,
+        goodReplys: []
       }
       this.$store.dispatch('blogs/add', blog)
         .then(() => this.$router.push('/'))

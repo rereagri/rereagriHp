@@ -22,6 +22,9 @@ $ firebase init
   
 $ firebse deploy
 
+<!-- 更新の仕方 -->
+  npm run generate → firebase deploy
+
 
 For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
 

@@ -1,12 +1,12 @@
 <template>
-  <v-card ref="card" class="mb-1" color="blue lighten-4" @click="toggle">
-    <v-card-text class="pb-1">
+  <v-card ref="card" class="mb-2" color="blue lighten-4">
+    <v-card-text class="pb-1 pointer" @click="toggle">
       <div class="d-inline-block">
         <span>{{ created_datetime }} </span>
         <span class="pl-5 font-weight-bold">{{ blog.user_name }}</span>
       </div>
     </v-card-text>
-    <v-card-actions dense class="pl-4">
+    <v-card-actions dense class="pl-4 pointer" @click="toggle">
       <div class="text-h5" :class="{'text-truncate':!open}">
         {{ blog.title }}
       </div>
@@ -17,7 +17,6 @@
     </v-card-actions>
     <v-expand-transition>
       <div v-show="open">
-        <!-- <v-card-text class="pre-wrap" v-text="blog.content" /> -->
         <!-- eslint-disable-next-line vue/no-v-html -->
         <v-card-text class="pre-wrap" v-html="blog.content" />
         <v-container>
@@ -29,15 +28,17 @@
                 <span class="pl-5 font-weight-bold">{{ comment.comment_user_name }}</span>
               </div>
             </v-card-text>
-            <!-- <v-card-text>
-              {{ comment.comment }}
-            </v-card-text> -->
             <!-- eslint-disable-next-line vue/no-v-html -->
             <v-card-text v-html="comment.comment" />
             <v-card-actions>
-              <v-btn text x-small color="primary" class="mb-2">
-                <v-icon>mdi-thumb-up</v-icon>
-                <span>1</span>
+              <v-btn text x-small color="primary" class="mb-2" @click="goodToggle(comment, index)">
+                <v-icon v-if="goodIsMine(comment)">
+                  mdi-thumb-up
+                </v-icon>
+                <v-icon v-else>
+                  mdi-thumb-up-outline
+                </v-icon>
+                <span>{{ goodReplyCount(comment) }}</span>
               </v-btn>
               <v-spacer />
               <v-btn v-if="stateUserId(comment)" icon x-small color="secondary" @click="removeComment(comment, index)">
@@ -47,7 +48,7 @@
           </v-card>
         </v-container>
         <v-divider />
-        <v-card-actions>
+        <v-card-actions class="pointer" @click="toggle">
           <v-btn text x-small color="primary">
             <v-icon>mdi-message-reply-text</v-icon>
             <span>{{ commentCount }}</span>
@@ -84,7 +85,8 @@ export default {
   },
   data () {
     return {
-      open: false
+      open: false,
+      good: false
     }
   },
   computed: {
@@ -131,6 +133,27 @@ export default {
       }
       this.open = !open
     },
+    goodToggle (comment, index) {
+      if (this.$store.getters.isAuthenticated) {
+        const goodReplyArray = this.blog.goodReplys
+        const loginUserId = this.$store.state.user.uid
+        const commentId = comment.comment_id
+        // console.log('goodReplyArray:', goodReplyArray)
+        // console.log('loginUserId:', loginUserId)
+        // console.log('commentId:', commentId)
+        const isGoodUser = goodReplyArray.filter(function (goodReply) {
+          return goodReply.user_id === loginUserId && goodReply.comment_id === commentId
+        })
+        // console.log('isGoodUser:', isGoodUser)
+        if (isGoodUser.length) {
+          // console.log('true')
+          this.$store.dispatch('blogs/deleteGoodReply', { blogId: this.blog.id, commentObj: comment, commentsIndex: index, userId: loginUserId })
+        } else {
+          // console.log('false')
+          this.$store.dispatch('blogs/addGoodReply', { blogId: this.blog.id, commentObj: comment, commentsIndex: index, userId: loginUserId })
+        }
+      }
+    },
     close () {
       this.open = false
     },
@@ -141,7 +164,39 @@ export default {
     },
     stateUserId (comment) {
       if (this.$store.getters.isAuthenticated && this.$store.state.user.uid === comment.comment_user_id) {
+        // console.log('this.$store.state.user.uid:', this.$store.state.user.uid)
         return true
+      }
+    },
+    goodIsMine (comment) {
+      if (this.$store.getters.isAuthenticated) {
+        const goodReplyArray = this.blog.goodReplys
+        const loginUserId = this.$store.state.user.uid
+        const commentId = comment.comment_id
+        // console.log('goodReplyArray:', goodReplyArray)
+        // console.log('loginUserId:', loginUserId)
+        // console.log('commentId:', commentId)
+        const isGoodUser = goodReplyArray.filter(function (goodReply) {
+          return goodReply.user_id === loginUserId && goodReply.comment_id === commentId
+        })
+        // console.log('isGoodUser:', isGoodUser)
+        if (isGoodUser.length) {
+          return true
+        } else {
+          return false
+        }
+      }
+    },
+    goodReplyCount (comment) {
+      const commentId = comment.comment_id
+      const goodReplyArray = this.blog.goodReplys
+      const isGood = goodReplyArray.filter(function (goodReply) {
+        return goodReply.comment_id === commentId
+      })
+      if (isGood.length) {
+        return isGood.length
+      } else {
+        return 0
       }
     }
   }
@@ -154,5 +209,8 @@ export default {
   }
   .pre-wrap {
     white-space: pre-wrap;
+  }
+  .pointer {
+    cursor: pointer;
   }
 </style>

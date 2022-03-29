@@ -18,9 +18,7 @@
       </v-btn>
     </v-app-bar>
     <v-main>
-      <v-container>
-        <Nuxt />
-      </v-container>
+      <Nuxt />
     </v-main>
     <v-footer app dark color="blue darken-4">
       <v-row class="text-center text-caption">

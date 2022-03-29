@@ -75,13 +75,12 @@ export default {
     getRandomStrings () {
       const str = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&=~/*-+'
       // 桁数の定義
-      const len = 12
+      const len = 20
       // ランダムな文字列の生成
       let result = ''
       for (let i = 0; i < len; i++) {
         result += str.charAt(Math.floor(Math.random() * str.length))
       }
-      // console.log(result)
       return result
     }
   }
