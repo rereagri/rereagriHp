@@ -1,5 +1,5 @@
 {
-    "workbench.colorTheme": "Quiet Light",
+    "workbench.colorTheme": "Default Light+",
     "[javascript]": {
         "editor.defaultFormatter": "dbaeumer.vscode-eslint"
     }

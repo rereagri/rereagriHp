@@ -47,7 +47,8 @@ export default {
     }
   },
   mounted () {
-    this.blogId = this.$route.query.id
+    this.blogId = this.$route.query.blogId
+    this.index = this.$route.query.index
     const docRef = doc(this.$db, 'blogs', this.blogId)
     getDoc(docRef).then((doc) => {
       this.blog = doc.data()
@@ -69,7 +70,8 @@ export default {
           comment_user_name: this.$store.state.user.displayName
         })
         updateDoc(docRef, { comments: data })
-        this.$router.push('/')
+        // this.$router.push('/')
+        this.$router.push({ path: 'question_card_detail', query: { blogid: this.blogId, index: this.index } })
       })
     },
     getRandomStrings () {

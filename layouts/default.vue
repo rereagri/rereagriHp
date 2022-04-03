@@ -6,7 +6,7 @@
       </v-toolbar-title>
       <v-spacer />
       <v-btn v-if="!$store.getters.isAuthenticated" icon :to="'/login'">
-        <v-icon>
+        <v-icon :to="'/login'">
           mdi-account-circle
         </v-icon>
       </v-btn>

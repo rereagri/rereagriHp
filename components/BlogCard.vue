@@ -1,5 +1,5 @@
 <template>
-  <v-card ref="card" class="mb-2" color="blue lighten-4">
+  <v-card ref="card" class="mb-3" color="blue lighten-4">
     <v-card-text class="pb-1 pointer" @click="toggle">
       <div class="d-inline-block">
         <span>{{ created_datetime }} </span>
@@ -147,9 +147,11 @@ export default {
         // console.log('isGoodUser:', isGoodUser)
         if (isGoodUser.length) {
           // console.log('true')
+          console.log('this.blog:', this.blog)
           this.$store.dispatch('blogs/deleteGoodReply', { blogId: this.blog.id, commentObj: comment, commentsIndex: index, userId: loginUserId })
         } else {
           // console.log('false')
+          console.log('this.blog:', this.blog)
           this.$store.dispatch('blogs/addGoodReply', { blogId: this.blog.id, commentObj: comment, commentsIndex: index, userId: loginUserId })
         }
       }

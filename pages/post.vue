@@ -49,7 +49,8 @@ export default {
         user_id: this.$store.state.user.uid,
         user_name: this.$store.state.user.displayName,
         viewCount: 0,
-        goodReplys: []
+        goodReplys: [],
+        bestAnswer: ''
       }
       this.$store.dispatch('blogs/add', blog)
         .then(() => this.$router.push('/'))

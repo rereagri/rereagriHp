@@ -35,7 +35,7 @@ export const actions = {
       comments: arrayRemove(commentObj)
     })
   },
-  addGoodReply (_, { blogId, commentObj, commentsIndex, userId }) {
+  addGoodReply (_, { blogId, commentObj, userId }) {
     const docRef = doc(this.$db, 'blogs', blogId)
     // const indexStr = String(commentsIndex)
     // const commentRef = doc(this.$db, 'blogs', blogId, 'comments', indexStr)
@@ -52,7 +52,7 @@ export const actions = {
       updateDoc(docRef, { goodReplys: data })
     })
   },
-  deleteGoodReply (_, { blogId, commentObj, commentsIndex, userId }) {
+  deleteGoodReply (_, { blogId, commentObj, userId }) {
     const docRef = doc(this.$db, 'blogs', blogId)
     // console.log('docRef:', docRef)
     // console.log('commentRef:', commentRef)
@@ -64,6 +64,21 @@ export const actions = {
     // console.log('deleteData:', deleteData)
     updateDoc(docRef, {
       goodReplys: arrayRemove(deleteData)
+    })
+  },
+  beBestAnswer (_, { blogId, commentObj, userId }) {
+    const docRef = doc(this.$db, 'blogs', blogId)
+    updateDoc(docRef, {
+      bestAnswer: {
+        comment_id: commentObj.comment_id,
+        user_id: userId
+      }
+    })
+  },
+  deleteBestAnswer (_, { blogId, commentObj, userId }) {
+    const docRef = doc(this.$db, 'blogs', blogId)
+    updateDoc(docRef, {
+      bestAnswer: ''
     })
   }
 }
