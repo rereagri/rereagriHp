@@ -3,8 +3,8 @@
     <v-row justify="center">
       <v-col cols="12" sm="10">
         <v-card>
-          <v-toolbar dense dark color="success">
-            <v-toolbar-title>Sign up</v-toolbar-title>
+          <v-toolbar dense dark color="secondary">
+            <v-toolbar-title>アカウント設定【製作中】</v-toolbar-title>
             <v-spacer />
             <v-btn icon @click="$router.back()">
               <v-icon>mdi-close</v-icon>
@@ -16,6 +16,16 @@
               <v-text-field v-model="password" type="password" label="Password" :rules="rules.password" />
               <v-text-field v-model="confirmPassword" type="password" label="Confirm Password" :rules="rules.confirmPassword" />
               <v-text-field v-model="userName" type="text" label="Your Name" :rules="rules.name" />
+              <v-text-field v-model="userIcon" type="text" label="Icon" />
+              <div>
+                <label>自己紹介</label>
+                <quill-editor v-model="selfIntroduction" rows="10" />
+              </div>
+              <br>
+              <div>
+                <label>自分の曲紹介</label>
+                <quill-editor v-model="musicIntroduction" rows="10" />
+              </div>
             </v-form>
           </v-card-text>
           <v-card-text class="error--text">
@@ -23,7 +33,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn large color="success" @click="signup">
+            <v-btn large color="secondary" @click="register">
               register
             </v-btn>
           </v-card-actions>
@@ -62,16 +72,16 @@ export default {
     }
   },
   methods: {
-    signup () {
-      if (this.$refs.form.validate()) {
-        //
-        this.$store.dispatch('signUp', {
-          email: this.email,
-          password: this.password,
-          name: this.userName
-        }).then(() => this.$router.push('/'))
-          .catch(err => (this.message = err.message))
-      }
+    register () {
+      // if (this.$refs.form.validate()) {
+      //   //
+      //   this.$store.dispatch('signUp', {
+      //     email: this.email,
+      //     password: this.password,
+      //     name: this.userName
+      //   }).then(() => this.$router.push('/'))
+      //     .catch(err => (this.message = err.message))
+      // }
     }
   }
 }

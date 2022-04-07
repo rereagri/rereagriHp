@@ -5,7 +5,7 @@
         <div class="d-inline-block">
           <span>{{ created_datetime }} </span>
           <span class="pl-5 font-weight-bold">{{ blog.user_name }}</span>
-          <v-btn v-if="isBestAnswerAtTitle()" x-small color="success" class="pointer-events-none ml-3">
+          <v-btn v-if="isBestAnswerAtTitle()" small color="success" class="pointer-events-none ml-3">
             <div>
               解決済み
             </div>
@@ -275,5 +275,5 @@ export default {
   }
   .pointer-events-none {
   pointer-events: none
-}
+  }
 </style>

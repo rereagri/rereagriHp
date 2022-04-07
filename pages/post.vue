@@ -14,7 +14,6 @@
             <v-form>
               <v-text-field v-model="title" label="Title" placeholder="タイトルには質問概要を10字以上で書いてください" />
               <quill-editor v-model="content" rows="10" />
-              <!-- <v-textarea v-model="content" rows="10" label="Content" /> -->
             </v-form>
           </v-card-text>
           <v-card-actions>
