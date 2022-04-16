@@ -1,5 +1,4 @@
 import { addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query, updateDoc, arrayRemove, getDoc } from 'firebase/firestore'
-// import { addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query, updateDoc, deleteField, getDoc } from 'firebase/firestore'
 
 export const state = () => ({
   blogs: []

@@ -4,8 +4,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - blog-post',
-    title: 'blog-post',
+    titleTemplate: '%s',
+    title: 'DTM QA',
     htmlAttrs: {
       lang: 'ja'
     },

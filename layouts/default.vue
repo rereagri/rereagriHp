@@ -14,6 +14,9 @@
         <v-btn text class="px-1 pointer-events-none">
           {{ $store.state.user.displayName }}
         </v-btn>
+        <!-- <v-btn text class="px-1 pointer-events-none">
+          {{ $store.state.user.photoURL }}
+        </v-btn> -->
         <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
         <v-navigation-drawer
           v-model="drawer"
@@ -25,12 +28,22 @@
           <v-list>
             <v-list-item>
               <v-list-item-avatar>
-                <v-img src="https://randomuser.me/api/portraits/men/78.jpg" />
+                <!-- <v-img src="https://randomuser.me/api/portraits/men/78.jpg" /> -->
+                <!-- <v-img src="https://firebasestorage.googleapis.com/v0/b/nuxt-blog-3064a.appspot.com/o/onepiece04_usopp_sogeking.png?alt=media&token=8f98df72-0260-4b4e-90c1-79644a46a0b8" /> -->
+                <!-- <v-img :src= require('gs://nuxt-blog-3064a.appspot.com/onepiece04_usopp_sogeking.png') /> -->
+                <!-- <v-img src= "getLoginUserAvatarImage()" alt=""/> -->
+                <v-img :src="imageURL" />
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title>{{ loginUserName }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
+            <!-- <v-list-item-content>
+              <v-list-item-title>{{ avatarImage }}</v-list-item-title>
+              </v-list-item-content>
+              <v-img :src="avatarImage" />
+            <v-list-item> -->
+            <!-- </v-list-item> -->
             <v-divider />
             <v-list-item @click="$router.push('/user_page')">
               <v-list-item-icon>
@@ -56,6 +69,14 @@
                 <v-list-item-title>ログアウト</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
+            <v-list-item @click="test">
+              <v-list-item-icon>
+                <v-icon>mdi-logout</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>各種テスト</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
           </v-list>
         </v-navigation-drawer>
       </div>
@@ -78,17 +99,39 @@
 </template>
 
 <script>
+import { getStorage, ref, getDownloadURL } from 'firebase/storage'
 export default {
   name: 'DefaultLayout',
   data () {
     return {
-      drawer: false
+      drawer: false,
+      imageURL: ''
     }
   },
   computed: {
     loginUserName () {
       return this.$store.state.user.displayName
+    },
+    avatars () {
+      return this.$store.state.avatars.avatars
+    },
+    loginUserAvatar () {
+      const result = this.avatars.filter((avatar) => {
+        return avatar.user_id === this.$store.state.user.uid
+      })
+      console.log('loginUserAvatar:', result)
+      return result
     }
+  },
+  mounted () {
+    this.$store.dispatch('avatars/init')
+    this.$store.dispatch('blogs/init')
+    // this.imageURL = this.getLoginUserAvatarImage()
+    // this.getLoginUserAvatarImage()
+    // window.addEventListener('onLoad', this.getLoginUserAvatarImage)
+    // window.addEventListener('load', this.getLoginUserAvatarImage)
+    // window.addEventListener('DOMContentLoaded', this.getLoginUserAvatarImage)
+    window.addEventListener('mousemove', this.getLoginUserAvatarImage)
   },
   methods: {
     logout () {
@@ -96,6 +139,46 @@ export default {
         this.$store.dispatch('logout')
           .then(() => this.$router.push('/'))
       }
+    },
+    test () {
+      console.log('test')
+      const loginUserName = this.$store.state.user.displayName
+      const loginUserId = this.$store.state.user.uid
+      const avatars = this.avatars
+      const loginavatar = this.loginUserAvatar
+      console.log('loginUserName:', loginUserName)
+      console.log('loginUserId:', loginUserId)
+      console.log('avatars:', avatars)
+      console.log('loginavatar:', loginavatar)
+      // const blogs = this.$store.state.blogs.blogs
+      // console.log('blogs:', blogs)
+      // const result = this.avatars.filter((avatar) => {
+      //   return avatar.user_id === this.$store.state.user.uid
+      // })
+      // console.log('result:', result)
+      // const storage = getStorage()
+      // const storageLocation = avatar[0].storage_location
+      // console.log('storageLocation:', storageLocation)
+      // const gsReference = ref(storage, storageLocation)
+      // getDownloadURL(gsReference)
+      //   .then((url) => {
+      //     console.log('test2 url:', url)
+      //     console.log('$store.state.user:', this.$store.state.user)
+      //     return url
+      //   })
+      // this.getLoginUserAvatarImage()
+    },
+    getLoginUserAvatarImage () {
+      const storage = getStorage()
+      const storageLocation = this.loginUserAvatar[0].storage_location
+      const gsReference = ref(storage, storageLocation)
+      getDownloadURL(gsReference)
+        .then((url) => {
+          // console.log('getLoginUserAvatarImage URL:', url)
+          // console.log('$store.state.user:', this.$store.state.user)
+          this.imageURL = url
+          // return url
+        })
     }
   }
 }

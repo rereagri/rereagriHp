@@ -2,6 +2,7 @@
 import { getApp, getApps, initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
+import { getStorage } from 'firebase/storage'
 
 export default ({ $config }, inject) => {
   // Firebase configuration
@@ -20,7 +21,10 @@ export default ({ $config }, inject) => {
   const auth = getAuth(app)
   // Firestore
   const db = getFirestore(app)
+  // Cloud Storage
+  const storage = getStorage(app)
 
   inject('auth', auth)
   inject('db', db)
+  inject('storage', storage)
 }
