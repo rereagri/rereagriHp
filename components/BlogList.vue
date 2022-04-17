@@ -10,7 +10,6 @@
     <v-list v-if="blogs.length" class="overflow-y-auto">
       <v-list-item v-for="(blog, index) in blogs" :key="index">
         <question-card ref="card" :blog="blog" :index="index" @close="closeAll" />
-        <!-- <blog-card ref="card" :blog="blog" @close="closeAll" /> -->
       </v-list-item>
     </v-list>
     <span v-else>No Blogs...</span>

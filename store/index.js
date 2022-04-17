@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth'
 
 export const state = () => ({
   user: null
@@ -74,16 +74,16 @@ export const actions = {
       }, 1000)
     })
   },
-  updatePhotoURL ({ commit }, { storageURL }) {
-    console.log('storageUrl@index:', storageURL)
+  updatePhotoURL ({ commit }, { url }) {
+    console.log('photoURL@index.js:', url)
     console.log('this.$auth.currentUser:', this.$auth.currentUser)
     return new Promise((resolve, reject) => {
       setTimeout(async () => {
         try {
           // const userCredential = await createUserWithEmailAndPassword(this.$auth, email, password)
-          const auth = getAuth()
-          console.log('auth.currentUser:', auth.currentUser)
-          await updateProfile(auth.currentUser, { photoURL: storageURL })
+          // const auth = getAuth()
+          // console.log('auth.currentUser:', auth.currentUser)
+          await updateProfile(this.$auth.currentUser, { photoURL: url })
           commit('setUser', this.$auth.currentUser)
           resolve()
         } catch (e) {
@@ -91,14 +91,14 @@ export const actions = {
         }
       }, 1000)
     })
-  },
-  updatePhotoUrl2 ({ commit }, { strageUrl }) {
-    console.log('strageUrl@index:', strageUrl)
-    const auth = getAuth()
-    updateProfile(auth.currentUser, { photoUrl: strageUrl }).then(() => {
-    }).catch((error) => {
-      console.log(error)
-    })
-    commit('setUser', this.$auth.currentUser)
   }
+  // updatePhotoUrl2 ({ commit }, { strageUrl }) {
+  //   console.log('strageUrl@index:', strageUrl)
+  //   const auth = getAuth()
+  //   updateProfile(auth.currentUser, { photoUrl: strageUrl }).then(() => {
+  //   }).catch((error) => {
+  //     console.log(error)
+  //   })
+  //   commit('setUser', this.$auth.currentUser)
+  // }
 }

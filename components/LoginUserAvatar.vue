@@ -1,75 +1,50 @@
 <template>
-  <div class="page">
-    <form
-      class="form"
-      @submit.prevent="submitImg"
-    >
-      <input
-        type="file"
-        accept="img/*"
-        @change="changeImg"
-      >
-      <button
-        type="submit"
-        class="button"
-      >
-        click
-      </button>
-      <div>
-        <v-list-item-avatar>
-          <v-img :src= "postData.thumbnail" alt="" />
-        </v-list-item-avatar>
-        <!-- <img :src="postData.thumbnail" alt="">
-        <img :src="postData.thumbnail" alt=""> -->
-      </div>
-    </form>
-    <div>
-      <button
-        class="button"
-        @click="getImg"
-      >
-        取得
-      </button>
-      <img :src="getThumbnail" alt="">
-    </div>
+  <div>
+    <v-list-item-avatar v-if="photoURL === 'null'">
+      <v-icon large>
+        mdi-account-circle
+      </v-icon>
+    </v-list-item-avatar>
+    <v-list-item-avatar v-else>
+      <v-img :src="photoURL" />
+    </v-list-item-avatar>
   </div>
 </template>
 
 <script>
 export default {
+  name: 'LoginUserAvatar',
   data () {
     return {
-      thumbnail: '',
-      postData: {
-        thumbnail: ''
-      }
     }
   },
   computed: {
-    getThumbnail () {
-      return this.$store.getters.thumbnail
+    avatars () {
+      return this.$store.state.avatars.avatars
+    },
+    loginUserAvatar () {
+      const result = this.avatars.filter((avatar) => {
+        return avatar.user_id === this.$store.state.user.uid
+      })
+      // console.log('loginUserAvatar:', result)
+      return result
+    },
+    photoURL () {
+      const url = this.loginUserAvatar[0].photoURL
+      if (url === null) {
+        return 'null'
+      } else {
+        return url
+      }
     }
   },
+  mounted () {
+    this.$store.dispatch('avatars/init')
+  },
   methods: {
-    changeImg (e) {
-      this.thumbnail = e.target.files[0]
-      if (this.thumbnail) {
-        const reader = new FileReader()
-        reader.readAsDataURL(this.thumbnail)
-        reader.onload = () => {
-          this.postData.thumbnail = reader.result + ''
-        }
-      }
-    },
-    submitImg () {
-      this.$store.dispatch('submit', this.thumbnail)
-    },
-    getImg () {
-      this.$store.dispatch('getImg')
-    }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 </style>

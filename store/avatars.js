@@ -13,11 +13,11 @@ export const mutations = {
 
 export const actions = {
   init ({ commit }) {
-    console.log('abatars init')
+    // console.log('avatars init')
     const collectionRef = collection(this.$db, 'avatars')
-    console.log('collectionRef:', collectionRef)
-    const q = query(collectionRef, orderBy('created_at', 'desc'))
-    console.log('q:', q)
+    // console.log('collectionRef:', collectionRef)
+    const q = query(collectionRef, orderBy('user_id', 'desc'))
+    // console.log('q:', q)
     onSnapshot(q, (querySnapshot) => {
       commit('setAvatars', querySnapshot.docs.map((doc) => {
         return { ...doc.data(), id: doc.id }
@@ -25,6 +25,7 @@ export const actions = {
     })
   },
   add (_, avatar) {
+    console.log('avatars add')
     const collectionRef = collection(this.$db, 'avatars')
     addDoc(collectionRef, avatar)
   },
@@ -32,10 +33,14 @@ export const actions = {
     const documentRef = doc(this.$db, 'avatars', id)
     deleteDoc(documentRef)
   },
-  update (_, { id, location }) {
-    const documentRef = doc(this.$db, id)
+  update (_, { avatarsId, avatarPhotoURL }) {
+    console.log('avatars update')
+    console.log('avatarsId:', avatarsId)
+    console.log('avatarPhotoURL:', avatarPhotoURL)
+    const documentRef = doc(this.$db, 'avatars', avatarsId)
+    console.log('documentRef:', documentRef)
     updateDoc(documentRef, {
-      storageLocation: location
+      photoURL: avatarPhotoURL
     })
   },
   getLoginUserAvatarImage () {

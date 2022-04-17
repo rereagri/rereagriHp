@@ -3,13 +3,14 @@
     <v-card-text class="pb-1 pointer">
       <div class="d-inline-block">
         <span>{{ created_datetime }} </span>
-        <span class="pl-5 font-weight-bold">{{ blog.user_name }}</span>
-        <v-btn v-if="isBestAnswerAtTitle()" x-small color="success" class="pointer-events-none ml-3">
+        <span class="pl-2 font-weight-bold">{{ blog.user_name }}</span>
+        <v-btn v-if="isBestAnswerAtTitle()" x-small color="success" class="pointer-events-none mx-2">
           <div>
             解決済み
           </div>
         </v-btn>
       </div>
+      <user-avatar ref="userAvatar" :blog="this.blog"/>
       <div class="text-h5">
         {{ blog.title }}
       </div>
@@ -29,7 +30,9 @@
 
 <script>
 import { doc, updateDoc } from '@firebase/firestore'
+import UserAvatar from './UserAvatar.vue'
 export default {
+  components: { UserAvatar },
   props: {
     blog: { type: Object, default: null },
     index: { type: null, default: null }

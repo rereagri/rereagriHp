@@ -27,23 +27,11 @@
         >
           <v-list>
             <v-list-item>
-              <v-list-item-avatar>
-                <!-- <v-img src="https://randomuser.me/api/portraits/men/78.jpg" /> -->
-                <!-- <v-img src="https://firebasestorage.googleapis.com/v0/b/nuxt-blog-3064a.appspot.com/o/onepiece04_usopp_sogeking.png?alt=media&token=8f98df72-0260-4b4e-90c1-79644a46a0b8" /> -->
-                <!-- <v-img :src= require('gs://nuxt-blog-3064a.appspot.com/onepiece04_usopp_sogeking.png') /> -->
-                <!-- <v-img src= "getLoginUserAvatarImage()" alt=""/> -->
-                <v-img :src="imageURL" />
-              </v-list-item-avatar>
+              <login-user-avatar />
               <v-list-item-content>
                 <v-list-item-title>{{ loginUserName }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <!-- <v-list-item-content>
-              <v-list-item-title>{{ avatarImage }}</v-list-item-title>
-              </v-list-item-content>
-              <v-img :src="avatarImage" />
-            <v-list-item> -->
-            <!-- </v-list-item> -->
             <v-divider />
             <v-list-item @click="$router.push('/user_page')">
               <v-list-item-icon>
@@ -100,7 +88,9 @@
 
 <script>
 import { getStorage, ref, getDownloadURL } from 'firebase/storage'
+import LoginUserAvatar from '~/components/LoginUserAvatar.vue'
 export default {
+  components: { LoginUserAvatar },
   name: 'DefaultLayout',
   data () {
     return {
@@ -131,7 +121,7 @@ export default {
     // window.addEventListener('onLoad', this.getLoginUserAvatarImage)
     // window.addEventListener('load', this.getLoginUserAvatarImage)
     // window.addEventListener('DOMContentLoaded', this.getLoginUserAvatarImage)
-    window.addEventListener('mousemove', this.getLoginUserAvatarImage)
+    // window.addEventListener('mousemove', this.getLoginUserAvatarImage)
   },
   methods: {
     logout () {
@@ -144,12 +134,19 @@ export default {
       console.log('test')
       const loginUserName = this.$store.state.user.displayName
       const loginUserId = this.$store.state.user.uid
-      const avatars = this.avatars
-      const loginavatar = this.loginUserAvatar
+      // const loginUserPhotoURL = this.$store.state.user.photoURL
+      // const avatars = this.avatars
+      // const loginavatar = this.loginUserAvatar
       console.log('loginUserName:', loginUserName)
       console.log('loginUserId:', loginUserId)
-      console.log('avatars:', avatars)
-      console.log('loginavatar:', loginavatar)
+      // console.log('loginUserPhotoURL:', loginUserPhotoURL)
+      console.log('this.avatars', this.avatars)
+      console.log('this.loginUserAvatar:', this.loginUserAvatar)
+      console.log('this.loginUserAvatar[0].id:', this.loginUserAvatar[0].id)
+      console.log('this.loginUserAvatar[0].photoURL:', this.loginUserAvatar[0].photoURL)
+      console.log('this.$auth:', this.$auth)
+      // console.log('avatars:', avatars)
+      // console.log('loginavatar:', loginavatar)
       // const blogs = this.$store.state.blogs.blogs
       // console.log('blogs:', blogs)
       // const result = this.avatars.filter((avatar) => {

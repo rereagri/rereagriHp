@@ -17,10 +17,18 @@
               <v-text-field v-model="confirmPassword" type="password" label="Confirm Password" :rules="rules.confirmPassword" />
               <v-text-field v-model="userName" type="text" label="Your Name" :rules="rules.name" />
               <!-- <v-file-input label="Icon image file" prepend-icon="mdi-camera" @change="selectAvatarImage" /> -->
-              <v-file-input label="Icon image file" prepend-icon="mdi-camera" @change="postAvatar" v-if="!loginUserAvatar.length" />
+              <!-- <v-file-input label="Icon image file" prepend-icon="mdi-camera" @change="postAvatar" v-if="!loginUserAvatar.length" />
               <v-btn color="secondary" @click="deleteAvatar" v-if="loginUserAvatar.length">
                 icon delete
-              </v-btn>
+              </v-btn> -->
+            </v-form>
+            <v-form>
+              <v-text-field v-model="photoURL" type="text" label="Icon URL" />
+            </v-form>
+            <v-btn large color="secondary" @click="updatePhotoURL">
+              URL register
+            </v-btn>
+            <v-form>
               <br><br>
               <div>
                 <label>自己紹介</label>
@@ -59,6 +67,7 @@ export default {
       password: '',
       confirmPassword: '',
       userName: '',
+      photoURL: '',
       rules: {
         email: [
           v => !!v || 'E-mail is required',
@@ -186,6 +195,21 @@ export default {
       // firestore avatarsからの削除
       this.$store.dispatch('avatars/remove', this.loginUserAvatar[0].id)
       // }
+    },
+    updatePhotoURL () {
+      // console.log('this.photoURL:', this.photoURL)
+      // this.$store.dispatch('updatePhotoURL', {
+      //   url: this.photoURL
+      // }).then().catch()
+      if (this.loginUserAvatar.length) {
+        this.$store.dispatch('avatars/update', { avatarsId: this.loginUserAvatar[0].id, avatarPhotoURL: this.photoURL }).then()
+      } else {
+        const avatar = {
+          user_id: this.$store.state.user.uid,
+          photoURL: this.photoURL
+        }
+        this.$store.dispatch('avatars/add', avatar).then()
+      }
     }
   }
 }

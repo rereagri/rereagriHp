@@ -36,11 +36,6 @@ export const actions = {
   },
   addGoodReply (_, { blogId, commentObj, userId }) {
     const docRef = doc(this.$db, 'blogs', blogId)
-    // const indexStr = String(commentsIndex)
-    // const commentRef = doc(this.$db, 'blogs', blogId, 'comments', indexStr)
-    // console.log('docRef:', docRef)
-    // console.log('commentRef:', commentRef)
-    // console.log('userId', userId)
     getDoc(docRef).then((doc) => {
       const data = doc.data().goodReplys || []
       data.push({
