@@ -11,6 +11,7 @@
             </div>
           </v-btn>
         </div>
+        <user-avatar :blog="this.blog"/>
         <div class="text-h5">
           {{ blog.title }}
         </div>
@@ -25,6 +26,7 @@
                   <span>{{ comment.comment_created_at }} </span>
                   <span class="pl-5 font-weight-bold">{{ comment.comment_user_name }}</span>
                 </div>
+                <user-avatar2 :comment="comment"/>
               </v-card-text>
               <!-- eslint-disable-next-line vue/no-v-html -->
               <v-card-text v-html="comment.comment" />
@@ -92,7 +94,9 @@
 
 <script>
 import { doc, updateDoc } from '@firebase/firestore'
+// import UserAvatar from './UserAvatar.vue'
 export default {
+  // components: { UserAvatar },
   // props: {
   //   blog: { type: Object, default: null }
   // },

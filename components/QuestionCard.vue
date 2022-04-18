@@ -10,7 +10,7 @@
           </div>
         </v-btn>
       </div>
-      <user-avatar ref="userAvatar" :blog="this.blog"/>
+      <user-avatar :blog="this.blog"/>
       <div class="text-h5">
         {{ blog.title }}
       </div>

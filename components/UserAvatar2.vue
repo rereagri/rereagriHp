@@ -13,9 +13,9 @@
 
 <script>
 export default {
-  name: 'UserAvatar',
+  name: 'UserAvatar2',
   props: {
-    blog: { type: Object, default: null }
+    comment: { type: Object, default: null }
   },
   data () {
     return {
@@ -25,17 +25,18 @@ export default {
     avatars () {
       return this.$store.state.avatars.avatars
     },
-    blogUserAvatar ({ blog }) {
+    blogUserAvatar ({ comment }) {
       // console.log('blog:', blog)
       // console.log('blog.user_id:', blog.user_id)
       const result = this.avatars.filter((avatar) => {
-        return avatar.user_id === blog.user_id
+        return avatar.user_id === comment.comment_user_id
       })
       // console.log('blogUserAvatar:', result)
       return result
     },
     photoURL () {
       const blogUserAvatar = this.blogUserAvatar
+      // console.log('blogUserAvatar@UserAvatar2:', blogUserAvatar)
       if (blogUserAvatar.length === 0) {
         return 'null'
       } else {
