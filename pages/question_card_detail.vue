@@ -4,29 +4,31 @@
       <v-card-text class="pb-1">
         <div class="d-inline-block">
           <span>{{ created_datetime }} </span>
-          <span class="pl-5 font-weight-bold">{{ blog.user_name }}</span>
-          <v-btn v-if="isBestAnswerAtTitle()" small color="success" class="pointer-events-none ml-3">
+          <!-- <span class="pl-5 font-weight-bold">{{ blog.user_name }}</span> -->
+          <span v-if="blog" class="px-2 font-weight-bold">{{ blogCardAvatarName }}</span>
+          <v-btn v-if="blog && isBestAnswerAtTitle()" small color="success" class="pointer-events-none mr-2">
             <div>
               解決済み
             </div>
           </v-btn>
         </div>
-        <user-avatar :blog="this.blog"/>
-        <div class="text-h5">
+        <user-avatar v-if="blog" :id="blog.user_id" :name="blogCardAvatarName.toString()" />
+        <div v-if="blog" class="text-h5">
           {{ blog.title }}
         </div>
         <div>
           <!-- eslint-disable-next-line vue/no-v-html -->
-          <v-card-text class="pre-wrap" v-html="blog.content" />
-          <v-container>
+          <v-card-text v-if="blog" class="pre-wrap" v-html="blog.content" />
+          <v-container v-if="blog">
             <!-- ***コメントカード*** -->
             <v-card v-for="(comment, index) in blog.comments" :key="index" class="my-2">
               <v-card-text class="pb-1">
                 <div class="d-inline-block">
                   <span>{{ comment.comment_created_at }} </span>
-                  <span class="pl-5 font-weight-bold">{{ comment.comment_user_name }}</span>
+                  <!-- <span class="pl-5 font-weight-bold">{{ comment.comment_user_name }}</span> -->
+                  <span v-if="blog && avatars" class="px-2 font-weight-bold">{{ commentCardAvatarName(comment) }}</span>
                 </div>
-                <user-avatar2 :comment="comment"/>
+                <user-avatar v-if="blog && avatars" :id="comment.comment_user_id" :name="commentCardAvatarName(comment).toString()" />
               </v-card-text>
               <!-- eslint-disable-next-line vue/no-v-html -->
               <v-card-text v-html="comment.comment" />
@@ -50,7 +52,7 @@
                     ベストアンサー削除
                   </div>
                 </v-btn>
-                <v-btn v-if="isBlogMine && !isBestAnswer(comment)" x-small color="primary" @click="beBestAnswer(comment)">
+                <v-btn v-if="blog && isBlogMine && !isCommentMine(comment) && !isBestAnswer(comment)" x-small color="primary" @click="beBestAnswer(comment)">
                   <div>
                     ベストアンサーにする
                   </div>
@@ -66,11 +68,11 @@
           <v-card-actions>
             <v-btn class="pointer-events-none" text x-small color="primary">
               <v-icon>mdi-message-reply-text</v-icon>
-              <span>{{ commentCount }}</span>
+              <span v-if="blog">{{ commentCount }}</span>
             </v-btn>
             <v-btn class="pointer-events-none" text x-small color="primary" style="cursor: default">
               <v-icon>mdi-eye</v-icon>
-              <span>{{ blog.viewCount }}</span>
+              <span v-if="blog">{{ blog.viewCount }}</span>
             </v-btn>
             <v-btn
               icon
@@ -115,6 +117,26 @@ export default {
       const index = this.$route.query.index
       return this.blogs[index]
     },
+    avatars () {
+      return this.$store.state.avatars.avatars
+    },
+    blogCardAvatarName () {
+      const avatar = this.avatars.filter((avatar) => {
+        return avatar.user_id === this.blog.user_id
+      })
+      // console.log('avatar', avatar)
+      if (avatar.length === 0) {
+        return 0
+      } else {
+        return avatar[0].displayName
+      }
+    },
+    // commentCardAvatarName ({ comment }) {
+    //   const avatar = this.avatars.filter((avatar) => {
+    //     return avatar.user_id === comment.comment_user_id
+    //   })
+    //   return avatar[0].displayName
+    // },
     created_datetime: ({ $dateFns, blog }) => {
       if (blog && blog.created_at) {
         return $dateFns.format(blog.created_at.toDate(), 'yyyy-MM-dd HH:mm')
@@ -202,6 +224,7 @@ export default {
       this.$store.dispatch('blogs/deleteBestAnswer', { blogId: this.blog.id, commentObj: comment, userId: loginUserId })
     },
     isBestAnswerAtTitle () {
+      // console.log('this.blog', this.blog)
       if (this.blog.bestAnswer.comment_id) {
         return true
       } else {
@@ -265,6 +288,41 @@ export default {
         return blog.id === this.blogId
       })
       return makedBlog
+    },
+    commentCardAvatarName (comment) {
+      const avatar = this.avatars.filter((avatar) => {
+        return avatar.user_id === comment.comment_user_id
+      })
+      // console.log('avatar', avatar)
+      if (avatar.length === 0) {
+        return 0
+      } else {
+        return avatar[0].displayName
+      }
+    },
+    // commentCardAvatarName2 (comment) {
+    //   // console.log('comment.comment_user_id:', comment.comment_user_id)
+    //   // const result = this.avatars.filter((avatar) => {
+    //   //   return avatar.user_id === comment.comment_user_id
+    //   // })
+    //   // console.log('result:', result)
+    //   // return result[0].displayName
+    //   const avatar = this.avatars.filter((avatar) => {
+    //     return avatar.user_id === comment.comment_user_id
+    //   })
+    //   // console.log('avatar', avatar)
+    //   if (avatar.length === 0) {
+    //     return 0
+    //   } else {
+    //     return avatar[0].displayName
+    //   }
+    // },
+    isCommentMine (comment) {
+      if (this.blog.user_id === comment.comment_user_id) {
+        return true
+      }
+      // return $store.getters.isAuthenticated &&
+      //   $store.state.user.uid === comment.user_id
     }
   }
 }
@@ -276,8 +334,5 @@ export default {
   }
   .pre-wrap {
     white-space: pre-wrap;
-  }
-  .pointer-events-none {
-  pointer-events: none
   }
 </style>

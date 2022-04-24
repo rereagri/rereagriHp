@@ -13,7 +13,7 @@
           <v-card-text>
             <v-form>
               <v-text-field v-model="blog.title" disabled label="Blog Title" />
-              <v-text-field v-model="blog.user_name" disabled label="Author" />
+              <v-text-field v-model="blogCardAvatarName" disabled label="Author" />
               <!-- <v-textarea v-model="comment" rows="6" outlined autofocus label="Your Comment" /> -->
               <!-- <quill-editor v-model="editor" /> -->
               <quill-editor v-model="comment" />
@@ -39,20 +39,43 @@ export default {
   data () {
     return {
       blogId: '',
-      blog: {},
+      // blog: {},
       comment: ''
       // editorOption: {
       //   theme: 'bubble'
       // }
     }
   },
+  computed: {
+    blogs () {
+      return this.$store.state.blogs.blogs
+    },
+    blog () {
+      const index = this.$route.query.index
+      return this.blogs[index]
+    },
+    avatars () {
+      return this.$store.state.avatars.avatars
+    },
+    blogCardAvatar () {
+      const result = this.avatars.filter((avatar) => {
+        return avatar.user_id === this.blog.user_id
+      })
+      return result
+    },
+    blogCardAvatarName () {
+      // console.log('this.blogCardAvatar:', this.blogCardAvatar)
+      return this.blogCardAvatar[0].displayName
+    }
+  },
   mounted () {
+    this.$store.dispatch('blogs/init')
     this.blogId = this.$route.query.blogId
     this.index = this.$route.query.index
-    const docRef = doc(this.$db, 'blogs', this.blogId)
-    getDoc(docRef).then((doc) => {
-      this.blog = doc.data()
-    })
+    // const docRef = doc(this.$db, 'blogs', this.blogId)
+    // getDoc(docRef).then((doc) => {
+    //   this.blog = doc.data()
+    // })
   },
   methods: {
     postComment () {
@@ -67,7 +90,7 @@ export default {
           comment: this.comment,
           comment_created_at: newDate,
           comment_user_id: this.$store.state.user.uid,
-          comment_user_name: this.$store.state.user.displayName
+          comment_user_name_atthattime: this.$store.state.user.displayName
         })
         updateDoc(docRef, { comments: data })
         // this.$router.push('/')

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pointer" @click="toUserPage">
     <v-list-item-avatar v-if="photoURL === 'null'">
       <v-icon large>
         mdi-account-circle
@@ -30,11 +30,11 @@ export default {
       return result
     },
     photoURL () {
-      const url = this.loginUserAvatar[0].photoURL
-      if (url === null) {
+      // const url = this.loginUserAvatar[0].photoURL
+      if (this.loginUserAvatar.length === 0 || this.loginUserAvatar[0].photoURL === null || this.loginUserAvatar[0].photoURL === '') {
         return 'null'
       } else {
-        return url
+        return this.loginUserAvatar[0].photoURL
       }
     }
   },
@@ -42,6 +42,11 @@ export default {
     this.$store.dispatch('avatars/init')
   },
   methods: {
+    toUserPage () {
+      const id = this.$store.state.user.uid
+      const name = this.$store.state.user.displayName
+      this.$router.push({ path: '/user_page', query: { userId: id, userName: name } })
+    }
   }
 }
 </script>

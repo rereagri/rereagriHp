@@ -3,14 +3,15 @@
     <v-card-text class="pb-1 pointer">
       <div class="d-inline-block">
         <span>{{ created_datetime }} </span>
-        <span class="pl-2 font-weight-bold">{{ blog.user_name }}</span>
-        <v-btn v-if="isBestAnswerAtTitle()" x-small color="success" class="pointer-events-none mx-2">
+        <!-- <span class="pl-2 font-weight-bold">{{ blog.user_name }}</span> -->
+        <span class="px-2 font-weight-bold">{{ blogCardAvatarName }}</span>
+        <v-btn v-if="isBestAnswerAtTitle()" x-small color="success" class="pointer-events-none mr-2">
           <div>
             解決済み
           </div>
         </v-btn>
       </div>
-      <user-avatar :blog="this.blog"/>
+      <user-avatar :id="blog.user_id" :name="blogCardAvatarName.toString()" />
       <div class="text-h5">
         {{ blog.title }}
       </div>
@@ -57,9 +58,38 @@ export default {
     // },
     commentCount: ({ blog }) => {
       return blog.comments && blog.comments.length ? blog.comments.length : 0
+    },
+    avatars () {
+      return this.$store.state.avatars.avatars
+    },
+    blogCardAvatarName () {
+      const avatar = this.avatars.filter((avatar) => {
+        return avatar.user_id === this.blog.user_id
+      })
+      // console.log('avatar', avatar)
+      if (avatar.length === 0) {
+        return 0
+      } else {
+        return avatar[0].displayName
+      }
     }
+    // blogCardAvatarName () {
+    //   // console.log('this.blogCardAvatar:', this.blogCardAvatar)
+    //   if (this.blogCardAvatar.length === 0) {
+    //     return 0
+    //   } else {
+    //     return this.blogCardAvatar[0].displayName
+    //   }
+    // }
+  },
+  mounted () {
+    // this.$store.dispatch('blogs/init')
   },
   methods: {
+    // blogCardAvatarName () {
+    //   // console.log('this.blogCardAvatar:', this.blogCardAvatar)
+    //   return this.blogCardAvatar[0].displayName
+    // },
     isBestAnswerAtTitle () {
       if (this.blog.bestAnswer.comment_id) {
         return true
@@ -167,11 +197,5 @@ export default {
   }
   .pre-wrap {
     white-space: pre-wrap;
-  }
-  .pointer {
-    cursor: pointer;
-  }
-  .pointer-events-none {
-  pointer-events: none
   }
 </style>

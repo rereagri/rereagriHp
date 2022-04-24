@@ -46,7 +46,7 @@ export default {
         content: this.content,
         created_at: serverTimestamp(),
         user_id: this.$store.state.user.uid,
-        user_name: this.$store.state.user.displayName,
+        user_name_atthattime: this.$store.state.user.displayName,
         viewCount: 0,
         goodReplys: [],
         bestAnswer: ''

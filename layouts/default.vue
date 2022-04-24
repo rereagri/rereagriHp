@@ -12,7 +12,7 @@
       </v-btn>
       <div v-else>
         <v-btn text class="px-1 pointer-events-none">
-          {{ $store.state.user.displayName }}
+          {{ loginUserName }}
         </v-btn>
         <!-- <v-btn text class="px-1 pointer-events-none">
           {{ $store.state.user.photoURL }}
@@ -30,10 +30,11 @@
               <login-user-avatar />
               <v-list-item-content>
                 <v-list-item-title>{{ loginUserName }}</v-list-item-title>
+                <!-- <v-list-item-title>{{ loginUserAvatar[0].displayName }}</v-list-item-title> -->
               </v-list-item-content>
             </v-list-item>
             <v-divider />
-            <v-list-item @click="$router.push('/user_page')">
+            <v-list-item @click="toUserPage">
               <v-list-item-icon>
                 <v-icon>mdi-card-account-details</v-icon>
               </v-list-item-icon>
@@ -75,11 +76,11 @@
     <v-footer app dark color="blue darken-4">
       <v-row class="text-center text-caption">
         <v-col>
-          <span style="cursor:pointer" class="mx-2" @click="$router.push('/policy')">利用規約・プライバシーポリシー</span>
+          <span class="pointer mx-2" @click="$router.push('/policy')">利用規約・プライバシーポリシー</span>
           <br>
-          <span style="cursor:pointer" class="mx-2" @click="$router.push('/about')">DTM QAとは・お知らせ</span>
+          <span class="pointer mx-2" @click="$router.push('/about')">DTM QAとは・お知らせ</span>
           <br>
-          <span style="cursor:pointer" @click="$router.push('/')">&copy; Copyright DTM QA All Rights {{ new Date().getFullYear() }}</span>
+          <span class="pointer" @click="$router.push('/')">&copy; Copyright DTM QA All Rights {{ new Date().getFullYear() }}</span>
         </v-col>
       </v-row>
     </v-footer>
@@ -90,8 +91,8 @@
 import { getStorage, ref, getDownloadURL } from 'firebase/storage'
 import LoginUserAvatar from '~/components/LoginUserAvatar.vue'
 export default {
-  components: { LoginUserAvatar },
   name: 'DefaultLayout',
+  components: { LoginUserAvatar },
   data () {
     return {
       drawer: false,
@@ -109,7 +110,7 @@ export default {
       const result = this.avatars.filter((avatar) => {
         return avatar.user_id === this.$store.state.user.uid
       })
-      console.log('loginUserAvatar:', result)
+      // console.log('loginUserAvatar:', result)
       return result
     }
   },
@@ -132,19 +133,22 @@ export default {
     },
     test () {
       console.log('test')
-      const loginUserName = this.$store.state.user.displayName
-      const loginUserId = this.$store.state.user.uid
       // const loginUserPhotoURL = this.$store.state.user.photoURL
       // const avatars = this.avatars
       // const loginavatar = this.loginUserAvatar
-      console.log('loginUserName:', loginUserName)
-      console.log('loginUserId:', loginUserId)
+      console.log('this.$auth.currentUser:', this.$auth.currentUser)
+      // console.log('this.$auth.currentUser.uid:', this.$auth.currentUser.uid)
+      // console.log('this.$auth.currentUser.displayName:', this.$auth.currentUser.displayName)
+      // console.log('this.$auth.currentUser.password:', this.$auth.currentUser.password)
+      // console.log('this.$store.state.user.password:', this.$store.state.user.password)
+      // console.log('this.$store.state.user.uid:', this.$store.state.user.uid)
+      // console.log('this.$store.state.user.displayName:', this.$store.state.user.displayName)
       // console.log('loginUserPhotoURL:', loginUserPhotoURL)
-      console.log('this.avatars', this.avatars)
+      // console.log('this.avatars', this.avatars)
       console.log('this.loginUserAvatar:', this.loginUserAvatar)
-      console.log('this.loginUserAvatar[0].id:', this.loginUserAvatar[0].id)
-      console.log('this.loginUserAvatar[0].photoURL:', this.loginUserAvatar[0].photoURL)
-      console.log('this.$auth:', this.$auth)
+      // console.log('this.loginUserAvatar[0].id:', this.loginUserAvatar[0].id)
+      // console.log('this.loginUserAvatar[0].photoURL:', this.loginUserAvatar[0].photoURL)
+      // console.log('this.$auth:', this.$auth)
       // console.log('avatars:', avatars)
       // console.log('loginavatar:', loginavatar)
       // const blogs = this.$store.state.blogs.blogs
@@ -176,13 +180,16 @@ export default {
           this.imageURL = url
           // return url
         })
+    },
+    toUserPage () {
+      const id = this.$store.state.user.uid
+      const name = this.$store.state.user.displayName
+      this.$router.push({ path: '/user_page', query: { userId: id, userName: name } })
     }
   }
 }
 </script>
 
 <style scoped>
-  .pointer-events-none {
-  pointer-events: none
-  }
+
 </style>

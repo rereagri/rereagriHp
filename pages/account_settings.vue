@@ -12,22 +12,27 @@
           </v-toolbar>
           <v-card-text>
             <v-form ref="form" lazy-validation>
-              <v-text-field v-model="email" type="email" label="E-mail" :rules="rules.email" />
-              <v-text-field v-model="password" type="password" label="Password" :rules="rules.password" />
-              <v-text-field v-model="confirmPassword" type="password" label="Confirm Password" :rules="rules.confirmPassword" />
-              <v-text-field v-model="userName" type="text" label="Your Name" :rules="rules.name" />
+              <v-text-field v-model="displayName" type="text" label="Your Name" :rules="rules.name" />
+              <v-btn large color="secondary" @click="updateDisplayName">
+                your name update
+              </v-btn>
               <!-- <v-file-input label="Icon image file" prepend-icon="mdi-camera" @change="selectAvatarImage" /> -->
               <!-- <v-file-input label="Icon image file" prepend-icon="mdi-camera" @change="postAvatar" v-if="!loginUserAvatar.length" />
               <v-btn color="secondary" @click="deleteAvatar" v-if="loginUserAvatar.length">
                 icon delete
               </v-btn> -->
             </v-form>
+            <br>
             <v-form>
               <v-text-field v-model="photoURL" type="text" label="Icon URL" />
             </v-form>
             <v-btn large color="secondary" @click="updatePhotoURL">
-              URL register
+              icon update
             </v-btn>
+            <br><br><br>
+            <v-text-field v-model="email" type="email" label="E-mail" :rules="rules.email" />
+            <v-text-field v-model="password" type="password" label="Password" :rules="rules.password" />
+            <v-text-field v-model="confirmPassword" type="password" label="Confirm Password" :rules="rules.confirmPassword" />
             <v-form>
               <br><br>
               <div>
@@ -57,17 +62,17 @@
 </template>
 
 <script>
-import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage'
-import { serverTimestamp } from 'firebase/firestore'
+// import { getStorage, ref, deleteObject } from 'firebase/storage'
+// import { serverTimestamp } from 'firebase/firestore'
 export default {
   name: 'SignupPage',
   data () {
     return {
-      email: '',
+      email: this.$store.state.user.email,
       password: '',
       confirmPassword: '',
-      userName: '',
-      photoURL: '',
+      displayName: this.$store.state.user.displayName,
+      photoURL: this.$store.state.user.photoURL,
       rules: {
         email: [
           v => !!v || 'E-mail is required',
@@ -88,6 +93,9 @@ export default {
     }
   },
   computed: {
+    loginUserEmail () {
+      return this.$store.state.user.email
+    },
     loginUserName () {
       return this.$store.state.user.displayName
     },
@@ -98,11 +106,33 @@ export default {
       const result = this.avatars.filter((avatar) => {
         return avatar.user_id === this.$store.state.user.uid
       })
-      console.log('loginUserAvatar:', result)
+      // console.log('loginUserAvatar:', result)
       return result
     }
   },
+  mounted () {
+    // if (this.loginUserAvatar.length !== 0) {
+    //   this.photoURL = this.loginUserAvatar[0].photoURL
+    // }
+  },
   methods: {
+    updateDisplayName () {
+      this.$store.dispatch('updateDisplayName', { name: this.displayName }).then()
+      this.$store.dispatch('avatars/updateDisplayName', { avatarId: this.loginUserAvatar[0].id, avatarName: this.displayName }).then()
+    },
+    updatePhotoURL () {
+      this.$store.dispatch('updatePhotoURL', { url: this.photoURL }).then()
+      this.$store.dispatch('avatars/updatePhotoURL', { avatarId: this.loginUserAvatar[0].id, avatarPhotoURL: this.photoURL }).then()
+      // if (this.loginUserAvatar.length) {
+      //   this.$store.dispatch('avatars/updatePhotoURL', { avatarId: this.loginUserAvatar[0].id, avatarPhotoURL: this.photoURL }).then()
+      // } else {
+      //   const avatar = {
+      //     user_id: this.$store.state.user.uid,
+      //     photoURL: this.photoURL
+      //   }
+      //   this.$store.dispatch('avatars/add', avatar).then()
+      // }
+    },
     register () {
       console.log(this.$store.state.unsubscribe())
       // if (this.$refs.form.validate()) {
@@ -114,103 +144,88 @@ export default {
       //   }).then(() => this.$router.push('/'))
       //     .catch(err => (this.message = err.message))
       // }
-    },
-    selectAvatarImage (e) {
-    // 選択した画像ファイルを取得
-      const file = e
-      // refの中身が保存する場所のpathになる
-      console.log(file)
-      // const storageRef = firebase.storage().ref(file.name)
-      // console.log(storageRef)
-      // storageRef.put(file)
-      const storage = getStorage()
-      const storageRef = ref(storage, file.name)
-      console.log('storageRef:', storageRef)
-      uploadBytes(storageRef, file).then((snapshot) => {
-        console.log('Uploaded a file for storage!')
-      })
-      const storagelocation = 'gs://' + storageRef._location.bucket + '/' + storageRef._location.path_
-      console.log('storageLocation:', storagelocation)
-      this.getAvatarURL(storagelocation)
-      // this.$store.dispatch('updatePhotoUrl', {
-      //   url: storageUrl
-      // }).then().catch(err => (this.message = err.message))
-    },
-    getAvatarURL (storagelocation) {
-      const storage = getStorage()
-      // const storageLocation = 'gs://nuxt-blog-3064a.appspot.com/onepiece08_franky.png'
-      const storageLocation = storagelocation
-      const gsReference = ref(storage, storageLocation)
-      getDownloadURL(gsReference)
-        .then((url) => {
-          console.log('storageUrl:', url)
-          this.$store.dispatch('updatePhotoURL', {
-            storageURL: url
-          }).then().catch()
-        })
-    },
-    postAvatar (e) {
-      // storage firestore それぞれから今までのデータを削除
-      // if (this.loginUserAvatar.length) {
-      //   this.deleteAvatar()
-      // }
-      // this.deleteAvatar()
-      // storage 選択イメージファイルをstorageに保存
-      const file = e
-      console.log('file:', file)
-      const fileName = this.$store.state.user.uid + '_' + file.name
-      const storage = getStorage()
-      const storageRef = ref(storage, fileName)
-      console.log('storageRef:', storageRef)
-      uploadBytes(storageRef, file).then((snapshot) => {
-        console.log('Uploaded a file for storage!')
-      })
-      // firestore 選択イメージファイルのファイルネーム等をavatarsに保存
-      const storagelocation = 'gs://' + storageRef._location.bucket + '/' + storageRef._location.path_
-      const avatar = {
-        created_at: serverTimestamp(),
-        user_id: this.$store.state.user.uid,
-        file_name: fileName,
-        storage_location: storagelocation
-      }
-      this.$store.dispatch('avatars/add', avatar).then()
-    },
-    deleteAvatar () {
-      // firestore 現在のイメージファイルネームを取得
-      // const avatars = this.$store.state.avatars.avatars
-      // const loginUserAvatar = avatars.filter((avatar) => {
-      //   return avatar.user_id === this.$store.state.user.uid
-      // })
-      const loginUserAvatarImageFileName = this.loginUserAvatar[0].file_name
-      console.log('loginUserAvatar:', this.loginUserAvatar)
-      console.log('loginUserAvatarImageFileName:', loginUserAvatarImageFileName)
-      // storage storageからの削除
-      // if (this.loginUserAvatar.length) {
-      const storage = getStorage()
-      const desertRef = ref(storage, loginUserAvatarImageFileName)
-      deleteObject(desertRef).then(() => {
-      }).catch((error) => {
-        console.log(error)
-      })
-      // firestore avatarsからの削除
-      this.$store.dispatch('avatars/remove', this.loginUserAvatar[0].id)
-      // }
-    },
-    updatePhotoURL () {
-      // console.log('this.photoURL:', this.photoURL)
-      // this.$store.dispatch('updatePhotoURL', {
-      //   url: this.photoURL
-      // }).then().catch()
-      if (this.loginUserAvatar.length) {
-        this.$store.dispatch('avatars/update', { avatarsId: this.loginUserAvatar[0].id, avatarPhotoURL: this.photoURL }).then()
-      } else {
-        const avatar = {
-          user_id: this.$store.state.user.uid,
-          photoURL: this.photoURL
-        }
-        this.$store.dispatch('avatars/add', avatar).then()
-      }
     }
+    // selectAvatarImage (e) {
+    // // 選択した画像ファイルを取得
+    //   const file = e
+    //   // refの中身が保存する場所のpathになる
+    //   console.log(file)
+    //   // const storageRef = firebase.storage().ref(file.name)
+    //   // console.log(storageRef)
+    //   // storageRef.put(file)
+    //   const storage = getStorage()
+    //   const storageRef = ref(storage, file.name)
+    //   console.log('storageRef:', storageRef)
+    //   uploadBytes(storageRef, file).then((snapshot) => {
+    //     console.log('Uploaded a file for storage!')
+    //   })
+    //   const storagelocation = 'gs://' + storageRef._location.bucket + '/' + storageRef._location.path_
+    //   console.log('storageLocation:', storagelocation)
+    //   this.getAvatarURL(storagelocation)
+    //   // this.$store.dispatch('updatePhotoUrl', {
+    //   //   url: storageUrl
+    //   // }).then().catch(err => (this.message = err.message))
+    // },
+    // getAvatarURL (storagelocation) {
+    //   const storage = getStorage()
+    //   // const storageLocation = 'gs://nuxt-blog-3064a.appspot.com/onepiece08_franky.png'
+    //   const storageLocation = storagelocation
+    //   const gsReference = ref(storage, storageLocation)
+    //   getDownloadURL(gsReference)
+    //     .then((url) => {
+    //       console.log('storageUrl:', url)
+    //       this.$store.dispatch('updatePhotoURL', {
+    //         storageURL: url
+    //       }).then().catch()
+    //     })
+    // },
+    // postAvatar (e) {
+    //   // storage firestore それぞれから今までのデータを削除
+    //   // if (this.loginUserAvatar.length) {
+    //   //   this.deleteAvatar()
+    //   // }
+    //   // this.deleteAvatar()
+    //   // storage 選択イメージファイルをstorageに保存
+    //   const file = e
+    //   console.log('file:', file)
+    //   const fileName = this.$store.state.user.uid + '_' + file.name
+    //   const storage = getStorage()
+    //   const storageRef = ref(storage, fileName)
+    //   console.log('storageRef:', storageRef)
+    //   uploadBytes(storageRef, file).then((snapshot) => {
+    //     console.log('Uploaded a file for storage!')
+    //   })
+    //   // firestore 選択イメージファイルのファイルネーム等をavatarsに保存
+    //   const storagelocation = 'gs://' + storageRef._location.bucket + '/' + storageRef._location.path_
+    //   const avatar = {
+    //     created_at: serverTimestamp(),
+    //     user_id: this.$store.state.user.uid,
+    //     file_name: fileName,
+    //     storage_location: storagelocation
+    //   }
+    //   this.$store.dispatch('avatars/add', avatar).then()
+    // },
+    // deleteAvatar () {
+    //   // firestore 現在のイメージファイルネームを取得
+    //   // const avatars = this.$store.state.avatars.avatars
+    //   // const loginUserAvatar = avatars.filter((avatar) => {
+    //   //   return avatar.user_id === this.$store.state.user.uid
+    //   // })
+    //   const loginUserAvatarImageFileName = this.loginUserAvatar[0].file_name
+    //   console.log('loginUserAvatar:', this.loginUserAvatar)
+    //   console.log('loginUserAvatarImageFileName:', loginUserAvatarImageFileName)
+    //   // storage storageからの削除
+    //   // if (this.loginUserAvatar.length) {
+    //   const storage = getStorage()
+    //   const desertRef = ref(storage, loginUserAvatarImageFileName)
+    //   deleteObject(desertRef).then(() => {
+    //   }).catch((error) => {
+    //     console.log(error)
+    //   })
+    //   // firestore avatarsからの削除
+    //   this.$store.dispatch('avatars/remove', this.loginUserAvatar[0].id)
+    //   // }
+    // },
   }
 }
 </script>

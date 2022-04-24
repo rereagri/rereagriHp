@@ -17,7 +17,8 @@ export const mutations = {
         uid: user.uid,
         email: user.email,
         displayName: user.displayName,
-        photoURL: user.photoURL
+        photoURL: user.photoURL,
+        password: user.password
       }
     } else {
       state.user = null
@@ -34,13 +35,16 @@ export const actions = {
       }, 1000)
     })
   },
-  signUp ({ commit }, { email, password, name }) {
+  signUp ({ commit }, { email, password, name, url }) {
     return new Promise((resolve, reject) => {
       setTimeout(async () => {
         try {
           const userCredential = await createUserWithEmailAndPassword(this.$auth, email, password)
-          await updateProfile(userCredential.user, { displayName: name })
+          await updateProfile(userCredential.user, { displayName: name, photoURL: url })
           commit('setUser', this.$auth.currentUser)
+          console.log('this.$auth.currentUser @index.js', this.$auth.currentUser)
+          const signUpUser = this.$auth.currentUser
+          this.dispatch('avatars/signUp', { userId: signUpUser.uid, userEmail: signUpUser.email, userName: signUpUser.displayName, userURL: signUpUser.photoURL })
           resolve()
         } catch (e) {
           reject(e)
@@ -74,15 +78,29 @@ export const actions = {
       }, 1000)
     })
   },
-  updatePhotoURL ({ commit }, { url }) {
-    console.log('photoURL@index.js:', url)
-    console.log('this.$auth.currentUser:', this.$auth.currentUser)
+  updateDisplayName ({ commit }, { name }) {
+    console.log('Authentication displayName update')
+    // console.log('name @index.js:', name)
+    // console.log('this.$auth.currentUser:', this.$auth.currentUser)
     return new Promise((resolve, reject) => {
       setTimeout(async () => {
         try {
-          // const userCredential = await createUserWithEmailAndPassword(this.$auth, email, password)
-          // const auth = getAuth()
-          // console.log('auth.currentUser:', auth.currentUser)
+          await updateProfile(this.$auth.currentUser, { displayName: name })
+          commit('setUser', this.$auth.currentUser)
+          resolve()
+        } catch (e) {
+          reject(e)
+        }
+      }, 1000)
+    })
+  },
+  updatePhotoURL ({ commit }, { url }) {
+    console.log('Authentication photoURL update')
+    // console.log('photoURL@index.js:', url)
+    // console.log('this.$auth.currentUser:', this.$auth.currentUser)
+    return new Promise((resolve, reject) => {
+      setTimeout(async () => {
+        try {
           await updateProfile(this.$auth.currentUser, { photoURL: url })
           commit('setUser', this.$auth.currentUser)
           resolve()

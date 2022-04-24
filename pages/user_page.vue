@@ -1,5 +1,13 @@
 <template>
   <v-container>
+    <v-row justify="center">
+      <user-avatar-big class="my-15" :id="userId" :name="userName" />
+    </v-row>
+    <v-row justify="center">
+      <div class="mb-15 text-h4">
+        {{ userName }}
+      </div>
+    </v-row>
     <v-row dense>
       ユーザーページ【製作中】
       <v-col cols="12">
@@ -12,10 +20,10 @@
           </v-card-subtitle>
           <v-card-text>
             <div class="py-2">
-              ・・・・・・・・・・・・
+              ・・・・・・・・・・・・{{ userId }}
             </div>
             <div class="py-2">
-              ・・・・・・・・・・・・
+              ・・・・・・・・・・・・{{ userName }}
             </div>
             <div class="py-2">
               ・・・・・・・・・・・・
@@ -71,7 +79,17 @@
 
 <script>
 export default {
-  name: 'UserPage'
+  name: 'UserPage',
+  data () {
+    return {
+      userId: '',
+      userName: ''
+    }
+  },
+  mounted () {
+    this.userId = this.$route.query.userId
+    this.userName = this.$route.query.userName
+  }
 }
 </script>
 

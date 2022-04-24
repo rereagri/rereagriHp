@@ -68,7 +68,8 @@ export default {
         this.$store.dispatch('signUp', {
           email: this.email,
           password: this.password,
-          name: this.userName
+          name: this.userName,
+          url: ''
         }).then(() => this.$router.push('/'))
           .catch(err => (this.message = err.message))
       }
