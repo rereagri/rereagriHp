@@ -1,5 +1,5 @@
 import { addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query, updateDoc } from 'firebase/firestore'
-import { getStorage, ref, getDownloadURL } from 'firebase/storage'
+// import { getStorage, ref, getDownloadURL } from 'firebase/storage'
 
 export const state = () => ({
   avatars: []
@@ -66,15 +66,22 @@ export const actions = {
       photoURL: avatarPhotoURL
     })
   },
-  getLoginUserAvatarImage () {
-    const storage = getStorage()
-    const storageLocation = this.loginUserAvatar[0].storage_location
-    const gsReference = ref(storage, storageLocation)
-    getDownloadURL(gsReference)
-      .then((url) => {
-        console.log('getLoginUserAvatarImage URL:', url)
-        console.log('$store.state.user:', this.$store.state.user)
-        return url
-      })
+  updateContent (_, { avatarId, avatarContent }) {
+    console.log('avatars content update')
+    const documentRef = doc(this.$db, 'avatars', avatarId)
+    updateDoc(documentRef, {
+      content: avatarContent
+    })
   }
+  // getLoginUserAvatarImage () {
+  //   const storage = getStorage()
+  //   const storageLocation = this.loginUserAvatar[0].storage_location
+  //   const gsReference = ref(storage, storageLocation)
+  //   getDownloadURL(gsReference)
+  //     .then((url) => {
+  //       console.log('getLoginUserAvatarImage URL:', url)
+  //       console.log('$store.state.user:', this.$store.state.user)
+  //       return url
+  //     })
+  // }
 }

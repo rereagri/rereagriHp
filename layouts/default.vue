@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import { getStorage, ref, getDownloadURL } from 'firebase/storage'
+// import { getStorage, ref, getDownloadURL } from 'firebase/storage'
 import LoginUserAvatar from '~/components/LoginUserAvatar.vue'
 export default {
   name: 'DefaultLayout',
@@ -169,18 +169,18 @@ export default {
       //   })
       // this.getLoginUserAvatarImage()
     },
-    getLoginUserAvatarImage () {
-      const storage = getStorage()
-      const storageLocation = this.loginUserAvatar[0].storage_location
-      const gsReference = ref(storage, storageLocation)
-      getDownloadURL(gsReference)
-        .then((url) => {
-          // console.log('getLoginUserAvatarImage URL:', url)
-          // console.log('$store.state.user:', this.$store.state.user)
-          this.imageURL = url
-          // return url
-        })
-    },
+    // getLoginUserAvatarImage () {
+    //   const storage = getStorage()
+    //   const storageLocation = this.loginUserAvatar[0].storage_location
+    //   const gsReference = ref(storage, storageLocation)
+    //   getDownloadURL(gsReference)
+    //     .then((url) => {
+    //       // console.log('getLoginUserAvatarImage URL:', url)
+    //       // console.log('$store.state.user:', this.$store.state.user)
+    //       this.imageURL = url
+    //       // return url
+    //     })
+    // },
     toUserPage () {
       const id = this.$store.state.user.uid
       const name = this.$store.state.user.displayName

@@ -9,68 +9,12 @@
       </div>
     </v-row>
     <v-row dense>
-      ユーザーページ【製作中】
       <v-col cols="12">
         <v-card color="blue lighten-5">
-          <v-card-title class="text-h5">
-            画像・名前・ランキング
+          <v-card-title class="text-h5 justify-center ">
+            自己紹介・曲紹介
           </v-card-title>
-          <v-card-subtitle>
-            ・・・・・・・・・・・・
-          </v-card-subtitle>
-          <v-card-text>
-            <div class="py-2">
-              ・・・・・・・・・・・・{{ userId }}
-            </div>
-            <div class="py-2">
-              ・・・・・・・・・・・・{{ userName }}
-            </div>
-            <div class="py-2">
-              ・・・・・・・・・・・・
-            </div>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col cols="12">
-        <v-card color="blue lighten-5">
-          <v-card-title class="text-h5">
-            自己紹介
-          </v-card-title>
-          <v-card-subtitle>
-            ・・・・・・・・・・・・
-          </v-card-subtitle>
-          <v-card-text>
-            <div class="py-2">
-              ・・・・・・・・・・・・
-            </div>
-            <div class="py-2">
-              ・・・・・・・・・・・・
-            </div>
-            <div class="py-2">
-              ・・・・・・・・・・・・
-            </div>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col cols="12">
-        <v-card color="blue lighten-5">
-          <v-card-title class="text-h5">
-            作った曲のリンク
-          </v-card-title>
-          <v-card-subtitle>
-            ・・・・・・・・・・・・
-          </v-card-subtitle>
-          <v-card-text>
-            <div class="py-2">
-              ・・・・・・・・・・・・
-            </div>
-            <div class="py-2">
-              ・・・・・・・・・・・・
-            </div>
-            <div class="py-2">
-              ・・・・・・・・・・・・
-            </div>
-          </v-card-text>
+          <v-card-text v-if="this.avatar[0]" class="content ql-editor" v-html="this.avatar[0].content" />
         </v-card>
       </v-col>
     </v-row>
@@ -84,6 +28,22 @@ export default {
     return {
       userId: '',
       userName: ''
+    }
+  },
+  computed: {
+    avatars () {
+      return this.$store.state.avatars.avatars
+    },
+    avatar () {
+      const avatar = this.avatars.filter((avatar) => {
+        return avatar.user_id === this.userId
+      })
+      // console.log('avatar', avatar)
+      if (avatar.length === 0) {
+        return 0
+      } else {
+        return avatar
+      }
     }
   },
   mounted () {

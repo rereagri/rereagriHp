@@ -16,11 +16,6 @@
               <v-btn large color="secondary" @click="updateDisplayName">
                 your name update
               </v-btn>
-              <!-- <v-file-input label="Icon image file" prepend-icon="mdi-camera" @change="selectAvatarImage" /> -->
-              <!-- <v-file-input label="Icon image file" prepend-icon="mdi-camera" @change="postAvatar" v-if="!loginUserAvatar.length" />
-              <v-btn color="secondary" @click="deleteAvatar" v-if="loginUserAvatar.length">
-                icon delete
-              </v-btn> -->
             </v-form>
             <br>
             <v-form>
@@ -30,31 +25,27 @@
               icon update
             </v-btn>
             <br><br><br>
-            <v-text-field v-model="email" type="email" label="E-mail" :rules="rules.email" />
-            <v-text-field v-model="password" type="password" label="Password" :rules="rules.password" />
+            <v-text-field v-model="email" type="email" label="E-mail（製作中）" :rules="rules.email" />
+            <v-text-field v-model="password" type="password" label="Password（製作中）" :rules="rules.password" />
             <v-text-field v-model="confirmPassword" type="password" label="Confirm Password" :rules="rules.confirmPassword" />
+            <br><br>
             <v-form>
-              <br><br>
               <div>
-                <label>自己紹介</label>
-                <quill-editor v-model="selfIntroduction" rows="10" />
+                <label>自己紹介・曲紹介</label>
+                <quill-editor v-model="content" rows="10" />
               </div>
               <br>
-              <div>
-                <label>自分の曲紹介</label>
-                <quill-editor v-model="musicIntroduction" rows="10" />
-              </div>
+              <v-btn large color="secondary" @click="updateContent">
+              content update
+            </v-btn>
             </v-form>
           </v-card-text>
-          <v-card-text class="error--text">
-            {{ message }}
-          </v-card-text>
-          <v-card-actions>
+          <!-- <v-card-actions>
             <v-spacer />
             <v-btn large color="secondary" @click="register">
               register
             </v-btn>
-          </v-card-actions>
+          </v-card-actions> -->
         </v-card>
       </v-col>
     </v-row>
@@ -73,6 +64,7 @@ export default {
       confirmPassword: '',
       displayName: this.$store.state.user.displayName,
       photoURL: this.$store.state.user.photoURL,
+      content: '',
       rules: {
         email: [
           v => !!v || 'E-mail is required',
@@ -111,9 +103,7 @@ export default {
     }
   },
   mounted () {
-    // if (this.loginUserAvatar.length !== 0) {
-    //   this.photoURL = this.loginUserAvatar[0].photoURL
-    // }
+    this.content = this.loginUserAvatar[0].content
   },
   methods: {
     updateDisplayName () {
@@ -123,28 +113,22 @@ export default {
     updatePhotoURL () {
       this.$store.dispatch('updatePhotoURL', { url: this.photoURL }).then()
       this.$store.dispatch('avatars/updatePhotoURL', { avatarId: this.loginUserAvatar[0].id, avatarPhotoURL: this.photoURL }).then()
-      // if (this.loginUserAvatar.length) {
-      //   this.$store.dispatch('avatars/updatePhotoURL', { avatarId: this.loginUserAvatar[0].id, avatarPhotoURL: this.photoURL }).then()
-      // } else {
-      //   const avatar = {
-      //     user_id: this.$store.state.user.uid,
-      //     photoURL: this.photoURL
-      //   }
-      //   this.$store.dispatch('avatars/add', avatar).then()
-      // }
     },
-    register () {
-      console.log(this.$store.state.unsubscribe())
-      // if (this.$refs.form.validate()) {
-      //   //
-      //   this.$store.dispatch('signUp', {
-      //     email: this.email,
-      //     password: this.password,
-      //     name: this.userName
-      //   }).then(() => this.$router.push('/'))
-      //     .catch(err => (this.message = err.message))
-      // }
+    updateContent () {
+      this.$store.dispatch('avatars/updateContent', { avatarId: this.loginUserAvatar[0].id, avatarContent: this.content }).then()
     }
+    // register () {
+    //   console.log(this.$store.state.unsubscribe())
+    // if (this.$refs.form.validate()) {
+    //   //
+    //   this.$store.dispatch('signUp', {
+    //     email: this.email,
+    //     password: this.password,
+    //     name: this.userName
+    //   }).then(() => this.$router.push('/'))
+    //     .catch(err => (this.message = err.message))
+    // }
+    // }
     // selectAvatarImage (e) {
     // // 選択した画像ファイルを取得
     //   const file = e

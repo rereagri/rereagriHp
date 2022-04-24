@@ -18,7 +18,7 @@
         </div>
         <div>
           <!-- eslint-disable-next-line vue/no-v-html -->
-          <v-card-text v-if="blog" class="pre-wrap" v-html="blog.content" />
+          <v-card-text v-if="blog" class="content ql-editor pre-wrap" v-html="blog.content" />
           <v-container v-if="blog">
             <!-- ***コメントカード*** -->
             <v-card v-for="(comment, index) in blog.comments" :key="index" class="my-2">
@@ -31,7 +31,7 @@
                 <user-avatar v-if="blog && avatars" :id="comment.comment_user_id" :name="commentCardAvatarName(comment).toString()" />
               </v-card-text>
               <!-- eslint-disable-next-line vue/no-v-html -->
-              <v-card-text v-html="comment.comment" />
+              <v-card-text class="content ql-editor" v-html="comment.comment" />
               <v-card-actions>
                 <v-btn text x-small color="primary" class="mb-2" @click="goodToggle(comment)">
                   <v-icon v-if="isGoodReplyMine(comment)">
