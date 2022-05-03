@@ -66,6 +66,13 @@ export const actions = {
       photoURL: avatarPhotoURL
     })
   },
+  updateEmail (_, { avatarId, avatarEmail }) {
+    console.log('avatars email update')
+    const documentRef = doc(this.$db, 'avatars', avatarId)
+    updateDoc(documentRef, {
+      email: avatarEmail
+    })
+  },
   updateContent (_, { avatarId, avatarContent }) {
     console.log('avatars content update')
     const documentRef = doc(this.$db, 'avatars', avatarId)

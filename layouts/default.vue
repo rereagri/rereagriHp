@@ -50,6 +50,14 @@
                 <v-list-item-title>アカウント設定</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
+            <v-list-item @click="$router.push('/user_ranking')">
+              <v-list-item-icon>
+                <v-icon>mdi-format-list-numbered</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>ランキング</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
             <v-list-item @click="logout">
               <v-list-item-icon>
                 <v-icon>mdi-logout</v-icon>
@@ -117,6 +125,8 @@ export default {
   mounted () {
     this.$store.dispatch('avatars/init')
     this.$store.dispatch('blogs/init')
+    this.$store.dispatch('goodReplys/init')
+    // this.$store.dispatch('goodReplys/rankingAll')
     // this.imageURL = this.getLoginUserAvatarImage()
     // this.getLoginUserAvatarImage()
     // window.addEventListener('onLoad', this.getLoginUserAvatarImage)
@@ -133,10 +143,15 @@ export default {
     },
     test () {
       console.log('test')
+      console.log('this.$auth.currentUser:', this.$auth.currentUser)
+      console.log('this.loginUserAvatar[0]:', this.loginUserAvatar[0])
+      console.log('this.$store.state.goodReplys:', this.$store.state.goodReplys)
+      this.$store.dispatch('goodReplys/rankingAll')
+      console.log('this.$store.state.goodReplys.goodReplysRankingArraysAll:', this.$store.state.goodReplys.goodReplysRankingArraysAll)
+      console.log('this.$store.state.goodReplys.goodReplysCountsArrays:', this.$store.state.goodReplys.goodReplysCountsArrays)
       // const loginUserPhotoURL = this.$store.state.user.photoURL
       // const avatars = this.avatars
       // const loginavatar = this.loginUserAvatar
-      console.log('this.$auth.currentUser:', this.$auth.currentUser)
       // console.log('this.$auth.currentUser.uid:', this.$auth.currentUser.uid)
       // console.log('this.$auth.currentUser.displayName:', this.$auth.currentUser.displayName)
       // console.log('this.$auth.currentUser.password:', this.$auth.currentUser.password)
@@ -145,7 +160,6 @@ export default {
       // console.log('this.$store.state.user.displayName:', this.$store.state.user.displayName)
       // console.log('loginUserPhotoURL:', loginUserPhotoURL)
       // console.log('this.avatars', this.avatars)
-      console.log('this.loginUserAvatar:', this.loginUserAvatar)
       // console.log('this.loginUserAvatar[0].id:', this.loginUserAvatar[0].id)
       // console.log('this.loginUserAvatar[0].photoURL:', this.loginUserAvatar[0].photoURL)
       // console.log('this.$auth:', this.$auth)

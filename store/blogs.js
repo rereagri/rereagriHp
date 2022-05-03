@@ -36,11 +36,15 @@ export const actions = {
   },
   addGoodReply (_, { blogId, commentObj, userId }) {
     const docRef = doc(this.$db, 'blogs', blogId)
+    // const newDate = format(new Date(), 'yyyy-MM-dd HH:mm')
+    const newDate = new Date()
     getDoc(docRef).then((doc) => {
       const data = doc.data().goodReplys || []
       data.push({
         comment_id: commentObj.comment_id,
-        user_id: userId
+        comment_user_id: commentObj.comment_user_id,
+        user_id: userId,
+        created_at: newDate
       })
       // console.log('data:', data)
       updateDoc(docRef, { goodReplys: data })
@@ -48,17 +52,29 @@ export const actions = {
   },
   deleteGoodReply (_, { blogId, commentObj, userId }) {
     const docRef = doc(this.$db, 'blogs', blogId)
+    getDoc(docRef).then((doc) => {
+      const goodReplys = doc.data().goodReplys || []
+      const deleteGoodReply = goodReplys.filter((goodReply) => {
+        // console.log('goodReply:', goodReply)
+        return goodReply.comment_id === commentObj.comment_id && goodReply.user_id === userId
+      })
+      // console.log('deleteGoodReply[0]:', deleteGoodReply[0])
+      updateDoc(docRef, {
+        goodReplys: arrayRemove(deleteGoodReply[0])
+      })
+    })
     // console.log('docRef:', docRef)
     // console.log('commentRef:', commentRef)
     // console.log('userId', userId)
-    const deleteData = {
-      comment_id: commentObj.comment_id,
-      user_id: userId
-    }
-    // console.log('deleteData:', deleteData)
-    updateDoc(docRef, {
-      goodReplys: arrayRemove(deleteData)
-    })
+    // const deleteData = {
+    //   comment_id: commentObj.comment_id,
+    //   comment_user_id: commentObj.comment_user_id,
+    //   user_id: userId
+    // }
+    // // console.log('deleteData:', deleteData)
+    // updateDoc(docRef, {
+    //   goodReplys: arrayRemove(deleteData)
+    // })
   },
   beBestAnswer (_, { blogId, commentObj, userId }) {
     const docRef = doc(this.$db, 'blogs', blogId)

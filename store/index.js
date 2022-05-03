@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, sendPasswordResetEmail, getAuth, EmailAuthProvider, reauthenticateWithCredential, updateEmail } from 'firebase/auth'
 
 export const state = () => ({
   user: null
@@ -109,6 +109,48 @@ export const actions = {
         }
       }, 1000)
     })
+  },
+  reauthenticationForUpdateEmail ({ commit }, { currentPassword, newEmail, avatarId }) {
+    const auth = getAuth()
+    const user = auth.currentUser
+    const currentEmail = auth.currentUser.email
+    const credential = EmailAuthProvider.credential(
+      currentEmail,
+      currentPassword
+    )
+    reauthenticateWithCredential(user, credential).then(() => {
+      console.log('reauthentication success!')
+      this.dispatch('updateEmail', { email: newEmail, avatarid: avatarId })
+    }).catch((error) => {
+      console.log(error)
+      alert('エラー')
+    })
+  },
+  updateEmail ({ commit }, { email, avatarid }) {
+    console.log('Authentication updateEmail', email)
+    const auth = getAuth()
+    updateEmail(auth.currentUser, email).then(() => {
+      this.dispatch('avatars/updateEmail', { avatarId: avatarid, avatarEmail: email })
+      commit('setUser', this.$auth.currentUser)
+    }).catch((error) => {
+      console.log(error)
+      alert('エラー')
+    })
+  },
+  updatePassword ({ commit }, { email }) {
+    // console.log('email @index.js:', email)
+    const auth = getAuth()
+    const actionCodeSettings = {
+      url: 'http://' + window.location.host
+    }
+    sendPasswordResetEmail(auth, email, actionCodeSettings)
+      .then(() => {
+      })
+      .catch((error) => {
+        const errorCode = error.code
+        const errorMessage = error.message
+        console.log(errorCode, errorMessage)
+      })
   }
   // updatePhotoUrl2 ({ commit }, { strageUrl }) {
   //   console.log('strageUrl@index:', strageUrl)
@@ -118,5 +160,43 @@ export const actions = {
   //     console.log(error)
   //   })
   //   commit('setUser', this.$auth.currentUser)
+  // },
+  // reauthenticationForUpdateEmail ({ commit }, { currentPassword, newEmail }) {
+  //   const auth = getAuth()
+  //   const user = auth.currentUser
+  //   // TODO(you): prompt the user to re-provide their sign-in credentials
+  //   // const credential = promptForCredentials()
+  //   const currentEmail = auth.currentUser.email
+  //   const credential = EmailAuthProvider.credential(
+  //     currentEmail,
+  //     currentPassword
+  //   )
+  //   reauthenticateWithCredential(user, credential).then(() => {
+  //     console.log('reauthentication success!')
+  //     this.dispatch('updateEmil', { email: newEmail })
+  //   }).catch((error) => {
+  //     console.log(error)
+  //     alert('エラー')
+  //   })
+  // },
+  // updateEmil ({ commit }, { email }) {
+  //   console.log('updateEmail', email)
+  //   const auth = getAuth()
+  //   updateEmail(auth.currentUser, email).then(() => {
+  //     this.dispatch('sendEmailVerification')
+  //   }).catch((error) => {
+  //     console.log(error)
+  //     alert('エラー')
+  //   })
+  // },
+  // sendEmailVerification ({ commit }) {
+  //   const auth = getAuth()
+  //   const actionCodeSettings = {
+  //     url: 'http://' + window.location.host
+  //   }
+  //   sendEmailVerification(auth.currentUser, actionCodeSettings)
+  //     .then(() => {
+  //       console.log('verification email sended!')
+  //     })
   // }
 }

@@ -11,9 +11,9 @@
     <v-row dense>
       <v-col cols="12">
         <v-card color="blue lighten-5">
-          <v-card-title class="text-h5 justify-center ">
-            自己紹介・曲紹介
-          </v-card-title>
+          <v-toolbar dense dark color="secondary">
+            <v-toolbar-title class="mx-auto">自己紹介・曲紹介</v-toolbar-title>
+          </v-toolbar>
           <v-card-text v-if="this.avatar[0]" class="content ql-editor" v-html="this.avatar[0].content" />
         </v-card>
       </v-col>

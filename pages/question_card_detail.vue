@@ -24,7 +24,8 @@
             <v-card v-for="(comment, index) in blog.comments" :key="index" class="my-2">
               <v-card-text class="pb-1">
                 <div class="d-inline-block">
-                  <span>{{ comment.comment_created_at }} </span>
+                  <!-- <span>{{ comment.comment_created_at }} </span> -->
+                  <span>{{ $dateFns.format(comment.comment_created_at.toDate(), 'yyyy-MM-dd HH:mm') }}</span>
                   <!-- <span class="pl-5 font-weight-bold">{{ comment.comment_user_name }}</span> -->
                   <span v-if="blog && avatars" class="px-2 font-weight-bold">{{ commentCardAvatarName(comment) }}</span>
                 </div>

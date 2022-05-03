@@ -33,7 +33,7 @@
 
 <script>
 import { doc, getDoc, updateDoc } from '@firebase/firestore'
-import { format } from 'date-fns'
+// import { format } from 'date-fns'
 export default {
   name: 'CommentPage',
   data () {
@@ -80,7 +80,8 @@ export default {
   methods: {
     postComment () {
       const docRef = doc(this.$db, 'blogs', this.blogId)
-      const newDate = format(new Date(), 'yyyy-MM-dd HH:mm')
+      // const newDate = format(new Date(), 'yyyy-MM-dd HH:mm')
+      const newDate = new Date()
       getDoc(docRef).then((doc) => {
         const data = doc.data().comments || []
         // const serverTimestamp = serverTimestamp()
