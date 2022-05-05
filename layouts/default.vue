@@ -55,7 +55,7 @@
                 <v-icon>mdi-format-list-numbered</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>ランキング</v-list-item-title>
+                <v-list-item-title>ユーザーランキング</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-list-item @click="logout">
@@ -141,14 +141,21 @@ export default {
           .then(() => this.$router.push('/'))
       }
     },
+    toUserPage () {
+      const id = this.$store.state.user.uid
+      const name = this.$store.state.user.displayName
+      this.$router.push({ path: '/user_page', query: { userId: id, userName: name } })
+    },
     test () {
       console.log('test')
-      console.log('this.$auth.currentUser:', this.$auth.currentUser)
-      console.log('this.loginUserAvatar[0]:', this.loginUserAvatar[0])
-      console.log('this.$store.state.goodReplys:', this.$store.state.goodReplys)
-      this.$store.dispatch('goodReplys/rankingAll')
-      console.log('this.$store.state.goodReplys.goodReplysRankingArraysAll:', this.$store.state.goodReplys.goodReplysRankingArraysAll)
-      console.log('this.$store.state.goodReplys.goodReplysCountsArrays:', this.$store.state.goodReplys.goodReplysCountsArrays)
+      // this.$store.dispatch('goodReplys/rankingAllReSet')
+      // this.$store.dispatch('goodReplys/rankingWeek')
+      // console.log('this.$auth.currentUser:', this.$auth.currentUser)
+      // console.log('this.loginUserAvatar[0]:', this.loginUserAvatar[0])
+      // console.log('this.$store.state.goodReplys:', this.$store.state.goodReplys)
+      // this.$store.dispatch('goodReplys/rankingAll')
+      // console.log('this.$store.state.goodReplys.goodReplysRankingArraysMonth:', this.$store.state.goodReplys.goodReplysRankingArraysMonth)
+      // console.log('this.$store.state.goodReplys.goodReplysCountsArraysAll:', this.$store.state.goodReplys.goodReplysCountsArraysAll)
       // const loginUserPhotoURL = this.$store.state.user.photoURL
       // const avatars = this.avatars
       // const loginavatar = this.loginUserAvatar
@@ -182,23 +189,6 @@ export default {
       //     return url
       //   })
       // this.getLoginUserAvatarImage()
-    },
-    // getLoginUserAvatarImage () {
-    //   const storage = getStorage()
-    //   const storageLocation = this.loginUserAvatar[0].storage_location
-    //   const gsReference = ref(storage, storageLocation)
-    //   getDownloadURL(gsReference)
-    //     .then((url) => {
-    //       // console.log('getLoginUserAvatarImage URL:', url)
-    //       // console.log('$store.state.user:', this.$store.state.user)
-    //       this.imageURL = url
-    //       // return url
-    //     })
-    // },
-    toUserPage () {
-      const id = this.$store.state.user.uid
-      const name = this.$store.state.user.displayName
-      this.$router.push({ path: '/user_page', query: { userId: id, userName: name } })
     }
   }
 }

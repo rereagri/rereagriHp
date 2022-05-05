@@ -1,12 +1,12 @@
 <template>
   <div>
-    <v-container>
-    <v-text-field
-      outlined
-      label="検索フォーム製作中"
-      append-icon="mdi-magnify">
-    </v-text-field>
-    </v-container>
+    <!-- <v-container>
+      <v-text-field
+        outlined
+        label="検索フォーム製作中"
+        append-icon="mdi-magnify">
+      </v-text-field>
+    </v-container> -->
     <v-list v-if="blogs.length" class="overflow-y-auto">
       <v-list-item v-for="(blog, index) in blogs" :key="index">
         <question-card ref="card" :blog="blog" :index="index" @close="closeAll" />

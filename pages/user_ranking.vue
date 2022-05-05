@@ -2,16 +2,16 @@
   <v-container>
     <v-card color="basil">
       <v-card-title class="text-center justify-center py-6">
-        <h1 class="font-weight-bold text-h5 basil--text">
-          いいねランキング
+        <h1 class="font-weight-bold text-h5 primary--text">
+          ユーザーランキング
         </h1>
       </v-card-title>
-      <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
+      <v-tabs v-model="tab" background-color="transparent" color="primary" grow>
         <v-tab v-for="item in items" :key="item">
           {{ item }}
         </v-tab>
       </v-tabs>
-      <v-tabs-items v-model="tab">
+      <v-tabs-items v-model="tab" class="basil">
         <v-container>
           <v-tab-item>
             <br>
@@ -20,7 +20,7 @@
                 <thead>
                   <tr>
                     <th class="text-center">
-                      順位
+                      総合順位
                     </th>
                     <th class="text-center">
                       アイコン
@@ -34,10 +34,9 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="array in goodReplysRankingArrays" :key="array.goodReplyCounts">
+                  <tr v-for="array in goodReplysRankingArraysAll" :key="array.goodedUserId">
                     <td class="text-center">
-                      <!-- {{ index + 1 }} -->
-                      {{ rank(array.goodReplyCounts, goodReplysCountsArrays, 0) }}
+                      {{ rank(array.goodReplyCounts, goodReplysCountsArraysAll, 0) }}
                     </td>
                     <td class="text-center">
                       <user-avatar :id="array.goodedUserId" :name="array.displayName.toString()" />
@@ -54,14 +53,82 @@
             </v-simple-table>
           </v-tab-item>
           <v-tab-item>
-            <v-card color="basil" flat>
-              <v-card-text>月間</v-card-text>
-            </v-card>
+            <br>
+            <v-simple-table fixed-header height="600px">
+              <template #default>
+                <thead>
+                  <tr>
+                    <th class="text-center">
+                      月間順位
+                    </th>
+                    <th class="text-center">
+                      アイコン
+                    </th>
+                    <th class="text-center">
+                      ハンドルネーム
+                    </th>
+                    <th class="text-center">
+                      いいね数
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="array in goodReplysRankingArraysMonth" :key="array.goodedUserId">
+                    <td class="text-center">
+                      {{ rank(array.goodReplyCounts, goodReplysCountsArraysMonth, 0) }}
+                    </td>
+                    <td class="text-center">
+                      <user-avatar :id="array.goodedUserId" :name="array.displayName.toString()" />
+                    </td>
+                    <td class="text-center">
+                      {{ array.displayName }}
+                    </td>
+                    <td class="text-center">
+                      {{ array.goodReplyCounts }}
+                    </td>
+                  </tr>
+                </tbody>
+              </template>
+            </v-simple-table>
           </v-tab-item>
           <v-tab-item>
-            <v-card color="basil" flat>
-              <v-card-text>週刊</v-card-text>
-            </v-card>
+            <br>
+            <v-simple-table fixed-header height="600px">
+              <template #default>
+                <thead>
+                  <tr>
+                    <th class="text-center">
+                      週刊順位
+                    </th>
+                    <th class="text-center">
+                      アイコン
+                    </th>
+                    <th class="text-center">
+                      ハンドルネーム
+                    </th>
+                    <th class="text-center">
+                      いいね数
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="array in goodReplysRankingArraysWeek" :key="array.goodedUserId">
+                    <td class="text-center">
+                      {{ rank(array.goodReplyCounts, goodReplysCountsArraysWeek, 0) }}
+                    </td>
+                    <td class="text-center">
+                      <user-avatar :id="array.goodedUserId" :name="array.displayName.toString()" />
+                    </td>
+                    <td class="text-center">
+                      {{ array.displayName }}
+                    </td>
+                    <td class="text-center">
+                      {{ array.goodReplyCounts }}
+                    </td>
+                  </tr>
+                </tbody>
+              </template>
+            </v-simple-table>
           </v-tab-item>
         </v-container>
       </v-tabs-items>
@@ -78,8 +145,7 @@ export default {
       tab: null,
       items: [
         '総合', '月間', '週刊'
-      ],
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+      ]
     }
   },
   computed: {
@@ -89,19 +155,32 @@ export default {
     goodReplys () {
       return this.$store.state.goodReplys.goodReplys
     },
-    goodReplysRankingArrays () {
+    goodReplysRankingArraysAll () {
       return this.$store.state.goodReplys.goodReplysRankingArraysAll
     },
-    goodReplysCountsArrays () {
-      return this.$store.state.goodReplys.goodReplysCountsArrays
+    goodReplysCountsArraysAll () {
+      return this.$store.state.goodReplys.goodReplysCountsArraysAll
+    },
+    goodReplysRankingArraysMonth () {
+      return this.$store.state.goodReplys.goodReplysRankingArraysMonth
+    },
+    goodReplysCountsArraysMonth () {
+      return this.$store.state.goodReplys.goodReplysCountsArraysMonth
+    },
+    goodReplysRankingArraysWeek () {
+      return this.$store.state.goodReplys.goodReplysRankingArraysWeek
+    },
+    goodReplysCountsArraysWeek () {
+      return this.$store.state.goodReplys.goodReplysCountsArraysWeek
     }
   },
   mounted () {
     this.$store.dispatch('goodReplys/rankingAll')
+    this.$store.dispatch('goodReplys/rankingMonth')
+    this.$store.dispatch('goodReplys/rankingWeek')
   },
   methods: {
     rank (value, arrs, updown) {
-      // let i, thisrank, arrayLength, sign
       if (typeof (updown) === 'undefined') {
         updown = 0
       }
@@ -126,6 +205,9 @@ export default {
 }
 .basil--text {
   color: #356859 !important;
+}
+.primary--text {
+  color: primary !important;
 }
 .noborder {
   border: 0px none;
