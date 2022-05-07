@@ -40,8 +40,6 @@ export default {
   },
   data () {
     return {
-      // open: false,
-      // good: false
     }
   },
   computed: {
@@ -52,10 +50,6 @@ export default {
         return ''
       }
     },
-    // isMine: ({ $store, blog }) => {
-    //   return $store.getters.isAuthenticated &&
-    //     $store.state.user.uid === blog.user_id
-    // },
     commentCount: ({ blog }) => {
       return blog.comments && blog.comments.length ? blog.comments.length : 0
     },
@@ -66,30 +60,17 @@ export default {
       const avatar = this.avatars.filter((avatar) => {
         return avatar.user_id === this.blog.user_id
       })
-      // console.log('avatar', avatar)
       if (avatar.length === 0) {
         return 0
       } else {
         return avatar[0].displayName
       }
     }
-    // blogCardAvatarName () {
-    //   // console.log('this.blogCardAvatar:', this.blogCardAvatar)
-    //   if (this.blogCardAvatar.length === 0) {
-    //     return 0
-    //   } else {
-    //     return this.blogCardAvatar[0].displayName
-    //   }
-    // }
   },
   mounted () {
     // this.$store.dispatch('blogs/init')
   },
   methods: {
-    // blogCardAvatarName () {
-    //   // console.log('this.blogCardAvatar:', this.blogCardAvatar)
-    //   return this.blogCardAvatar[0].displayName
-    // },
     isBestAnswerAtTitle () {
       if (this.blog.bestAnswer.comment_id) {
         return true

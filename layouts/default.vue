@@ -14,9 +14,6 @@
         <v-btn text class="px-1 pointer-events-none">
           {{ loginUserName }}
         </v-btn>
-        <!-- <v-btn text class="px-1 pointer-events-none">
-          {{ $store.state.user.photoURL }}
-        </v-btn> -->
         <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
         <v-navigation-drawer
           v-model="drawer"
@@ -30,7 +27,6 @@
               <login-user-avatar />
               <v-list-item-content>
                 <v-list-item-title>{{ loginUserName }}</v-list-item-title>
-                <!-- <v-list-item-title>{{ loginUserAvatar[0].displayName }}</v-list-item-title> -->
               </v-list-item-content>
             </v-list-item>
             <v-divider />
@@ -96,7 +92,6 @@
 </template>
 
 <script>
-// import { getStorage, ref, getDownloadURL } from 'firebase/storage'
 import LoginUserAvatar from '~/components/LoginUserAvatar.vue'
 export default {
   name: 'DefaultLayout',
@@ -124,15 +119,12 @@ export default {
   },
   mounted () {
     this.$store.dispatch('avatars/init')
-    this.$store.dispatch('blogs/init')
-    this.$store.dispatch('goodReplys/init')
+    // this.$store.dispatch('blogs/init')
+    // this.$store.dispatch('goodReplys/init')
     // this.$store.dispatch('goodReplys/rankingAll')
-    // this.imageURL = this.getLoginUserAvatarImage()
-    // this.getLoginUserAvatarImage()
-    // window.addEventListener('onLoad', this.getLoginUserAvatarImage)
-    // window.addEventListener('load', this.getLoginUserAvatarImage)
-    // window.addEventListener('DOMContentLoaded', this.getLoginUserAvatarImage)
-    // window.addEventListener('mousemove', this.getLoginUserAvatarImage)
+    // this.$store.dispatch('goodReplys/rankingMonth')
+    // this.$store.dispatch('goodReplys/rankingWeek')
+    // this.$store.dispatch('goodReplys/rankingAll')
   },
   methods: {
     logout () {
