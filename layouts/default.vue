@@ -62,7 +62,7 @@
                 <v-list-item-title>ログアウト</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item @click="$router.push('/test')">
+            <v-list-item @click="$router.push('/pagenation-test')">
               <v-list-item-icon>
                 <v-icon>mdi-logout</v-icon>
               </v-list-item-icon>

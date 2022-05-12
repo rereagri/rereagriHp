@@ -2,6 +2,7 @@
   <v-container>
     <v-row justify="center">
       <v-col cols="12" sm="10">
+        <br>
         <v-card>
           <v-toolbar dense dark color="secondary">
             <v-toolbar-title class="mx-auto">YourName（ハンドルネーム）の設定</v-toolbar-title>
@@ -19,7 +20,7 @@
             <br>
           </v-card-text>
         </v-card>
-        <br><br>
+        <br><br><br>
         <v-card>
           <v-toolbar dense dark color="secondary">
             <v-toolbar-title class="mx-auto">アイコンの設定</v-toolbar-title>
@@ -37,7 +38,7 @@
             <br>
           </v-card-text>
         </v-card>
-        <br><br>
+        <br><br><br>
         <v-card>
           <v-toolbar dense dark color="secondary">
             <v-toolbar-title class="mx-auto">メールアドレスの設定</v-toolbar-title>
@@ -58,7 +59,7 @@
             <br>
           </v-card-text>
         </v-card>
-        <br><br>
+        <br><br><br>
         <v-card>
           <v-toolbar dense dark color="secondary">
             <v-toolbar-title class="mx-auto">パスワードの設定</v-toolbar-title>
@@ -74,7 +75,7 @@
             <br>
           </v-card-text>
         </v-card>
-        <br><br>
+        <br><br><br>
         <v-card>
           <v-toolbar dense dark color="secondary">
             <v-toolbar-title class="mx-auto">自己紹介・曲紹介</v-toolbar-title>
@@ -94,59 +95,13 @@
             <br>
           </v-card-text>
         </v-card>
-        <br>
-        <!-- <v-card>
-          <v-toolbar dense dark color="secondary">
-            <v-toolbar-title class="mx-auto">アカウント設定【製作中】</v-toolbar-title>
-          </v-toolbar>
-          <v-card-text>
-            <v-form ref="form" lazy-validation>
-              <v-text-field v-model="displayName" type="text" label="Your Name" :rules="rules.name" />
-              <v-btn large color="secondary" @click="updateDisplayName">
-                update your name
-              </v-btn>
-            </v-form>
-            <br>
-            <v-form>
-              <v-text-field v-model="photoURL" type="text" label="Icon URL" />
-            </v-form>
-            <v-btn large color="secondary" @click="updatePhotoURL">
-              update icon photo
-            </v-btn>
-            <br><br><br>
-            <div>変更前のメールアドレスに、新しいメールに変更されたことのお知らせのメールが送付されます。</div>
-            <v-text-field v-model="email" type="email" label="新しいE-mail" :rules="rules.email" />
-            <v-text-field v-model="password" type="password" label="現在のPassword" :rules="rules.password" />
-            <v-text-field v-model="confirmPassword" type="password" label="Confirm Password" :rules="rules.confirmPassword" />
-            <v-btn large color="secondary" @click="updateEmail">
-              update email
-            </v-btn>
-            <br><br>
-            <div>パスワードを変更する場合は以下のボタンを押してください。登録されているメールアドレスにパスワードを再設定するためのメールが送信されます。</div>
-            <v-btn large color="secondary" @click="updatePassword">
-              update password
-            </v-btn>
-            <br><br>
-            <v-form>
-              <div>
-                <label>自己紹介・曲紹介</label>
-                <quill-editor v-model="content" rows="10" />
-              </div>
-              <br>
-              <v-btn large color="secondary" @click="updateContent">
-              content update
-            </v-btn>
-            </v-form>
-          </v-card-text>
-        </v-card> -->
+        <br><br>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
-// import { getStorage, ref, deleteObject } from 'firebase/storage'
-// import { serverTimestamp } from 'firebase/firestore'
 export default {
   name: 'SignupPage',
   data () {

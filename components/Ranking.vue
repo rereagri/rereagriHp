@@ -34,7 +34,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="array in goodReplysRankingArraysAll" :key="array.goodedUserId">
+                  <tr v-for="array in getGoodReplysRankingArraysAll" :key="array.goodedUserId">
                     <td class="text-center">
                       {{ rank(array.goodReplyCounts, goodReplysCountsArraysAll, 0) }}
                     </td>
@@ -51,6 +51,19 @@
                 </tbody>
               </template>
             </v-simple-table>
+            <br>
+            <div>
+              <paginate
+                :page-count="getPageCountAll"
+                :page-range="3"
+                :margin-pages="2"
+                :click-handler="clickCallback"
+                :prev-text="'≪'"
+                :next-text="'≫'"
+                :container-class="'pagination'"
+                :page-class="'page-item'"
+                />
+            </div>
           </v-tab-item>
           <v-tab-item>
             <br>
@@ -73,7 +86,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="array in goodReplysRankingArraysMonth" :key="array.goodedUserId">
+                  <tr v-for="array in getGoodReplysRankingArraysMonth" :key="array.goodedUserId">
                     <td class="text-center">
                       {{ rank(array.goodReplyCounts, goodReplysCountsArraysMonth, 0) }}
                     </td>
@@ -90,6 +103,19 @@
                 </tbody>
               </template>
             </v-simple-table>
+            <br>
+              <div>
+                <paginate
+                  :page-count="getPageCountMonth"
+                  :page-range="3"
+                  :margin-pages="2"
+                  :click-handler="clickCallback"
+                  :prev-text="'≪'"
+                  :next-text="'≫'"
+                  :container-class="'pagination'"
+                  :page-class="'page-item'"
+                  />
+              </div>
           </v-tab-item>
           <v-tab-item>
             <br>
@@ -112,7 +138,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="array in goodReplysRankingArraysWeek" :key="array.goodedUserId">
+                  <tr v-for="array in getGoodReplysRankingArraysWeek" :key="array.goodedUserId">
                     <td class="text-center">
                       {{ rank(array.goodReplyCounts, goodReplysCountsArraysWeek, 0) }}
                     </td>
@@ -129,6 +155,19 @@
                 </tbody>
               </template>
             </v-simple-table>
+            <br>
+              <div>
+                <paginate
+                  :page-count="getPageCountWeek"
+                  :page-range="3"
+                  :margin-pages="2"
+                  :click-handler="clickCallback"
+                  :prev-text="'≪'"
+                  :next-text="'≫'"
+                  :container-class="'pagination'"
+                  :page-class="'page-item'"
+                  />
+              </div>
           </v-tab-item>
         </v-container>
       </v-tabs-items>
@@ -138,14 +177,18 @@
 </template>
 
 <script>
+import Paginate from 'vuejs-paginate'
 export default {
   name: 'UserRanking',
+  components: { Paginate },
   data () {
     return {
       tab: null,
       items: [
         '総合', '月間', '週刊'
-      ]
+      ],
+      parPage: 10,
+      currentPage: 1
     }
   },
   computed: {
@@ -172,6 +215,30 @@ export default {
     },
     goodReplysCountsArraysWeek () {
       return this.$store.state.goodReplys.goodReplysCountsArraysWeek
+    },
+    getGoodReplysRankingArraysAll () {
+      const current = this.currentPage * this.parPage
+      const start = current - this.parPage
+      return this.goodReplysRankingArraysAll.slice(start, current)
+    },
+    getGoodReplysRankingArraysMonth () {
+      const current = this.currentPage * this.parPage
+      const start = current - this.parPage
+      return this.goodReplysRankingArraysMonth.slice(start, current)
+    },
+    getGoodReplysRankingArraysWeek () {
+      const current = this.currentPage * this.parPage
+      const start = current - this.parPage
+      return this.goodReplysRankingArraysWeek.slice(start, current)
+    },
+    getPageCountAll () {
+      return Math.ceil(this.goodReplysRankingArraysAll.length / this.parPage)
+    },
+    getPageCountMonth () {
+      return Math.ceil(this.goodReplysRankingArraysMonth.length / this.parPage)
+    },
+    getPageCountWeek () {
+      return Math.ceil(this.goodReplysRankingArraysWeek.length / this.parPage)
     }
   },
   mounted () {
@@ -195,6 +262,9 @@ export default {
         }
       }
       return thisrank
+    },
+    clickCallback (pageNum) {
+      this.currentPage = Number(pageNum)
     }
   }
 }

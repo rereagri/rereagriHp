@@ -4,3 +4,37 @@
 .pointer-events-none {
   pointer-events: none
 }
+.pagination {
+  left: 0;
+  right: 0;
+  text-align: center;
+  margin: 10 0 0 0;
+  padding: 0;
+  list-style-type: none;
+  user-select: none;
+}
+.pagination li {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  margin: 0 2px;
+  box-sizing: border-box;
+  text-align: center;
+  border-radius: 5px;
+}
+.pagination li.active {
+  background: #0D47A1;
+}
+.pagination li a {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+}
+.pagination li.active a {
+  color: #fff;
+}
+.pagination li.focus a {
+  outline: none;
+}

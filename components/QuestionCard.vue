@@ -1,9 +1,8 @@
 <template>
-  <v-card ref="card" class="mb-3" color="blue lighten-4" @click="$router.push({path: 'question_card_detail', query: {blogid: blog.id, index: index}}); addViewCount()">
+  <v-card ref="card" class="mb-3" color="blue lighten-4" @click="$router.push({path: 'question_card_detail', query: {blogid: blog.id}}); addViewCount()">
     <v-card-text class="pb-1 pointer">
       <div class="d-inline-block">
         <span>{{ created_datetime }} </span>
-        <!-- <span class="pl-2 font-weight-bold">{{ blog.user_name }}</span> -->
         <span class="px-2 font-weight-bold">{{ blogCardAvatarName }}</span>
         <v-btn v-if="isBestAnswerAtTitle()" x-small color="success" class="pointer-events-none mr-2">
           <div>

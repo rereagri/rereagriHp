@@ -115,8 +115,15 @@ export default {
       return this.$store.state.blogs.blogs
     },
     blog () {
-      const index = this.$route.query.index
-      return this.blogs[index]
+      // const index = this.$route.query.index
+      // return this.blogs[index]
+      const blogid = this.$route.query.blogid
+      const blog = this.blogs.filter((blog) => {
+        // console.log('filter blog', blog)
+        return blog.id === blogid
+      })
+      // console.log('blog:', blog)
+      return blog[0]
     },
     avatars () {
       return this.$store.state.avatars.avatars
@@ -156,7 +163,7 @@ export default {
   mounted () {
     this.$store.dispatch('blogs/init')
     this.blogId = this.$route.query.blogid
-    this.index = this.$route.query.index
+    // this.index = this.$route.query.index
   },
   methods: {
     remove () {
@@ -173,7 +180,7 @@ export default {
       }
     },
     addComment () {
-      this.$router.push({ path: '/comment', query: { blogId: this.blog.id, index: this.index } })
+      this.$router.push({ path: '/comment', query: { blogid: this.blog.id } })
     },
     // toggle () {
     //   const open = this.open

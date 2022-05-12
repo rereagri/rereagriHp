@@ -38,7 +38,7 @@ export default {
   name: 'CommentPage',
   data () {
     return {
-      blogId: '',
+      blogid: '',
       // blog: {},
       comment: ''
       // editorOption: {
@@ -51,8 +51,13 @@ export default {
       return this.$store.state.blogs.blogs
     },
     blog () {
-      const index = this.$route.query.index
-      return this.blogs[index]
+      // const index = this.$route.query.index
+      // return this.blogs[index]
+      const blogid = this.$route.query.blogid
+      const blog = this.blogs.filter((blog) => {
+        return blog.id === blogid
+      })
+      return blog[0]
     },
     avatars () {
       return this.$store.state.avatars.avatars
@@ -70,8 +75,8 @@ export default {
   },
   mounted () {
     this.$store.dispatch('blogs/init')
-    this.blogId = this.$route.query.blogId
-    this.index = this.$route.query.index
+    this.blogid = this.$route.query.blogid
+    // this.index = this.$route.query.index
     // const docRef = doc(this.$db, 'blogs', this.blogId)
     // getDoc(docRef).then((doc) => {
     //   this.blog = doc.data()
@@ -79,7 +84,7 @@ export default {
   },
   methods: {
     postComment () {
-      const docRef = doc(this.$db, 'blogs', this.blogId)
+      const docRef = doc(this.$db, 'blogs', this.blogid)
       // const newDate = format(new Date(), 'yyyy-MM-dd HH:mm')
       const newDate = new Date()
       getDoc(docRef).then((doc) => {
@@ -95,7 +100,7 @@ export default {
         })
         updateDoc(docRef, { comments: data })
         // this.$router.push('/')
-        this.$router.push({ path: 'question_card_detail', query: { blogid: this.blogId, index: this.index } })
+        this.$router.push({ path: 'question_card_detail', query: { blogid: this.blogid } })
       })
     },
     getRandomStrings () {
