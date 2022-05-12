@@ -29,7 +29,8 @@ export default {
   plugins: [
     '~/plugins/firebase',
     '~/plugins/auth',
-    { src: '@/plugins/quill', mode: 'client' }
+    { src: '@/plugins/quill', mode: 'client' },
+    { src: '@/plugins/vuejs-paginate', ssr:false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
