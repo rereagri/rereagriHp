@@ -37,7 +37,7 @@ export default {
       parPage: 10,
       currentPage: 1,
       searchItems: '',
-      searchedBlogs: []
+      searchedBlogs: ''
     }
   },
   computed: {
@@ -47,10 +47,13 @@ export default {
     getBlogs () {
       const current = this.currentPage * this.parPage
       const start = current - this.parPage
-      if (!this.searchedBlogs.length) {
+      if (this.searchedBlogs === '') {
         return this.blogs.slice(start, current)
-      } else {
+      }
+      if (isNaN(this.searchedBlogs.length) === false) {
         return this.searchedBlogs.slice(start, current)
+      } else {
+        return this.blogs.slice(start, current)
       }
     },
     getPageCount () {
