@@ -52,6 +52,7 @@ export default {
       } else {
         return this.searchedBlogs.slice(start, current)
       }
+      // return this.searchedBlogs.slice(start, current)
     },
     getPageCount () {
       if (!this.searchedBlogs.length) {
@@ -74,10 +75,12 @@ export default {
       this.currentPage = Number(pageNum)
     },
     search () {
+      // const searchKeys = ['user_name_atthattime']
       const searchKeys = ['comments', 'content', 'created_at', 'title', 'user_name_atthattime']
       const searchText = this.searchItems
       const searchedArray = search(this.blogs, searchKeys, searchText)
       this.searchedBlogs = searchedArray
+      // console.log(this.searchedBlogs)
     }
   }
 }

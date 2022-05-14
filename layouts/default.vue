@@ -62,14 +62,14 @@
                 <v-list-item-title>ログアウト</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item @click="$router.push('/pagenation-test')">
+            <!-- <v-list-item @click="$router.push('/test-search')">
               <v-list-item-icon>
                 <v-icon>mdi-logout</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
                 <v-list-item-title>テストサイト</v-list-item-title>
               </v-list-item-content>
-            </v-list-item>
+            </v-list-item> -->
             <v-list-item @click="test">
               <v-list-item-icon>
                 <v-icon>mdi-logout</v-icon>
@@ -148,6 +148,25 @@ export default {
     },
     test () {
       console.log('test')
+      // const blogs = this.$store.state.blogs.blogs
+      // console.log(blogs)
+      // const selectedblog = blogs.filter((blog) => {
+      //   // console.log(blog)
+      //   return blog.user_id === this.$auth.currentUser.uid
+      // })
+      // console.log('selectedblog:', selectedblog)
+      // // const searchWord = "/shin/g"
+      // if (blogs.includes('the')) {
+      //   console.log('blogs.includes:', blogs.includes('shine'))
+      //   console.log('存在します')
+      // } else {
+      //   console.log('blogs.includes:', blogs.includes('shine'))
+      //   console.log('存在しません')
+      // }
+      // const check = blogs.filter(blog => blog.user_name_atthattime === 'Theリリ')
+      // console.log('check:', check)
+      // const check2 = blogs.filter(blog => blog.user_name_atthattime.match(/Shin/))
+      // console.log('check2:', check2)
       // this.$store.dispatch('goodReplys/rankingAllReSet')
       // this.$store.dispatch('goodReplys/rankingWeek')
       // console.log('this.$auth.currentUser:', this.$auth.currentUser)

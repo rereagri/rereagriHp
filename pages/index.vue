@@ -1,13 +1,6 @@
 <template>
   <v-container>
     <v-row>
-      <v-container>
-        <v-container>
-          <v-text-field outlined label="検索フォーム製作中" append-icon="mdi-magnify" />
-        </v-container>
-      </v-container>
-    </v-row>
-    <v-row>
       <v-col cols="12" md="7">
         <blog-list />
       </v-col>
@@ -37,8 +30,8 @@
 <script>
 import Ranking from '~/components/Ranking.vue'
 export default {
-  components: { Ranking },
   name: 'IndexPage',
+  components: { Ranking },
   data () {
     return {
     }
