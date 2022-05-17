@@ -3,10 +3,23 @@
     <v-row>
       <v-container class="pb-0">
         <v-container class="pb-0">
-          <v-text-field v-model="searchItems" outlined label="検索フォーム" append-icon="mdi-magnify" @input="search" />
+          <v-text-field
+          v-model="searchingItems"
+          outlined
+          label="検索フォーム"
+          append-icon="mdi-magnify"
+          @input="search"/>
         </v-container>
       </v-container>
     </v-row>
+    <v-container v-if="this.searchedBlogs !== ''">
+      <!-- <div>
+        &emsp;検索アイテム&emsp;"{{ this.searchedItems }}"
+      </div> -->
+      <div>
+        &emsp;検索結果&emsp;{{ this.searchedBlogs.length }}&emsp;件
+      </div>
+    </v-container>
     <v-list v-if="blogs.length" class="overflow-y-auto">
       <v-list-item v-for="(blog, index) in getBlogs" :key="index">
         <question-card ref="card" :blog="blog" :index="index" @close="closeAll" />
@@ -36,13 +49,19 @@ export default {
     return {
       parPage: 10,
       currentPage: 1,
-      searchItems: '',
-      searchedBlogs: ''
+      searchingItems: ''
+      // searchedBlogs: ''
     }
   },
   computed: {
     blogs () {
       return this.$store.state.blogs.blogs
+    },
+    searchedItems () {
+      return this.$store.state.search.searchedItems
+    },
+    searchedBlogs () {
+      return this.$store.state.search.searchedBlogs
     },
     getBlogs () {
       const current = this.currentPage * this.parPage
@@ -66,6 +85,7 @@ export default {
   },
   mounted () {
     this.$store.dispatch('blogs/init')
+    this.searchingItems = this.$store.state.search.searchedItems
   },
   methods: {
     closeAll () {
@@ -78,9 +98,10 @@ export default {
     },
     search () {
       const searchKeys = ['comments', 'content', 'created_at', 'title', 'user_name_atthattime']
-      const searchText = this.searchItems
+      const searchText = this.searchingItems
       const searchedArray = search(this.blogs, searchKeys, searchText)
-      this.searchedBlogs = searchedArray
+      this.$store.dispatch('search/changeSearchedItems', searchText)
+      this.$store.dispatch('search/changeSearchedBlogs', searchedArray)
     }
   }
 }

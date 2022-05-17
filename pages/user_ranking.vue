@@ -1,5 +1,7 @@
 <template>
-  <ranking />
+  <v-container>
+    <ranking />
+  </v-container>
 </template>
 
 <script>

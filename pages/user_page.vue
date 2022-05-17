@@ -37,6 +37,10 @@
         </v-card>
       </v-col>
     </v-row>
+    <br><br>
+    <v-row>
+      <own-answers-questions />
+    </v-row>
     <br>
   </v-container>
 </template>

@@ -54,6 +54,14 @@
                 <v-list-item-title>ユーザーランキング</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
+            <v-list-item @click="toMail">
+              <v-list-item-icon>
+                <v-icon>mdi-email-multiple</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>運営へのメール</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
             <v-list-item @click="logout">
               <v-list-item-icon>
                 <v-icon>mdi-logout</v-icon>
@@ -146,8 +154,12 @@ export default {
       const name = this.$store.state.user.displayName
       this.$router.push({ path: '/user_page', query: { userId: id, userName: name } })
     },
+    toMail () {
+      location.href = 'mailto:info@example.com'
+    },
     test () {
       console.log('test')
+      console.log(this.$store.state.search.searchItems2)
       // const blogs = this.$store.state.blogs.blogs
       // console.log(blogs)
       // const selectedblog = blogs.filter((blog) => {

@@ -4,8 +4,16 @@
       <v-col cols="12" md="7">
         <blog-list />
       </v-col>
-      <v-col cols="0" md="5">
+      <v-col cols="0" md="5" class="hidden-md-and-down">
         <ranking />
+        <v-container>
+          <v-card ref="card" class="mb-3" color="blue lighten-4">
+            <v-card-text class="text-center">
+              <v-icon>mdi-email-multiple</v-icon>
+              <a href="mailto:info@example.com">運営へのメールはこちらから</a>
+            </v-card-text>
+          </v-card>
+        </v-container>
       </v-col>
     </v-row>
     <v-fab-transition>

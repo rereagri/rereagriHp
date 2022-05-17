@@ -172,7 +172,6 @@
         </v-container>
       </v-tabs-items>
     </v-card>
-    <br>
   </v-container>
 </template>
 
