@@ -39,8 +39,11 @@
 import Paginate from 'vuejs-paginate'
 import { search } from 'ss-search'
 export default {
-  name: 'BlogList',
+  name: 'BlogListForOwnComments',
   components: { Paginate },
+  props: {
+    userid: { type: String, default: null }
+  },
   data () {
     return {
       parPage: 10,
@@ -50,15 +53,16 @@ export default {
   },
   computed: {
     blogs () {
-      return this.$store.state.blogs.blogs
+      const defaultBlogs = this.$store.state.blogs.blogs
+      return this.commentsSearch(defaultBlogs, this.userid)
     },
     searchedItems () {
-      return this.$store.state.search.searchedItems
+      return this.$store.state.searchForOwnComments.searchedItems
     },
 
     searchedBlogs () {
       this.search()
-      return this.$store.state.search.searchedBlogs
+      return this.$store.state.searchForOwnComments.searchedBlogs
     },
     getBlogs () {
       const current = this.currentPage * this.parPage
@@ -82,7 +86,7 @@ export default {
   },
   mounted () {
     this.$store.dispatch('blogs/init')
-    this.searchingItems = this.$store.state.search.searchedItems
+    this.searchingItems = this.$store.state.searchForOwnComments.searchedItems
   },
   methods: {
     closeAll () {
@@ -97,13 +101,19 @@ export default {
       const searchKeys = ['comments', 'content', 'created_at', 'title', 'user_name_atthattime']
       const searchText = this.searchingItems
       const searchedArray = search(this.blogs, searchKeys, searchText)
-      this.$store.dispatch('search/changeSearchedItems', searchText)
-      this.$store.dispatch('search/changeSearchedBlogs', searchedArray)
+      this.$store.dispatch('searchForOwnComments/changeSearchedItems', searchText)
+      this.$store.dispatch('searchForOwnComments/changeSearchedBlogs', searchedArray)
     },
     formSearch () {
       this.search()
       const page1 = document.querySelectorAll('.pagination li a')[1]
       page1.click()
+    },
+    commentsSearch (defaultBlogs, userid) {
+      const searchKeys = ['comments']
+      const searchText = userid
+      const searchedArray = search(defaultBlogs, searchKeys, searchText)
+      return searchedArray
     }
   }
 }

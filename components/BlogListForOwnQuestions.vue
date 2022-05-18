@@ -39,8 +39,11 @@
 import Paginate from 'vuejs-paginate'
 import { search } from 'ss-search'
 export default {
-  name: 'BlogList',
+  name: 'BlogListForOwnQuestions',
   components: { Paginate },
+  props: {
+    userid: { type: String, default: null }
+  },
   data () {
     return {
       parPage: 10,
@@ -50,15 +53,19 @@ export default {
   },
   computed: {
     blogs () {
-      return this.$store.state.blogs.blogs
+      const defaultBlogs = this.$store.state.blogs.blogs
+      const result = defaultBlogs.filter((defaultBlog) => {
+        return defaultBlog.user_id === this.userid
+      })
+      return result
     },
     searchedItems () {
-      return this.$store.state.search.searchedItems
+      return this.$store.state.searchForOwnQuestions.searchedItems
     },
 
     searchedBlogs () {
       this.search()
-      return this.$store.state.search.searchedBlogs
+      return this.$store.state.searchForOwnQuestions.searchedBlogs
     },
     getBlogs () {
       const current = this.currentPage * this.parPage
@@ -82,7 +89,7 @@ export default {
   },
   mounted () {
     this.$store.dispatch('blogs/init')
-    this.searchingItems = this.$store.state.search.searchedItems
+    this.searchingItems = this.$store.state.searchForOwnQuestions.searchedItems
   },
   methods: {
     closeAll () {
@@ -97,8 +104,8 @@ export default {
       const searchKeys = ['comments', 'content', 'created_at', 'title', 'user_name_atthattime']
       const searchText = this.searchingItems
       const searchedArray = search(this.blogs, searchKeys, searchText)
-      this.$store.dispatch('search/changeSearchedItems', searchText)
-      this.$store.dispatch('search/changeSearchedBlogs', searchedArray)
+      this.$store.dispatch('searchForOwnQuestions/changeSearchedItems', searchText)
+      this.$store.dispatch('searchForOwnQuestions/changeSearchedBlogs', searchedArray)
     },
     formSearch () {
       this.search()

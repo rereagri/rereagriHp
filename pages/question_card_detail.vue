@@ -85,7 +85,7 @@
               <v-icon>mdi-comment-edit</v-icon>
             </v-btn>
             <v-spacer />
-            <v-btn v-if="isBlogMine" icon x-small color="secondary" @click="remove">
+            <v-btn v-if="blog && isBlogMine" icon x-small color="secondary" @click="remove">
               <v-icon>mdi-delete</v-icon>
             </v-btn>
           </v-card-actions>
@@ -153,8 +153,7 @@ export default {
       }
     },
     isBlogMine: ({ $store, blog }) => {
-      return $store.getters.isAuthenticated &&
-        $store.state.user.uid === blog.user_id
+      return $store.getters.isAuthenticated && blog.user_id === $store.state.user.uid
     },
     commentCount: ({ blog }) => {
       return blog.comments && blog.comments.length ? blog.comments.length : 0
@@ -170,6 +169,8 @@ export default {
       if (confirm('Are you sure?')) {
         this.$store.dispatch('blogs/remove', this.blog.id)
       }
+      // this.$store.dispatch('blogs/init')
+      this.$router.push('/')
     },
     removeComment (comment, index) {
       if (confirm('Are you sure?')) {

@@ -39,15 +39,17 @@
     </v-row>
     <br><br>
     <v-row>
-      <own-answers-questions />
+      <own-questions-and-comments :userid="userId" />
     </v-row>
     <br>
   </v-container>
 </template>
 
 <script>
+import OwnQuestionsAndComments from '~/components/OwnQuestionsAndComments.vue'
 export default {
   name: 'UserPage',
+  components: { OwnQuestionsAndComments },
   data () {
     return {
       userId: '',
