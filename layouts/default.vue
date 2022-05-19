@@ -160,8 +160,8 @@ export default {
     test () {
       console.log('test')
       // console.log(this.$store.state.search.searchItems2)
-      // const blogs = this.$store.state.blogs.blogs
-      // console.log(blogs)
+      const blogs = this.$store.state.blogs.blogs
+      console.log('blogs:', blogs)
       // const selectedblog = blogs.filter((blog) => {
       //   // console.log(blog)
       //   return blog.user_id === this.$auth.currentUser.uid
@@ -203,8 +203,8 @@ export default {
       // console.log('this.$auth:', this.$auth)
       // console.log('avatars:', avatars)
       // console.log('loginavatar:', loginavatar)
-      const blogs = this.$store.state.blogs.blogs
-      console.log('blogs:', blogs)
+      // const blogs = this.$store.state.blogs.blogs
+      // console.log('blogs:', blogs)
       // const result = this.avatars.filter((avatar) => {
       //   return avatar.user_id === this.$store.state.user.uid
       // })

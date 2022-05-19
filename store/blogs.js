@@ -12,12 +12,42 @@ export const mutations = {
 
 export const actions = {
   init ({ commit }) {
-    const collectionRef = collection(this.$db, 'blogs')
-    const q = query(collectionRef, orderBy('created_at', 'desc'))
-    onSnapshot(q, (querySnapshot) => {
-      commit('setBlogs', querySnapshot.docs.map((doc) => {
-        return { ...doc.data(), id: doc.id }
-      }))
+    return new Promise((resolve, reject) => {
+      setTimeout(async () => {
+        try {
+          const collectionRef = collection(this.$db, 'blogs')
+          const q = query(collectionRef, orderBy('created_at', 'desc'))
+          const avatars = await this.state.avatars.avatars
+          // console.log('avatars:', avatars)
+          onSnapshot(q, (querySnapshot) => {
+            commit('setBlogs', querySnapshot.docs.map((doc) => {
+              // console.log('doc.data()', doc.data())
+              const avatar = avatars.filter((avatar) => {
+                return avatar.user_id === doc.data().user_id
+              })
+              // console.log('avatar:', avatar)
+              const displayName = avatar[0].displayName
+              // console.log('displayName:', displayName)
+              const commentDisplayNameArray = []
+              if (doc.data().comments) {
+                for (let i = 0; i < doc.data().comments.length; i++) {
+                  const commentAvatar = avatars.filter((avatar) => {
+                    return avatar.user_id === doc.data().comments[i].comment_user_id
+                  })
+                  const commentDisplayName = commentAvatar[0].displayName
+                  // console.log('commentDisplayName:', commentDisplayName)
+                  commentDisplayNameArray.push(commentDisplayName)
+                }
+              }
+              // console.log('commentDisplayNameArray:', commentDisplayNameArray)
+              return { ...doc.data(), id: doc.id, latestDisplayName: displayName, latestCommentDisplayNameArray: commentDisplayNameArray }
+            }))
+          })
+          resolve()
+        } catch (e) {
+          reject(e)
+        }
+      }, 500)
     })
   },
   add (_, blog) {

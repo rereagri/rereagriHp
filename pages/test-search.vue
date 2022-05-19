@@ -75,8 +75,7 @@ export default {
       this.currentPage = Number(pageNum)
     },
     search () {
-      // const searchKeys = ['user_name_atthattime']
-      const searchKeys = ['comments', 'content', 'created_at', 'title', 'user_name_atthattime']
+      const searchKeys = ['comments', 'content', 'created_at', 'title', 'latestDisplayName']
       const searchText = this.searchItems
       const searchedArray = search(this.blogs, searchKeys, searchText)
       this.searchedBlogs = searchedArray

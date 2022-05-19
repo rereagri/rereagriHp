@@ -98,7 +98,7 @@ export default {
       this.currentPage = Number(pageNum)
     },
     search () {
-      const searchKeys = ['comments', 'content', 'created_at', 'title', 'user_name_atthattime']
+      const searchKeys = ['comments', 'content', 'created_at', 'title', 'latestDisplayName', 'latestCommentDisplayNameArray']
       const searchText = this.searchingItems
       const searchedArray = search(this.blogs, searchKeys, searchText)
       this.$store.dispatch('searchForOwnComments/changeSearchedItems', searchText)
