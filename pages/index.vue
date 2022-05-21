@@ -2,6 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12" md="7">
+        <br>
         <blog-list />
       </v-col>
       <v-col cols="0" md="5" class="hidden-md-and-down">

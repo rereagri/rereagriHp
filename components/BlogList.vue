@@ -1,19 +1,33 @@
 <template>
   <div>
     <v-row>
-        <v-container class="pb-0">
-          <v-text-field
+      <v-container class="pb-0">
+        <v-text-field
           v-model="searchingItems"
           outlined
           label="検索フォーム"
           append-icon="mdi-magnify"
-          @input="formSearch" />
-        </v-container>
+          @input="formSearch"
+        />
       </v-container>
     </v-row>
-    <v-container v-if="this.searchedBlogs !== ''">
+    <v-container text-center mb-3>
+      <v-row align="center" justify="space-around">
+        <v-btn color="primary" outlined @click="newArrivalOrder">新着順</v-btn>
+        <v-btn color="primary" outlined @click="solvedOnly">解決済みのみ</v-btn>
+        <v-btn color="primary" outlined @click="notSolvedOnly">未解決のみ</v-btn>
+        <v-btn color="primary" outlined @click="notCommentsOnly">未回答のみ</v-btn>
+      </v-row>
+      <!-- <v-tabs background-color="transparent" color="primary" grow>
+        <v-tab @click="newArrivalOrder">新着順</v-tab>
+        <v-tab @click="solvedOnly" @change="solvedOnly">解決済みのみ</v-tab>
+        <v-tab>未解決のみ</v-tab>
+        <v-tab>未回答のみ</v-tab>
+      </v-tabs> -->
+    </v-container>
+    <v-container v-if="searchedBlogs !== ''">
       <div>
-        &emsp;検索結果&emsp;{{ this.searchedBlogs.length }}&emsp;件
+        &emsp;検索結果&emsp;{{ searchedBlogs.length }}&emsp;件
       </div>
     </v-container>
     <v-list v-if="blogs.length" class="overflow-y-auto">
@@ -55,28 +69,60 @@ export default {
     searchedItems () {
       return this.$store.state.search.searchedItems
     },
-
     searchedBlogs () {
-      this.search()
+      // console.log('searchedBlogs:', this.$store.state.search.searchedBlogs)
+      // console.log('this.searchingItems:', this.searchingItems)
+      // console.log('this.searchedItems:', this.searchedItems)
       return this.$store.state.search.searchedBlogs
     },
     getBlogs () {
       const current = this.currentPage * this.parPage
       const start = current - this.parPage
-      if (this.searchedBlogs === '') {
+      if (!this.searchedBlogs.length && !this.searchingItems && !this.searchedItems) {
+        // console.log('1')
         return this.blogs.slice(start, current)
-      }
-      if (isNaN(this.searchedBlogs.length) === false) {
+      } else if (this.searchedBlogs.length && this.searchingItems && this.searchedItems) {
+        // console.log('2')
         return this.searchedBlogs.slice(start, current)
+      } else if (!this.searchedBlogs.length && this.searchingItems && this.searchedItems) {
+        // console.log('3')
+        return 0
+        // return this.blogs.slice(start, current)
+        // return this.searchedBlogs.slice(start, current)
+      } else if (this.searchedBlogs.length && !this.searchingItems && !this.searchedItems) {
+        // console.log('4')
+        return this.searchedBlogs.slice(start, current)
+      } else if (this.searchedBlogs.length && this.searchingItems && !this.searchedItems) {
+        // console.log('5')
+        return this.searchedBlogs.slice(start, current)
+      } else if (this.searchedBlogs.length && !this.searchingItems && this.searchedItems) {
+        // console.log('6')
+        return this.searchedBlogs.slice(start, current)
+      } else if (!this.searchedBlogs.length && !this.searchingItems && this.searchedItems) {
+        // console.log('7')
+        return this.blogs.slice(start, current)
       } else {
+        // console.log('8')
         return this.blogs.slice(start, current)
       }
     },
     getPageCount () {
-      if (!this.searchedBlogs.length) {
+      if (!this.searchedBlogs.length && !this.searchingItems && !this.searchedItems) {
+        return Math.ceil(this.blogs.length / this.parPage)
+      } else if (this.searchedBlogs.length && this.searchingItems && this.searchedItems) {
+        return Math.ceil(this.searchedBlogs.length / this.parPage)
+      } else if (!this.searchedBlogs.length && this.searchingItems && this.searchedItems) {
+        return Math.ceil(0 / this.parPage)
+      } else if (this.searchedBlogs.length && !this.searchingItems && !this.searchedItems) {
+        return Math.ceil(this.searchedBlogs.length / this.parPage)
+      } else if (this.searchedBlogs.length && this.searchingItems && !this.searchedItems) {
+        return Math.ceil(this.searchedBlogs.length / this.parPage)
+      } else if (this.searchedBlogs.length && !this.searchingItems && this.searchedItems) {
+        return Math.ceil(this.searchedBlogs.length / this.parPage)
+      } else if (!this.searchedBlogs.length && !this.searchingItems && this.searchedItems) {
         return Math.ceil(this.blogs.length / this.parPage)
       } else {
-        return Math.ceil(this.searchedBlogs.length / this.parPage)
+        return Math.ceil(this.blogs.length / this.parPage)
       }
     }
   },
@@ -93,17 +139,112 @@ export default {
     clickCallback (pageNum) {
       this.currentPage = Number(pageNum)
     },
-    search () {
+    search (searchText) {
+      const searchKeys = ['comments', 'content', 'created_at', 'title', 'latestDisplayName', 'latestCommentDisplayNameArray']
+      if (!this.searchedBlogs.length && !this.searchingItems && !this.searchedItems) {
+        // console.log('11')
+        const searchedArray = search(this.blogs, searchKeys, searchText)
+        this.$store.dispatch('search/changeSearchedItems', searchText)
+        this.$store.dispatch('search/changeSearchedBlogs', searchedArray)
+      }
+      if (this.searchedBlogs.length && this.searchingItems && this.searchedItems) {
+        // console.log('22')
+        const searchedArray = search(this.searchedBlogs, searchKeys, searchText)
+        this.$store.dispatch('search/changeSearchedItems', searchText)
+        this.$store.dispatch('search/changeSearchedBlogs', searchedArray)
+      }
+      if (!this.searchedBlogs.length && this.searchingItems && this.searchedItems) {
+        // console.log('33')
+        const searchedArray = search(this.blogs, searchKeys, searchText)
+        this.$store.dispatch('search/changeSearchedItems', searchText)
+        this.$store.dispatch('search/changeSearchedBlogs', searchedArray)
+      }
+      if (this.searchedBlogs.length && !this.searchingItems && !this.searchedItems) {
+        // console.log('44')
+        const searchedArray = search(this.searchedBlogs, searchKeys, searchText)
+        this.$store.dispatch('search/changeSearchedItems', searchText)
+        this.$store.dispatch('search/changeSearchedBlogs', searchedArray)
+      }
+      if (this.searchedBlogs.length && this.searchingItems && !this.searchedItems) {
+        // console.log('55')
+        const searchedArray = search(this.searchedBlogs, searchKeys, searchText)
+        this.$store.dispatch('search/changeSearchedItems', searchText)
+        this.$store.dispatch('search/changeSearchedBlogs', searchedArray)
+      }
+      if (this.searchedBlogs.length && !this.searchingItems && this.searchedItems) {
+        // console.log('66')
+        const searchedArray = search(this.searchedBlogs, searchKeys, searchText)
+        this.$store.dispatch('search/changeSearchedItems', searchText)
+        this.$store.dispatch('search/changeSearchedBlogs', searchedArray)
+      }
+      if (!this.searchedBlogs.length && !this.searchingItems && this.searchedItems) {
+        // console.log('77')
+        const searchedArray = search(this.blogs, searchKeys, searchText)
+        this.$store.dispatch('search/changeSearchedItems', searchText)
+        this.$store.dispatch('search/changeSearchedBlogs', searchedArray)
+      }
+      if (!this.searchedBlogs.length && this.searchingItems && !this.searchedItems) {
+        // console.log('88')
+        const searchedArray = search(this.blogs, searchKeys, searchText)
+        this.$store.dispatch('search/changeSearchedItems', searchText)
+        this.$store.dispatch('search/changeSearchedBlogs', searchedArray)
+      }
+    },
+    formSearch () {
+      const searchText = this.searchingItems
+      this.search(searchText)
+      const page1 = document.querySelectorAll('.pagination li a')[1]
+      page1.click()
+    },
+    newArrivalOrder () {
+      const newArrivalOrderBlogs = this.blogs
+      // console.log('solvedBlogs:', solvedBlogs)
+      this.searchingItems = ''
+      // this.$store.dispatch('search/changeSearchedItems', searchText)
+      this.$store.dispatch('search/changeSearchedBlogs', newArrivalOrderBlogs)
+    },
+    solvedOnly () {
       const searchKeys = ['comments', 'content', 'created_at', 'title', 'latestDisplayName', 'latestCommentDisplayNameArray']
       const searchText = this.searchingItems
       const searchedArray = search(this.blogs, searchKeys, searchText)
-      this.$store.dispatch('search/changeSearchedItems', searchText)
-      this.$store.dispatch('search/changeSearchedBlogs', searchedArray)
+      const solvedBlogsArray = this.blogs.filter((blog) => {
+        return blog.bestAnswer
+      })
+      const combineArray = [...searchedArray, ...solvedBlogsArray]
+      const duplicatedArray = combineArray.filter(item =>
+        searchedArray.includes(item) && solvedBlogsArray.includes(item)
+      )
+      const newDuplicatedArray = [...new Set(duplicatedArray)]
+      // console.log('newDuplicatedArray:', newDuplicatedArray)
+      this.$store.dispatch('search/changeSearchedBlogs', newDuplicatedArray)
     },
-    formSearch () {
-      this.search()
-      const page1 = document.querySelectorAll('.pagination li a')[1]
-      page1.click()
+    notSolvedOnly () {
+      const searchKeys = ['comments', 'content', 'created_at', 'title', 'latestDisplayName', 'latestCommentDisplayNameArray']
+      const searchText = this.searchingItems
+      const searchedArray = search(this.blogs, searchKeys, searchText)
+      const noSolvedBlogsArray = this.blogs.filter((blog) => {
+        return !blog.bestAnswer
+      })
+      const combineArray = [...searchedArray, ...noSolvedBlogsArray]
+      const duplicatedArray = combineArray.filter(item =>
+        searchedArray.includes(item) && noSolvedBlogsArray.includes(item)
+      )
+      const newDuplicatedArray = [...new Set(duplicatedArray)]
+      this.$store.dispatch('search/changeSearchedBlogs', newDuplicatedArray)
+    },
+    notCommentsOnly () {
+      const searchKeys = ['comments', 'content', 'created_at', 'title', 'latestDisplayName', 'latestCommentDisplayNameArray']
+      const searchText = this.searchingItems
+      const searchedArray = search(this.blogs, searchKeys, searchText)
+      const notCommentsArray = this.blogs.filter((blog) => {
+        return !blog.comments
+      })
+      const combineArray = [...searchedArray, ...notCommentsArray]
+      const duplicatedArray = combineArray.filter(item =>
+        searchedArray.includes(item) && notCommentsArray.includes(item)
+      )
+      const newDuplicatedArray = [...new Set(duplicatedArray)]
+      this.$store.dispatch('search/changeSearchedBlogs', newDuplicatedArray)
     }
   }
 }

@@ -70,14 +70,6 @@
                 <v-list-item-title>ログアウト</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <!-- <v-list-item @click="$router.push('/test-search')">
-              <v-list-item-icon>
-                <v-icon>mdi-logout</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>テストサイト</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item> -->
             <v-list-item @click="test">
               <v-list-item-icon>
                 <v-icon>mdi-logout</v-icon>
@@ -156,12 +148,19 @@ export default {
     },
     toMail () {
       location.href = 'mailto:info@example.com'
+      // location.href = 'mailto:rereagri@gmail.com'
     },
     test () {
       console.log('test')
       // console.log(this.$store.state.search.searchItems2)
       const blogs = this.$store.state.blogs.blogs
       console.log('blogs:', blogs)
+      const searchedBlogs = this.$store.state.search.searchedBlogs
+      const searchedBlogsLength = this.$store.state.search.searchedBlogs.length
+      const searchedItems = this.$store.state.search.searchedItems
+      console.log('searchedBlogs:', searchedBlogs)
+      console.log('searchedBlogsLength:', searchedBlogsLength)
+      console.log('searchedItems:', searchedItems)
       // const selectedblog = blogs.filter((blog) => {
       //   // console.log(blog)
       //   return blog.user_id === this.$auth.currentUser.uid
