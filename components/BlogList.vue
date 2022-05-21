@@ -12,17 +12,23 @@
       </v-container>
     </v-row>
     <v-container text-center mb-3>
-      <v-row align="center" justify="space-around">
-        <v-btn color="primary" outlined @click="newArrivalOrder">新着順</v-btn>
-        <v-btn color="primary" outlined @click="solvedOnly">解決済みのみ</v-btn>
-        <v-btn color="primary" outlined @click="notSolvedOnly">未解決のみ</v-btn>
-        <v-btn color="primary" outlined @click="notCommentsOnly">未回答のみ</v-btn>
+      <!-- <v-row align="center" justify="space-around"> -->
+      <v-row>
+        <v-spacer />
+        <v-btn small color="primary" outlined @click="newArrivalOrder">新着順</v-btn>
+        <v-spacer />
+        <v-btn small color="primary" outlined @click="solvedOnly">解決済み</v-btn>
+        <v-spacer />
+        <v-btn small color="primary" outlined @click="notSolvedOnly">未解決</v-btn>
+        <v-spacer />
+        <v-btn small color="primary" outlined @click="notCommentsOnly">未回答</v-btn>
+        <v-spacer />
       </v-row>
       <!-- <v-tabs background-color="transparent" color="primary" grow>
         <v-tab @click="newArrivalOrder">新着順</v-tab>
-        <v-tab @click="solvedOnly" @change="solvedOnly">解決済みのみ</v-tab>
-        <v-tab>未解決のみ</v-tab>
-        <v-tab>未回答のみ</v-tab>
+        <v-tab @click="solvedOnly">解決済み</v-tab>
+        <v-tab @click="notSolvedOnly">未解決</v-tab>
+        <v-tab @click="notCommentsOnly">未回答</v-tab>
       </v-tabs> -->
     </v-container>
     <v-container v-if="searchedBlogs !== ''">
