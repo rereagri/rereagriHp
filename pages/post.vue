@@ -20,11 +20,11 @@
             <div>タグの選択</div>
             <div>{{ tags }}</div>
             <v-btn
+              v-for="tag in tags"
+              :key="tag.id"
               rounded
               outlined
               small
-              v-for="tag in tags"
-              :key="tag.id"
               color="warning"
               class="mr-2"
               @click="selectTag(tag)"
@@ -37,25 +37,25 @@
           <v-card-text>
             <div>登録するタグ</div>
             <v-btn
+              v-for="Tag in selectedTagsArray"
+              :key="Tag.id"
               rounded
               outlined
               small
-              v-for="selectedTag in selectedTagsArray"
-              :key="selectedTag.id"
               color="warning"
               class="mr-2"
-              @click="notSelectTag(selectedTag)"
+              @click="notSelectTag(Tag)"
             >
-            <div>
-              {{ selectedTag.tagName }}
-            </div>
-            <v-icon
-              right
-              dark
-            >
-              mdi-close-circle
-            </v-icon>
-          </v-btn>
+              <div>
+                {{ Tag.tagName }}
+              </div>
+              <v-icon
+                right
+                dark
+              >
+                mdi-close-circle
+              </v-icon>
+            </v-btn>
           </v-card-text>
           <v-card-actions>
             <v-spacer />

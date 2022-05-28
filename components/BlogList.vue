@@ -13,29 +13,22 @@
       </v-container>
     </v-row>
     <v-container text-center mb-3>
-      <v-btn-toggle rounded dense v-model="selectingBtnToggleIndex">
-        <v-btn class="btnToggle" color="primary" outlined @click="newArrivalOrder">新着順</v-btn>
-        <v-btn class="btnToggle" color="primary" outlined @click="solvedOnly">解決済み</v-btn>
-        <v-btn class="btnToggle" color="primary" outlined @click="notSolvedOnly">未解決</v-btn>
-        <v-btn class="btnToggle" color="primary" outlined @click="notCommentsOnly">未回答</v-btn>
+      <v-btn-toggle v-model="selectingBtnToggleIndex" rounded dense>
+        <v-btn class="btnToggle" color="primary" outlined @click="newArrivalOrder">
+          新着順
+        </v-btn>
+        <v-btn class="btnToggle" color="primary" outlined @click="solvedOnly">
+          解決済み
+        </v-btn>
+        <v-btn class="btnToggle" color="primary" outlined @click="notSolvedOnly">
+          未解決
+        </v-btn>
+        <v-btn class="btnToggle" color="primary" outlined @click="notCommentsOnly">
+          未回答
+        </v-btn>
       </v-btn-toggle>
-      <!-- <v-row>
-        <v-spacer />
-        <v-btn small active color="primary" outlined @click="newArrivalOrder">新着順</v-btn>
-        <v-spacer />
-        <v-btn small color="primary" outlined @click="solvedOnly">解決済み</v-btn>
-        <v-spacer />
-        <v-btn small color="primary" outlined @click="notSolvedOnly">未解決</v-btn>
-        <v-spacer />
-        <v-btn small color="primary" outlined @click="notCommentsOnly">未回答</v-btn>
-        <v-spacer />
-      </v-row> -->
+      <!-- {{ selectingBtnToggleIndex }} -->
     </v-container>
-    <!-- <v-container>
-      <div>
-        &emsp;検索結果&emsp;{{ arrya.length }}&emsp;件
-      </div>
-    </v-container> -->
     <v-container v-if="searchedBlogs !== ''">
       <div>
         &emsp;検索結果&emsp;{{ searchedBlogs.length }}&emsp;件
@@ -95,11 +88,6 @@ export default {
     getBlogs () {
       const current = this.currentPage * this.parPage
       const start = current - this.parPage
-      // if (this.searchedBlogs.length) {
-      //   return this.searchedBlogs.slice(start, current)
-      // } else {
-      //   return this.blogs.slice(start, current)
-      // }
       if (!this.searchedBlogs.length && !this.searchingItems && !this.searchedItems) {
         // console.log('1')
         return this.blogs.slice(start, current)
@@ -129,11 +117,6 @@ export default {
       }
     },
     getPageCount () {
-      // if (!this.array) {
-      //   return Math.ceil(this.blogs.length / this.parPage)
-      // } else {
-      //   return Math.ceil(this.array.length / this.parPage)
-      // }
       if (!this.searchedBlogs.length && !this.searchingItems && !this.searchedItems) {
         return Math.ceil(this.blogs.length / this.parPage)
       } else if (this.searchedBlogs.length && this.searchingItems && this.searchedItems) {
@@ -155,14 +138,11 @@ export default {
   },
   mounted () {
     this.$store.dispatch('blogs/init')
-    this.searchingItems = this.searchedItems
+    this.searchingItems = this.$store.state.search.searchedItems
     this.selectingBtn = this.selectedBtn
     this.selectingBtnToggleIndex = this.selectedBtnToggleIndex
     if (this.selectedBtnToggleIndex) {
       document.getElementsByClassName('btnToggle')[this.selectedBtnToggleIndex].click()
-      // const btnToggle = document.querySelectorAll('btnToggle')
-      // console.log('btnToggle', btnToggle)
-      // this.array = this.searchedBlogs
     }
   },
   methods: {
@@ -227,8 +207,6 @@ export default {
     //   }
     // },
     formSearch () {
-      // this.search()
-      console.log('this.selectingBtn:', this.selectingBtn)
       if (this.selectingBtn === 'newArrivalOrder' || null) {
         this.newArrivalOrder()
       } else if (this.selectingBtn === 'solvedOnly') {
@@ -244,26 +222,19 @@ export default {
       page1.click()
     },
     newArrivalOrder () {
-      // const newArrivalOrderBlogs = this.blogs
-      // console.log('solvedBlogs:', solvedBlogs)
-      // this.searchingItems = ''
-      // this.$store.dispatch('search/changeSearchedItems', searchText)
       const pushudeBtn = 'newArrivalOrder'
       this.selectingBtn = pushudeBtn
-      this.$store.dispatch('search/changeSlectedBtn', pushudeBtn)
-      this.$store.dispatch('search/changeSlectedBtnToggleIndex', '0')
       const searchKeys = ['comments', 'content', 'created_at', 'title', 'latestDisplayName', 'latestCommentDisplayNameArray']
       const searchText = this.searchingItems
       const newArrivalOrderArray = search(this.blogs, searchKeys, searchText)
-      this.array = newArrivalOrderArray
+      this.$store.dispatch('search/changeSlectedBtn', pushudeBtn)
+      this.$store.dispatch('search/changeSlectedBtnToggleIndex', '0')
       this.$store.dispatch('search/changeSearchedItems', searchText)
       this.$store.dispatch('search/changeSearchedBlogs', newArrivalOrderArray)
     },
     solvedOnly () {
       const pushudeBtn = 'solvedOnly'
       this.selectingBtn = pushudeBtn
-      this.$store.dispatch('search/changeSlectedBtn', pushudeBtn)
-      this.$store.dispatch('search/changeSlectedBtnToggleIndex', '1')
       const searchKeys = ['comments', 'content', 'created_at', 'title', 'latestDisplayName', 'latestCommentDisplayNameArray']
       const searchText = this.searchingItems
       const searchedArray = search(this.blogs, searchKeys, searchText)
@@ -275,15 +246,14 @@ export default {
         searchedArray.includes(item) && solvedBlogsArray.includes(item)
       )
       const newDuplicatedArray = [...new Set(duplicatedArray)]
-      this.array = newDuplicatedArray
-      // console.log('newDuplicatedArray:', newDuplicatedArray)
+      this.$store.dispatch('search/changeSlectedBtn', pushudeBtn)
+      this.$store.dispatch('search/changeSlectedBtnToggleIndex', '1')
+      this.$store.dispatch('search/changeSearchedItems', searchText)
       this.$store.dispatch('search/changeSearchedBlogs', newDuplicatedArray)
     },
     notSolvedOnly () {
       const pushudeBtn = 'notSolvedOnly'
       this.selectingBtn = pushudeBtn
-      this.$store.dispatch('search/changeSlectedBtn', pushudeBtn)
-      this.$store.dispatch('search/changeSlectedBtnToggleIndex', '2')
       const searchKeys = ['comments', 'content', 'created_at', 'title', 'latestDisplayName', 'latestCommentDisplayNameArray']
       const searchText = this.searchingItems
       const searchedArray = search(this.blogs, searchKeys, searchText)
@@ -295,14 +265,14 @@ export default {
         searchedArray.includes(item) && noSolvedBlogsArray.includes(item)
       )
       const newDuplicatedArray = [...new Set(duplicatedArray)]
-      this.array = newDuplicatedArray
+      this.$store.dispatch('search/changeSlectedBtn', pushudeBtn)
+      this.$store.dispatch('search/changeSlectedBtnToggleIndex', '2')
+      this.$store.dispatch('search/changeSearchedItems', searchText)
       this.$store.dispatch('search/changeSearchedBlogs', newDuplicatedArray)
     },
     notCommentsOnly () {
       const pushudeBtn = 'notCommentsOnly'
       this.selectingBtn = pushudeBtn
-      this.$store.dispatch('search/changeSlectedBtn', pushudeBtn)
-      this.$store.dispatch('search/changeSlectedBtnToggleIndex', '3')
       const searchKeys = ['comments', 'content', 'created_at', 'title', 'latestDisplayName', 'latestCommentDisplayNameArray']
       const searchText = this.searchingItems
       const searchedArray = search(this.blogs, searchKeys, searchText)
@@ -314,14 +284,11 @@ export default {
         searchedArray.includes(item) && notCommentsArray.includes(item)
       )
       const newDuplicatedArray = [...new Set(duplicatedArray)]
-      this.array = newDuplicatedArray
+      this.$store.dispatch('search/changeSlectedBtn', pushudeBtn)
+      this.$store.dispatch('search/changeSlectedBtnToggleIndex', '3')
+      this.$store.dispatch('search/changeSearchedItems', searchText)
       this.$store.dispatch('search/changeSearchedBlogs', newDuplicatedArray)
     }
-    // toggleSelectedBtn (pushudeBtn) {
-    //   this.selectingBtn = pushudeBtn
-    //   // console.log('this.selectingBtn:', this.selectingBtn)
-    //   this.$store.dispatch('search/changeSlectedBtn', pushudeBtn)
-    // }
   }
 }
 </script>

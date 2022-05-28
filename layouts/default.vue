@@ -215,8 +215,8 @@ export default {
     },
     test () {
       console.log('test')
-      const selectedBtn = this.$store.state.search.selectedBtn
-      console.log('selectedBtn:', selectedBtn)
+      const selectedBtnToggleIndex = this.$store.state.search.selectedBtnToggleIndex
+      console.log('selectedBtnToggleIndex:', selectedBtnToggleIndex)
       // this.$store.dispatch('tags/init')
       // const tags = this.$store.state.tags.tags
       // console.log('tags:', tags)
