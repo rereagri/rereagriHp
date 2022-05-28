@@ -16,6 +16,47 @@
               <quill-editor v-model="content" rows="10" />
             </v-form>
           </v-card-text>
+          <v-card-text>
+            <div>タグの選択</div>
+            <div>{{ tags }}</div>
+            <v-btn
+              rounded
+              outlined
+              small
+              v-for="tag in tags"
+              :key="tag.id"
+              color="warning"
+              class="mr-2"
+              @click="selectTag(tag)"
+            >
+              <div>
+                {{ tag.tagName }}
+              </div>
+            </v-btn>
+          </v-card-text>
+          <v-card-text>
+            <div>登録するタグ</div>
+            <v-btn
+              rounded
+              outlined
+              small
+              v-for="selectedTag in selectedTagsArray"
+              :key="selectedTag.id"
+              color="warning"
+              class="mr-2"
+              @click="notSelectTag(selectedTag)"
+            >
+            <div>
+              {{ selectedTag.tagName }}
+            </div>
+            <v-icon
+              right
+              dark
+            >
+              mdi-close-circle
+            </v-icon>
+          </v-btn>
+          </v-card-text>
           <v-card-actions>
             <v-spacer />
             <v-btn large color="secondary" @click="postBlog">
@@ -36,7 +77,14 @@ export default {
   data () {
     return {
       title: '',
-      content: ''
+      content: '',
+      selectedTag: '',
+      selectedTagsArray: []
+    }
+  },
+  computed: {
+    tags () {
+      return this.$store.state.tags.tags
     }
   },
   methods: {
@@ -53,6 +101,12 @@ export default {
       }
       this.$store.dispatch('blogs/add', blog)
         .then(() => this.$router.push('/'))
+    },
+    selectTag (tag) {
+      this.selectedTagsArray.push(tag)
+    },
+    notSelectTag (selectedTag) {
+      this.selectedTagsArray.splice(selectedTag)
     }
   }
 }

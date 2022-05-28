@@ -11,7 +11,7 @@
           <v-card ref="card" class="mb-3" color="blue lighten-4">
             <v-card-text class="text-center">
               <v-icon>mdi-email-multiple</v-icon>
-              <a href="mailto:info@example.com">運営へのメールはこちらから</a>
+              <a href="mailto:info@example.com">運営へのメールはこちらから<br>（タグの提案もこちらから受け付けます）</a>
             </v-card-text>
           </v-card>
         </v-container>

@@ -59,7 +59,7 @@
                 <v-icon>mdi-email-multiple</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>運営へのメール</v-list-item-title>
+                <v-list-item-title>運営へのメール<br>（タグ提案等）</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-list-item @click="logout">
@@ -186,6 +186,7 @@ export default {
   },
   mounted () {
     this.$store.dispatch('avatars/init')
+    this.$store.dispatch('tags/init')
     // this.$store.dispatch('blogs/init')
     // this.$store.dispatch('goodReplys/init')
     // this.$store.dispatch('goodReplys/rankingAll')
@@ -214,7 +215,12 @@ export default {
     },
     test () {
       console.log('test')
-      // console.log(this.$store.state.search.searchItems2)
+      const selectedBtn = this.$store.state.search.selectedBtn
+      console.log('selectedBtn:', selectedBtn)
+      // this.$store.dispatch('tags/init')
+      // const tags = this.$store.state.tags.tags
+      // console.log('tags:', tags)
+      // console.log(this.$store.state.search.searchedItems.length)
       // const blogs = this.$store.state.blogs.blogs
       // console.log('blogs:', blogs)
       // const searchedBlogs = this.$store.state.search.searchedBlogs
