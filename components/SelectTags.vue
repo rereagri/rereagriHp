@@ -9,6 +9,7 @@
           v-model="tagIndex"
           column
           multiple
+          max="5"
         >
           <v-chip
             v-for="tag in tags"
