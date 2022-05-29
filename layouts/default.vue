@@ -215,14 +215,15 @@ export default {
     },
     test () {
       console.log('test')
+      this.$store.dispatch('blogs/init')
       // const selectedBtnToggleIndex = this.$store.state.search.selectedBtnToggleIndex
       // console.log('selectedBtnToggleIndex:', selectedBtnToggleIndex)
       // this.$store.dispatch('tags/init')
-      const tags = this.$store.state.tags.tags
-      console.log('tags:', tags[1].id)
+      // const tags = this.$store.state.tags.tags
+      // console.log('tags:', tags[1].id)
       // console.log(this.$store.state.search.searchedItems.length)
-      // const blogs = this.$store.state.blogs.blogs
-      // console.log('blogs:', blogs)
+      const blogs = this.$store.state.blogs.blogs
+      console.log('blogs:', blogs)
       // const searchedBlogs = this.$store.state.search.searchedBlogs
       // const searchedBlogsLength = this.$store.state.search.searchedBlogs.length
       // const searchedItems = this.$store.state.search.searchedItems

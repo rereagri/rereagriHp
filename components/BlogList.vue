@@ -172,7 +172,7 @@ export default {
     newArrivalOrder () {
       const pushudeBtn = 'newArrivalOrder'
       this.selectingBtn = pushudeBtn
-      const searchKeys = ['comments', 'content', 'created_at', 'title', 'latestDisplayName', 'latestCommentDisplayNameArray']
+      const searchKeys = ['comments', 'content', 'created_at', 'title', 'latestDisplayName', 'latestCommentDisplayNameArray', 'latestTagNameArray']
       const searchText = this.searchingItems
       const newArrivalOrderArray = search(this.blogs, searchKeys, searchText)
       this.$store.dispatch('search/changeSlectedBtn', pushudeBtn)
@@ -183,7 +183,7 @@ export default {
     solvedOnly () {
       const pushudeBtn = 'solvedOnly'
       this.selectingBtn = pushudeBtn
-      const searchKeys = ['comments', 'content', 'created_at', 'title', 'latestDisplayName', 'latestCommentDisplayNameArray']
+      const searchKeys = ['comments', 'content', 'created_at', 'title', 'latestDisplayName', 'latestCommentDisplayNameArray', 'latestTagNameArray']
       const searchText = this.searchingItems
       const searchedArray = search(this.blogs, searchKeys, searchText)
       const solvedBlogsArray = this.blogs.filter((blog) => {
@@ -202,7 +202,7 @@ export default {
     notSolvedOnly () {
       const pushudeBtn = 'notSolvedOnly'
       this.selectingBtn = pushudeBtn
-      const searchKeys = ['comments', 'content', 'created_at', 'title', 'latestDisplayName', 'latestCommentDisplayNameArray']
+      const searchKeys = ['comments', 'content', 'created_at', 'title', 'latestDisplayName', 'latestCommentDisplayNameArray', 'latestTagNameArray']
       const searchText = this.searchingItems
       const searchedArray = search(this.blogs, searchKeys, searchText)
       const noSolvedBlogsArray = this.blogs.filter((blog) => {
@@ -221,7 +221,7 @@ export default {
     notCommentsOnly () {
       const pushudeBtn = 'notCommentsOnly'
       this.selectingBtn = pushudeBtn
-      const searchKeys = ['comments', 'content', 'created_at', 'title', 'latestDisplayName', 'latestCommentDisplayNameArray']
+      const searchKeys = ['comments', 'content', 'created_at', 'title', 'latestDisplayName', 'latestCommentDisplayNameArray', 'latestTagNameArray']
       const searchText = this.searchingItems
       const searchedArray = search(this.blogs, searchKeys, searchText)
       const notCommentsArray = this.blogs.filter((blog) => {

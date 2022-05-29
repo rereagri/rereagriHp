@@ -18,6 +18,7 @@ export const actions = {
           const collectionRef = collection(this.$db, 'blogs')
           const q = query(collectionRef, orderBy('created_at', 'desc'))
           const avatars = await this.state.avatars.avatars
+          const tags = await this.state.tags.tags
           // console.log('avatars:', avatars)
           onSnapshot(q, (querySnapshot) => {
             commit('setBlogs', querySnapshot.docs.map((doc) => {
@@ -40,7 +41,19 @@ export const actions = {
                 }
               }
               // console.log('commentDisplayNameArray:', commentDisplayNameArray)
-              return { ...doc.data(), id: doc.id, latestDisplayName: displayName, latestCommentDisplayNameArray: commentDisplayNameArray }
+              const blogTagIdsArray = doc.data().tagIds
+              const tagNameArray = []
+              if (blogTagIdsArray) {
+                for (let i = 0; i < blogTagIdsArray.length; i++) {
+                  const matchedTag = tags.filter((tag) => {
+                    return tag.id === blogTagIdsArray[i]
+                  })
+                  // console.log('matchedTag[0].tagName:', matchedTag[0].tagName)
+                  tagNameArray.push(matchedTag[0].tagName)
+                }
+              }
+              // console.log('tagNameArray:', tagNameArray)
+              return { ...doc.data(), id: doc.id, latestDisplayName: displayName, latestCommentDisplayNameArray: commentDisplayNameArray, latestTagNameArray: tagNameArray }
             }))
           })
           resolve()
