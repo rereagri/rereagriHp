@@ -16,7 +16,7 @@
               <quill-editor v-model="content" rows="10" />
             </v-form>
           </v-card-text>
-          <v-card-text>
+          <!-- <v-card-text>
             <div>タグの選択</div>
             <div>{{ tags }}</div>
             <v-btn
@@ -56,7 +56,13 @@
                 mdi-close-circle
               </v-icon>
             </v-btn>
-          </v-card-text>
+          </v-card-text> -->
+          <br>
+          <v-container>
+            <select-tags @catchTag="receiveTag" />
+            <!-- {{ receivedTagIdArray }} -->
+          </v-container>
+          <br>
           <v-card-actions>
             <v-spacer />
             <v-btn large color="secondary" @click="postBlog">
@@ -71,15 +77,17 @@
 
 <script>
 import { serverTimestamp } from 'firebase/firestore'
+import SelectTags from '~/components/SelectTags.vue'
 
 export default {
   name: 'PostPage',
+  components: { SelectTags },
   data () {
     return {
       title: '',
       content: '',
       selectedTag: '',
-      selectedTagsArray: []
+      receivedTagIdArray: []
     }
   },
   computed: {
@@ -97,16 +105,31 @@ export default {
         user_name_atthattime: this.$store.state.user.displayName,
         viewCount: 0,
         goodReplys: [],
-        bestAnswer: ''
+        bestAnswer: '',
+        tagIds: this.receivedTagIdArray
       }
       this.$store.dispatch('blogs/add', blog)
         .then(() => this.$router.push('/'))
     },
-    selectTag (tag) {
-      this.selectedTagsArray.push(tag)
-    },
-    notSelectTag (selectedTag) {
-      this.selectedTagsArray.splice(selectedTag)
+    // selectTag (tag) {
+    //   this.selectedTagsArray.push(tag)
+    // },
+    // notSelectTag (selectedTag) {
+    //   this.selectedTagsArray.splice(selectedTag)
+    // },
+    receiveTag (tagId) {
+      if (this.receivedTagIdArray.length) {
+        const result = this.receivedTagIdArray.includes(tagId)
+        if (result) {
+          this.receivedTagIdArray = this.receivedTagIdArray.filter((id) => {
+            return id !== tagId
+          })
+        } else {
+          this.receivedTagIdArray.push(tagId)
+        }
+      } else {
+        this.receivedTagIdArray.push(tagId)
+      }
     }
   }
 }

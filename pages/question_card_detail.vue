@@ -13,6 +13,7 @@
           </v-btn>
         </div>
         <user-avatar v-if="blog" :id="blog.user_id" :name="blogCardAvatarName.toString()" />
+        <render-tags :blog="blog" />
         <div v-if="blog" class="text-h5">
           {{ blog.title }}
         </div>
@@ -65,7 +66,15 @@
               </v-card-actions>
             </v-card>
           </v-container>
-          <v-divider />
+          <div v-if="blog && isBlogMine">
+            <v-divider />
+            <br>
+            <v-container>
+              <select-tags-for-card-detail :blog="blog" />
+            </v-container>
+            <br>
+            <v-divider />
+          </div>
           <v-card-actions>
             <v-btn class="pointer-events-none" text x-small color="primary">
               <v-icon>mdi-message-reply-text</v-icon>
@@ -97,8 +106,10 @@
 
 <script>
 import { doc, updateDoc } from '@firebase/firestore'
+import SelectTagsForCardDetail from '~/components/SelectTagsForCardDetail.vue'
 // import UserAvatar from './UserAvatar.vue'
 export default {
+  components: { SelectTagsForCardDetail },
   // components: { UserAvatar },
   // props: {
   //   blog: { type: Object, default: null }

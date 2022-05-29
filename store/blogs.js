@@ -120,6 +120,23 @@ export const actions = {
     updateDoc(docRef, {
       bestAnswer: ''
     })
+  },
+  addTagIds (_, { blogId, tagIdsArray }) {
+    const docRef = doc(this.$db, 'blogs', blogId)
+    updateDoc(docRef, {
+      tagIds: tagIdsArray
+    // getDoc(docRef).then((doc) => {
+    //   const data = doc.data().tagIds || []
+    //   data.push({
+    //     comment_id: commentObj.comment_id,
+    //     comment_user_id: commentObj.comment_user_id,
+    //     user_id: userId,
+    //     created_at: newDate
+    //   })
+    //   // console.log('data:', data)
+    //   updateDoc(docRef, { goodReplys: data })
+    // })
+    })
   }
 }
 

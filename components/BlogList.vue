@@ -154,58 +154,6 @@ export default {
     clickCallback (pageNum) {
       this.currentPage = Number(pageNum)
     },
-    // search () {
-    //   const searchText = this.searchingItems
-    //   const searchKeys = ['comments', 'content', 'created_at', 'title', 'latestDisplayName', 'latestCommentDisplayNameArray']
-    //   if (!this.searchedBlogs.length && !this.searchingItems && !this.searchedItems) {
-    //     console.log('11')
-    //     const searchedArray = search(this.blogs, searchKeys, searchText)
-    //     this.$store.dispatch('search/changeSearchedItems', searchText)
-    //     this.$store.dispatch('search/changeSearchedBlogs', searchedArray)
-    //   }
-    //   if (this.searchedBlogs.length && this.searchingItems && this.searchedItems) {
-    //     console.log('22')
-    //     const searchedArray = search(this.searchedBlogs, searchKeys, searchText)
-    //     this.$store.dispatch('search/changeSearchedItems', searchText)
-    //     this.$store.dispatch('search/changeSearchedBlogs', searchedArray)
-    //   }
-    //   if (!this.searchedBlogs.length && this.searchingItems && this.searchedItems) {
-    //     console.log('33')
-    //     const searchedArray = search(this.blogs, searchKeys, searchText)
-    //     this.$store.dispatch('search/changeSearchedItems', searchText)
-    //     this.$store.dispatch('search/changeSearchedBlogs', searchedArray)
-    //   }
-    //   if (this.searchedBlogs.length && !this.searchingItems && !this.searchedItems) {
-    //     console.log('44')
-    //     const searchedArray = search(this.searchedBlogs, searchKeys, searchText)
-    //     this.$store.dispatch('search/changeSearchedItems', searchText)
-    //     this.$store.dispatch('search/changeSearchedBlogs', searchedArray)
-    //   }
-    //   if (this.searchedBlogs.length && this.searchingItems && !this.searchedItems) {
-    //     console.log('55')
-    //     const searchedArray = search(this.searchedBlogs, searchKeys, searchText)
-    //     this.$store.dispatch('search/changeSearchedItems', searchText)
-    //     this.$store.dispatch('search/changeSearchedBlogs', searchedArray)
-    //   }
-    //   if (this.searchedBlogs.length && !this.searchingItems && this.searchedItems) {
-    //     console.log('66')
-    //     const searchedArray = search(this.searchedBlogs, searchKeys, searchText)
-    //     this.$store.dispatch('search/changeSearchedItems', searchText)
-    //     this.$store.dispatch('search/changeSearchedBlogs', searchedArray)
-    //   }
-    //   if (!this.searchedBlogs.length && !this.searchingItems && this.searchedItems) {
-    //     console.log('77')
-    //     const searchedArray = search(this.blogs, searchKeys, searchText)
-    //     this.$store.dispatch('search/changeSearchedItems', searchText)
-    //     this.$store.dispatch('search/changeSearchedBlogs', searchedArray)
-    //   }
-    //   if (!this.searchedBlogs.length && this.searchingItems && !this.searchedItems) {
-    //     console.log('88')
-    //     const searchedArray = search(this.blogs, searchKeys, searchText)
-    //     this.$store.dispatch('search/changeSearchedItems', searchText)
-    //     this.$store.dispatch('search/changeSearchedBlogs', searchedArray)
-    //   }
-    // },
     formSearch () {
       if (this.selectingBtn === 'newArrivalOrder' || null) {
         this.newArrivalOrder()

@@ -11,6 +11,7 @@
         </v-btn>
       </div>
       <user-avatar :id="blog.user_id" :name="blogCardAvatarName.toString()" />
+      <render-tags :blog="blog" />
       <div class="text-h5">
         {{ blog.title }}
       </div>
@@ -31,8 +32,9 @@
 <script>
 import { doc, updateDoc } from '@firebase/firestore'
 import UserAvatar from './UserAvatar.vue'
+import RenderTags from './RenderTags.vue'
 export default {
-  components: { UserAvatar },
+  components: { UserAvatar, RenderTags },
   props: {
     blog: { type: Object, default: null },
     index: { type: null, default: null }
@@ -67,7 +69,6 @@ export default {
     }
   },
   mounted () {
-    // this.$store.dispatch('blogs/init')
   },
   methods: {
     isBestAnswerAtTitle () {
@@ -77,6 +78,16 @@ export default {
         return false
       }
     },
+    addViewCount () {
+      const docRef = doc(this.$db, 'blogs', this.blog.id)
+      // console.log('docRef:', docRef)
+      updateDoc(docRef, { viewCount: this.blog.viewCount + 1 })
+    }
+    // getTagName (tagId) {
+    //   return this.tags.filter((tag) => {
+    //     return tag.id === tagId
+    //   })[0].tagName
+    // }
     // remove () {
     //   if (confirm('Are you sure?')) {
     //     this.$store.dispatch('blogs/remove', this.blog.id)
@@ -125,11 +136,6 @@ export default {
     // close () {
     //   this.open = false
     // },
-    addViewCount () {
-      const docRef = doc(this.$db, 'blogs', this.blog.id)
-      // console.log('docRef:', docRef)
-      updateDoc(docRef, { viewCount: this.blog.viewCount + 1 })
-    }
     // stateUserId (comment) {
     //   if (this.$store.getters.isAuthenticated && this.$store.state.user.uid === comment.comment_user_id) {
     //     // console.log('this.$store.state.user.uid:', this.$store.state.user.uid)
