@@ -66,7 +66,6 @@ export default {
       }
     },
     addBlogTagIds () {
-      console.log('this.receivedTagIdArray', this.receivedTagIdArray)
       this.$store.dispatch('blogs/addTagIds', { blogId: this.blog.id, tagIdsArray: this.receivedTagIdArray })
     }
   }
