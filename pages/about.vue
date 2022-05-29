@@ -2,7 +2,7 @@
   <v-container>
     <v-row dense>
       <v-col cols="12">
-        <v-card color="blue darken-3" dark>
+        <v-card color="blue" dark>
           <v-card-title class="text-h5">
             DTM QAとは
           </v-card-title>
@@ -29,7 +29,7 @@
         </v-card>
       </v-col>
       <v-col cols="12">
-        <v-card color="blue darken-3" dark>
+        <v-card color="blue" dark>
           <v-card-title class="text-h5">
             運営からのお知らせ
           </v-card-title>

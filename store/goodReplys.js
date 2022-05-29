@@ -13,7 +13,6 @@ export const state = () => ({
 export const mutations = {
   setGoodReplys (state, data) {
     state.goodReplys = []
-    // console.log('data:', data)
     for (let i = 0; i < data.length; i++) {
       for (let t = 0; t < data[i].length; t++) {
         state.goodReplys.push(data[i][t])
@@ -21,19 +20,10 @@ export const mutations = {
     }
   },
   setGoodReplysRankingArraysAll (state, data) {
-    // console.log('data:', data)
     state.goodReplysRankingArraysAll = data
-    // state.goodReplysRankingArraysAll.splice(0, state.goodReplysRankingArraysAll.length)
-    // for (let i = 0; i < data.length; i++) {
-    //   state.goodReplysRankingArraysAll.push(data[i])
-    // }
   },
   setGoodReplysCountsArraysAll (state, data) {
     state.goodReplysCountsArraysAll = data
-    // state.goodReplysCountsArraysAll.splice(0, state.goodReplysCountsArraysAll.length)
-    // for (let i = 0; i < data.length; i++) {
-    //   state.goodReplysCountsArraysAll.push(data[i])
-    // }
   },
   setGoodReplysRankingArraysMonth (state, data) {
     state.goodReplysRankingArraysMonth = data
@@ -55,9 +45,7 @@ export const actions = {
     const q = query(collectionRef, orderBy('created_at', 'desc'))
     onSnapshot(q, (querySnapshot) => {
       commit('setGoodReplys', querySnapshot.docs.map((doc) => {
-        // console.log('doc.data():', doc.data())
         const goodReplysArray = doc.data().goodReplys
-        // console.log('goodReplysArray:', goodReplysArray)
         return goodReplysArray
       }))
     })

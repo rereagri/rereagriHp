@@ -19,16 +19,12 @@ export const actions = {
           const q = query(collectionRef, orderBy('created_at', 'desc'))
           const avatars = await this.state.avatars.avatars
           const tags = await this.state.tags.tags
-          // console.log('avatars:', avatars)
           onSnapshot(q, (querySnapshot) => {
             commit('setBlogs', querySnapshot.docs.map((doc) => {
-              // console.log('doc.data()', doc.data())
               const avatar = avatars.filter((avatar) => {
                 return avatar.user_id === doc.data().user_id
               })
-              // console.log('avatar:', avatar)
               const displayName = avatar[0].displayName
-              // console.log('displayName:', displayName)
               const commentDisplayNameArray = []
               if (doc.data().comments) {
                 for (let i = 0; i < doc.data().comments.length; i++) {
@@ -36,11 +32,9 @@ export const actions = {
                     return avatar.user_id === doc.data().comments[i].comment_user_id
                   })
                   const commentDisplayName = commentAvatar[0].displayName
-                  // console.log('commentDisplayName:', commentDisplayName)
                   commentDisplayNameArray.push(commentDisplayName)
                 }
               }
-              // console.log('commentDisplayNameArray:', commentDisplayNameArray)
               const blogTagIdsArray = doc.data().tagIds
               const tagNameArray = []
               if (blogTagIdsArray) {
@@ -48,11 +42,9 @@ export const actions = {
                   const matchedTag = tags.filter((tag) => {
                     return tag.id === blogTagIdsArray[i]
                   })
-                  // console.log('matchedTag[0].tagName:', matchedTag[0].tagName)
                   tagNameArray.push(matchedTag[0].tagName)
                 }
               }
-              // console.log('tagNameArray:', tagNameArray)
               return { ...doc.data(), id: doc.id, latestDisplayName: displayName, latestCommentDisplayNameArray: commentDisplayNameArray, latestTagNameArray: tagNameArray }
             }))
           })
@@ -79,7 +71,6 @@ export const actions = {
   },
   addGoodReply (_, { blogId, commentObj, userId }) {
     const docRef = doc(this.$db, 'blogs', blogId)
-    // const newDate = format(new Date(), 'yyyy-MM-dd HH:mm')
     const newDate = new Date()
     getDoc(docRef).then((doc) => {
       const data = doc.data().goodReplys || []
@@ -89,7 +80,6 @@ export const actions = {
         user_id: userId,
         created_at: newDate
       })
-      // console.log('data:', data)
       updateDoc(docRef, { goodReplys: data })
     })
   },
@@ -98,26 +88,12 @@ export const actions = {
     getDoc(docRef).then((doc) => {
       const goodReplys = doc.data().goodReplys || []
       const deleteGoodReply = goodReplys.filter((goodReply) => {
-        // console.log('goodReply:', goodReply)
         return goodReply.comment_id === commentObj.comment_id && goodReply.user_id === userId
       })
-      // console.log('deleteGoodReply[0]:', deleteGoodReply[0])
       updateDoc(docRef, {
         goodReplys: arrayRemove(deleteGoodReply[0])
       })
     })
-    // console.log('docRef:', docRef)
-    // console.log('commentRef:', commentRef)
-    // console.log('userId', userId)
-    // const deleteData = {
-    //   comment_id: commentObj.comment_id,
-    //   comment_user_id: commentObj.comment_user_id,
-    //   user_id: userId
-    // }
-    // // console.log('deleteData:', deleteData)
-    // updateDoc(docRef, {
-    //   goodReplys: arrayRemove(deleteData)
-    // })
   },
   beBestAnswer (_, { blogId, commentObj, userId }) {
     const docRef = doc(this.$db, 'blogs', blogId)
@@ -138,45 +114,6 @@ export const actions = {
     const docRef = doc(this.$db, 'blogs', blogId)
     updateDoc(docRef, {
       tagIds: tagIdsArray
-    // getDoc(docRef).then((doc) => {
-    //   const data = doc.data().tagIds || []
-    //   data.push({
-    //     comment_id: commentObj.comment_id,
-    //     comment_user_id: commentObj.comment_user_id,
-    //     user_id: userId,
-    //     created_at: newDate
-    //   })
-    //   // console.log('data:', data)
-    //   updateDoc(docRef, { goodReplys: data })
-    // })
     })
   }
 }
-
-// updateDoc(commentRef, {
-//   comment_good_reply: arrayUnion(userId)
-// })
-// updateDoc(documentRef, {
-//   comments: { 0: { comment_good_reply_user_id: arrayUnion(userId) } }
-// })
-// updateDoc(docRef, {
-//   [`comments[${commentsIndex}]`]: arrayUnion(userId)
-// })
-// updateDoc(doc(this.$db, 'blogs', blogId, 'comments', indexStr), {
-//   comment_good_reply: arrayUnion(userId)
-// })
-// updateDoc(documentRef, {
-//   [`comments[${indexStr}].comment_good_reply`]: arrayUnion(userId)
-// })
-// updateDoc(documentRef, {
-//   [`comments.${commentsIndex}`]: { comment_good_reply: arrayUnion(userId) }
-// })
-// getDoc(docRef).then((doc) => {
-//   const data = doc.data().comments[`${commentsIndex}`].comment_good_reply || []
-//   console.log('data:', data)
-//   data.push({
-//     user_id: userId
-//   })
-//   console.log('data2:', data)
-//   updateDoc(docRef, { comments: data })
-// })

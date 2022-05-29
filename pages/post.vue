@@ -16,51 +16,9 @@
               <quill-editor v-model="content" rows="10" />
             </v-form>
           </v-card-text>
-          <!-- <v-card-text>
-            <div>タグの選択</div>
-            <div>{{ tags }}</div>
-            <v-btn
-              v-for="tag in tags"
-              :key="tag.id"
-              rounded
-              outlined
-              small
-              color="warning"
-              class="mr-2"
-              @click="selectTag(tag)"
-            >
-              <div>
-                {{ tag.tagName }}
-              </div>
-            </v-btn>
-          </v-card-text>
-          <v-card-text>
-            <div>登録するタグ</div>
-            <v-btn
-              v-for="Tag in selectedTagsArray"
-              :key="Tag.id"
-              rounded
-              outlined
-              small
-              color="warning"
-              class="mr-2"
-              @click="notSelectTag(Tag)"
-            >
-              <div>
-                {{ Tag.tagName }}
-              </div>
-              <v-icon
-                right
-                dark
-              >
-                mdi-close-circle
-              </v-icon>
-            </v-btn>
-          </v-card-text> -->
           <br>
           <v-container>
             <select-tags @catchTag="receiveTag" />
-            <!-- {{ receivedTagIdArray }} -->
           </v-container>
           <br>
           <v-card-actions>
@@ -111,12 +69,6 @@ export default {
       this.$store.dispatch('blogs/add', blog)
         .then(() => this.$router.push('/'))
     },
-    // selectTag (tag) {
-    //   this.selectedTagsArray.push(tag)
-    // },
-    // notSelectTag (selectedTag) {
-    //   this.selectedTagsArray.splice(selectedTag)
-    // },
     receiveTag (tagId) {
       if (this.receivedTagIdArray.length) {
         const result = this.receivedTagIdArray.includes(tagId)

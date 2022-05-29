@@ -27,7 +27,6 @@
           未回答
         </v-btn>
       </v-btn-toggle>
-      <!-- {{ selectingBtnToggleIndex }} -->
     </v-container>
     <v-container v-if="searchedBlogs !== ''">
       <div>

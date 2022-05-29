@@ -45,9 +45,6 @@ export default {
   mounted () {
   },
   methods: {
-    // toUserPage () {
-    //   this.$router.push({ path: '/user_page', query: { userId: this.id, userName: this.name } })
-    // }
   }
 }
 </script>

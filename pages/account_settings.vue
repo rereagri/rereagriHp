@@ -44,12 +44,8 @@
             <v-toolbar-title class="mx-auto">メールアドレスの設定</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
-            <!-- <div>emailは変更できません</div> -->
-            <!-- <div>メールアドレスを変更した場合、変更後の新しいメールアドレスに「メールアドレスの確認」のメールが送付されます。変更前の古いメールアドレスにはメールアドレスが変更されたことのお知らせメールが送付されます。</div> -->
-            <!-- <br> -->
             <v-text-field v-model="email" type="email" label="新しいE-mail" :rules="rules.email" />
             <v-text-field v-model="password" type="password" label="現在のPassword" :rules="rules.password" />
-            <!-- <v-text-field v-model="confirmPassword" type="password" label="Confirm Password" :rules="rules.confirmPassword" /> -->
             <br>
             <v-row justify="center">
               <v-btn large color="secondary" @click="updateEmail">
@@ -145,7 +141,6 @@ export default {
       const result = this.avatars.filter((avatar) => {
         return avatar.user_id === this.$store.state.user.uid
       })
-      // console.log('loginUserAvatar:', result)
       return result
     }
   },
@@ -180,99 +175,6 @@ export default {
         this.$store.dispatch('avatars/updateContent', { avatarId: this.loginUserAvatar[0].id, avatarContent: this.content }).then()
       }
     }
-    // register () {
-    //   console.log(this.$store.state.unsubscribe())
-    // if (this.$refs.form.validate()) {
-    //   //
-    //   this.$store.dispatch('signUp', {
-    //     email: this.email,
-    //     password: this.password,
-    //     name: this.userName
-    //   }).then(() => this.$router.push('/'))
-    //     .catch(err => (this.message = err.message))
-    // }
-    // }
-    // selectAvatarImage (e) {
-    // // 選択した画像ファイルを取得
-    //   const file = e
-    //   // refの中身が保存する場所のpathになる
-    //   console.log(file)
-    //   // const storageRef = firebase.storage().ref(file.name)
-    //   // console.log(storageRef)
-    //   // storageRef.put(file)
-    //   const storage = getStorage()
-    //   const storageRef = ref(storage, file.name)
-    //   console.log('storageRef:', storageRef)
-    //   uploadBytes(storageRef, file).then((snapshot) => {
-    //     console.log('Uploaded a file for storage!')
-    //   })
-    //   const storagelocation = 'gs://' + storageRef._location.bucket + '/' + storageRef._location.path_
-    //   console.log('storageLocation:', storagelocation)
-    //   this.getAvatarURL(storagelocation)
-    //   // this.$store.dispatch('updatePhotoUrl', {
-    //   //   url: storageUrl
-    //   // }).then().catch(err => (this.message = err.message))
-    // },
-    // getAvatarURL (storagelocation) {
-    //   const storage = getStorage()
-    //   // const storageLocation = 'gs://nuxt-blog-3064a.appspot.com/onepiece08_franky.png'
-    //   const storageLocation = storagelocation
-    //   const gsReference = ref(storage, storageLocation)
-    //   getDownloadURL(gsReference)
-    //     .then((url) => {
-    //       console.log('storageUrl:', url)
-    //       this.$store.dispatch('updatePhotoURL', {
-    //         storageURL: url
-    //       }).then().catch()
-    //     })
-    // },
-    // postAvatar (e) {
-    //   // storage firestore それぞれから今までのデータを削除
-    //   // if (this.loginUserAvatar.length) {
-    //   //   this.deleteAvatar()
-    //   // }
-    //   // this.deleteAvatar()
-    //   // storage 選択イメージファイルをstorageに保存
-    //   const file = e
-    //   console.log('file:', file)
-    //   const fileName = this.$store.state.user.uid + '_' + file.name
-    //   const storage = getStorage()
-    //   const storageRef = ref(storage, fileName)
-    //   console.log('storageRef:', storageRef)
-    //   uploadBytes(storageRef, file).then((snapshot) => {
-    //     console.log('Uploaded a file for storage!')
-    //   })
-    //   // firestore 選択イメージファイルのファイルネーム等をavatarsに保存
-    //   const storagelocation = 'gs://' + storageRef._location.bucket + '/' + storageRef._location.path_
-    //   const avatar = {
-    //     created_at: serverTimestamp(),
-    //     user_id: this.$store.state.user.uid,
-    //     file_name: fileName,
-    //     storage_location: storagelocation
-    //   }
-    //   this.$store.dispatch('avatars/add', avatar).then()
-    // },
-    // deleteAvatar () {
-    //   // firestore 現在のイメージファイルネームを取得
-    //   // const avatars = this.$store.state.avatars.avatars
-    //   // const loginUserAvatar = avatars.filter((avatar) => {
-    //   //   return avatar.user_id === this.$store.state.user.uid
-    //   // })
-    //   const loginUserAvatarImageFileName = this.loginUserAvatar[0].file_name
-    //   console.log('loginUserAvatar:', this.loginUserAvatar)
-    //   console.log('loginUserAvatarImageFileName:', loginUserAvatarImageFileName)
-    //   // storage storageからの削除
-    //   // if (this.loginUserAvatar.length) {
-    //   const storage = getStorage()
-    //   const desertRef = ref(storage, loginUserAvatarImageFileName)
-    //   deleteObject(desertRef).then(() => {
-    //   }).catch((error) => {
-    //     console.log(error)
-    //   })
-    //   // firestore avatarsからの削除
-    //   this.$store.dispatch('avatars/remove', this.loginUserAvatar[0].id)
-    //   // }
-    // },
   }
 }
 </script>

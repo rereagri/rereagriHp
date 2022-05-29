@@ -4,7 +4,6 @@
       <v-card-text class="pb-1">
         <div class="d-inline-block">
           <span>{{ created_datetime }} </span>
-          <!-- <span class="pl-5 font-weight-bold">{{ blog.user_name }}</span> -->
           <span v-if="blog" class="px-2 font-weight-bold">{{ blogCardAvatarName }}</span>
           <v-btn v-if="blog && isBestAnswerAtTitle()" small color="success" class="pointer-events-none mr-2">
             <div>
@@ -25,9 +24,7 @@
             <v-card v-for="(comment, index) in blog.comments" :key="index" class="my-2">
               <v-card-text class="pb-1">
                 <div class="d-inline-block">
-                  <!-- <span>{{ comment.comment_created_at }} </span> -->
                   <span>{{ $dateFns.format(comment.comment_created_at.toDate(), 'yyyy-MM-dd HH:mm') }}</span>
-                  <!-- <span class="pl-5 font-weight-bold">{{ comment.comment_user_name }}</span> -->
                   <span v-if="blog && avatars" class="px-2 font-weight-bold">{{ commentCardAvatarName(comment) }}</span>
                 </div>
                 <user-avatar v-if="blog && avatars" :id="comment.comment_user_id" :name="commentCardAvatarName(comment).toString()" />
@@ -107,13 +104,8 @@
 <script>
 import { doc, updateDoc } from '@firebase/firestore'
 import SelectTagsForCardDetail from '~/components/SelectTagsForCardDetail.vue'
-// import UserAvatar from './UserAvatar.vue'
 export default {
   components: { SelectTagsForCardDetail },
-  // components: { UserAvatar },
-  // props: {
-  //   blog: { type: Object, default: null }
-  // },
   data () {
     return {
       open: false,
@@ -126,14 +118,10 @@ export default {
       return this.$store.state.blogs.blogs
     },
     blog () {
-      // const index = this.$route.query.index
-      // return this.blogs[index]
       const blogid = this.$route.query.blogid
       const blog = this.blogs.filter((blog) => {
-        // console.log('filter blog', blog)
         return blog.id === blogid
       })
-      // console.log('blog:', blog)
       return blog[0]
     },
     avatars () {
@@ -143,19 +131,12 @@ export default {
       const avatar = this.avatars.filter((avatar) => {
         return avatar.user_id === this.blog.user_id
       })
-      // console.log('avatar', avatar)
       if (avatar.length === 0) {
         return 0
       } else {
         return avatar[0].displayName
       }
     },
-    // commentCardAvatarName ({ comment }) {
-    //   const avatar = this.avatars.filter((avatar) => {
-    //     return avatar.user_id === comment.comment_user_id
-    //   })
-    //   return avatar[0].displayName
-    // },
     created_datetime: ({ $dateFns, blog }) => {
       if (blog && blog.created_at) {
         return $dateFns.format(blog.created_at.toDate(), 'yyyy-MM-dd HH:mm')
@@ -173,62 +154,33 @@ export default {
   mounted () {
     this.$store.dispatch('blogs/init')
     this.blogId = this.$route.query.blogid
-    // this.index = this.$route.query.index
   },
   methods: {
     remove () {
       if (confirm('Are you sure?')) {
         this.$store.dispatch('blogs/remove', this.blog.id)
       }
-      // this.$store.dispatch('blogs/init')
       this.$router.push('/')
     },
     removeComment (comment, index) {
       if (confirm('Are you sure?')) {
-        // console.log('commentsIndex:', index)
-        // console.log('comment:', comment)
-        // console.log('this.blog.id:', this.blog.id)
         this.$store.dispatch('blogs/removeComment', { blogId: this.blog.id, commentObj: comment, commentsIndex: index })
       }
     },
     addComment () {
       this.$router.push({ path: '/comment', query: { blogid: this.blog.id } })
     },
-    // toggle () {
-    //   const open = this.open
-    //   if (!open) {
-    //     this.addViewCount()
-    //     this.$emit('close')
-    //   }
-    //   this.open = !open
-    // },
     goodToggle (comment) {
       if (this.$store.getters.isAuthenticated) {
         const goodReplyArray = this.blog.goodReplys
         const loginUserId = this.$store.state.user.uid
         const commentId = comment.comment_id
-        // console.log('goodReplyArray:', goodReplyArray)
-        // console.log('loginUserId:', loginUserId)
-        // console.log('commentId:', commentId)
         const isGoodUser = goodReplyArray.filter(function (goodReply) {
           return goodReply.user_id === loginUserId && goodReply.comment_id === commentId
         })
-        // console.log('isGoodUser:', isGoodUser)
         if (isGoodUser.length) {
-          // console.log('true')
-          // console.log('this.blog:', this.blog)
-          // console.log('this.blog.goodReplys:', this.blog.goodReplys)
-          // console.log('this.blog.id:', this.blog.id)
-          // console.log('this.blogs:', this.blogs)
-          // console.log('this.blogId:', this.blogId)
           this.$store.dispatch('blogs/deleteGoodReply', { blogId: this.blog.id, commentObj: comment, userId: loginUserId })
         } else {
-          // console.log('false')
-          // console.log('this.blog:', this.blog)
-          // console.log('this.blog.goodReplys:', this.blog.goodReplys)
-          // console.log('this.blog.id:', this.blog.id)
-          // console.log('this.blogs:', this.blogs)
-          // console.log('this.blogId:', this.blogId)
           this.$store.dispatch('blogs/addGoodReply', { blogId: this.blog.id, commentObj: comment, userId: loginUserId })
         }
       } else {
@@ -244,7 +196,6 @@ export default {
       this.$store.dispatch('blogs/deleteBestAnswer', { blogId: this.blog.id, commentObj: comment, userId: loginUserId })
     },
     isBestAnswerAtTitle () {
-      // console.log('this.blog', this.blog)
       if (this.blog.bestAnswer.comment_id) {
         return true
       } else {
@@ -263,12 +214,10 @@ export default {
     },
     addViewCount () {
       const docRef = doc(this.$db, 'blogs', this.blog.id)
-      // console.log('docRef:', docRef)
       updateDoc(docRef, { viewCount: this.blog.viewCount + 1 })
     },
     isCommentUserId (comment) {
       if (this.$store.getters.isAuthenticated && this.$store.state.user.uid === comment.comment_user_id) {
-        // console.log('this.$store.state.user.uid:', this.$store.state.user.uid)
         return true
       }
     },
@@ -277,13 +226,9 @@ export default {
         const goodReplyArray = this.blog.goodReplys
         const loginUserId = this.$store.state.user.uid
         const commentId = comment.comment_id
-        // console.log('goodReplyArray:', goodReplyArray)
-        // console.log('loginUserId:', loginUserId)
-        // console.log('commentId:', commentId)
         const isGoodUser = goodReplyArray.filter(function (goodReply) {
           return goodReply.user_id === loginUserId && goodReply.comment_id === commentId
         })
-        // console.log('isGoodUser:', isGoodUser)
         if (isGoodUser.length) {
           return true
         } else {
@@ -313,36 +258,16 @@ export default {
       const avatar = this.avatars.filter((avatar) => {
         return avatar.user_id === comment.comment_user_id
       })
-      // console.log('avatar', avatar)
       if (avatar.length === 0) {
         return 0
       } else {
         return avatar[0].displayName
       }
     },
-    // commentCardAvatarName2 (comment) {
-    //   // console.log('comment.comment_user_id:', comment.comment_user_id)
-    //   // const result = this.avatars.filter((avatar) => {
-    //   //   return avatar.user_id === comment.comment_user_id
-    //   // })
-    //   // console.log('result:', result)
-    //   // return result[0].displayName
-    //   const avatar = this.avatars.filter((avatar) => {
-    //     return avatar.user_id === comment.comment_user_id
-    //   })
-    //   // console.log('avatar', avatar)
-    //   if (avatar.length === 0) {
-    //     return 0
-    //   } else {
-    //     return avatar[0].displayName
-    //   }
-    // },
     isCommentMine (comment) {
       if (this.blog.user_id === comment.comment_user_id) {
         return true
       }
-      // return $store.getters.isAuthenticated &&
-      //   $store.state.user.uid === comment.user_id
     }
   }
 }

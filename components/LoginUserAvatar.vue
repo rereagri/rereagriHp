@@ -26,11 +26,9 @@ export default {
       const result = this.avatars.filter((avatar) => {
         return avatar.user_id === this.$store.state.user.uid
       })
-      // console.log('loginUserAvatar:', result)
       return result
     },
     photoURL () {
-      // const url = this.loginUserAvatar[0].photoURL
       if (this.loginUserAvatar.length === 0 || this.loginUserAvatar[0].photoURL === null || this.loginUserAvatar[0].photoURL === '') {
         return 'null'
       } else {

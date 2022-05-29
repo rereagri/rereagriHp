@@ -5,11 +5,11 @@
         DTM QA
       </v-toolbar-title>
       <v-spacer />
-      <v-btn v-if="!$store.getters.isAuthenticated" icon :to="'/login'">
+      <!-- <v-btn v-if="!$store.getters.isAuthenticated" icon :to="'/login'">
         <v-icon>
           mdi-account-circle
         </v-icon>
-      </v-btn>
+      </v-btn> -->
       <div v-if="$store.getters.isAuthenticated">
         <v-btn text class="px-1 pointer-events-none">
           {{ loginUserName }}
@@ -70,14 +70,14 @@
                 <v-list-item-title>ログアウト</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item @click="test">
+            <!-- <v-list-item @click="test">
               <v-list-item-icon>
                 <v-icon>mdi-logout</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
                 <v-list-item-title>各種テスト</v-list-item-title>
               </v-list-item-content>
-            </v-list-item>
+            </v-list-item> -->
           </v-list>
         </v-navigation-drawer>
       </div>
@@ -129,14 +129,14 @@
                 <v-list-item-title>ログイン</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item @click="test">
+            <!-- <v-list-item @click="test">
               <v-list-item-icon>
                 <v-icon>mdi-logout</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
                 <v-list-item-title>各種テスト</v-list-item-title>
               </v-list-item-content>
-            </v-list-item>
+            </v-list-item> -->
           </v-list>
         </v-navigation-drawer>
       </div>
@@ -180,15 +180,14 @@ export default {
       const result = this.avatars.filter((avatar) => {
         return avatar.user_id === this.$store.state.user.uid
       })
-      // console.log('loginUserAvatar:', result)
       return result
     }
   },
   mounted () {
+    this.$store.dispatch('blogs/init')
     this.$store.dispatch('avatars/init')
+    this.$store.dispatch('goodReplys/init')
     this.$store.dispatch('tags/init')
-    // this.$store.dispatch('blogs/init')
-    // this.$store.dispatch('goodReplys/init')
     // this.$store.dispatch('goodReplys/rankingAll')
     // this.$store.dispatch('goodReplys/rankingMonth')
     // this.$store.dispatch('goodReplys/rankingWeek')
@@ -215,79 +214,8 @@ export default {
     },
     test () {
       console.log('test')
-      this.$store.dispatch('blogs/init')
-      // const selectedBtnToggleIndex = this.$store.state.search.selectedBtnToggleIndex
-      // console.log('selectedBtnToggleIndex:', selectedBtnToggleIndex)
-      // this.$store.dispatch('tags/init')
-      // const tags = this.$store.state.tags.tags
-      // console.log('tags:', tags[1].id)
-      // console.log(this.$store.state.search.searchedItems.length)
-      const blogs = this.$store.state.blogs.blogs
-      console.log('blogs:', blogs)
-      // const searchedBlogs = this.$store.state.search.searchedBlogs
-      // const searchedBlogsLength = this.$store.state.search.searchedBlogs.length
-      // const searchedItems = this.$store.state.search.searchedItems
-      // console.log('searchedBlogs:', searchedBlogs)
-      // console.log('searchedBlogsLength:', searchedBlogsLength)
-      // console.log('searchedItems:', searchedItems)
-      // const selectedblog = blogs.filter((blog) => {
-      //   // console.log(blog)
-      //   return blog.user_id === this.$auth.currentUser.uid
-      // })
-      // console.log('selectedblog:', selectedblog)
-      // // const searchWord = "/shin/g"
-      // if (blogs.includes('the')) {
-      //   console.log('blogs.includes:', blogs.includes('shine'))
-      //   console.log('存在します')
-      // } else {
-      //   console.log('blogs.includes:', blogs.includes('shine'))
-      //   console.log('存在しません')
-      // }
-      // const check = blogs.filter(blog => blog.user_name_atthattime === 'Theリリ')
-      // console.log('check:', check)
-      // const check2 = blogs.filter(blog => blog.user_name_atthattime.match(/Shin/))
-      // console.log('check2:', check2)
-      // this.$store.dispatch('goodReplys/rankingAllReSet')
-      // this.$store.dispatch('goodReplys/rankingWeek')
-      // console.log('this.$auth.currentUser:', this.$auth.currentUser)
-      // console.log('this.loginUserAvatar[0]:', this.loginUserAvatar[0])
-      // console.log('this.$store.state.goodReplys:', this.$store.state.goodReplys)
-      // this.$store.dispatch('goodReplys/rankingAll')
-      // console.log('this.$store.state.goodReplys.goodReplysRankingArraysMonth:', this.$store.state.goodReplys.goodReplysRankingArraysMonth)
-      // console.log('this.$store.state.goodReplys.goodReplysCountsArraysAll:', this.$store.state.goodReplys.goodReplysCountsArraysAll)
-      // const loginUserPhotoURL = this.$store.state.user.photoURL
-      // const avatars = this.avatars
-      // const loginavatar = this.loginUserAvatar
-      // console.log('this.$auth.currentUser.uid:', this.$auth.currentUser.uid)
-      // console.log('this.$auth.currentUser.displayName:', this.$auth.currentUser.displayName)
-      // console.log('this.$auth.currentUser.password:', this.$auth.currentUser.password)
-      // console.log('this.$store.state.user.password:', this.$store.state.user.password)
-      // console.log('this.$store.state.user.uid:', this.$store.state.user.uid)
-      // console.log('this.$store.state.user.displayName:', this.$store.state.user.displayName)
-      // console.log('loginUserPhotoURL:', loginUserPhotoURL)
-      // console.log('this.avatars', this.avatars)
-      // console.log('this.loginUserAvatar[0].id:', this.loginUserAvatar[0].id)
-      // console.log('this.loginUserAvatar[0].photoURL:', this.loginUserAvatar[0].photoURL)
-      // console.log('this.$auth:', this.$auth)
-      // console.log('avatars:', avatars)
-      // console.log('loginavatar:', loginavatar)
       // const blogs = this.$store.state.blogs.blogs
       // console.log('blogs:', blogs)
-      // const result = this.avatars.filter((avatar) => {
-      //   return avatar.user_id === this.$store.state.user.uid
-      // })
-      // console.log('result:', result)
-      // const storage = getStorage()
-      // const storageLocation = avatar[0].storage_location
-      // console.log('storageLocation:', storageLocation)
-      // const gsReference = ref(storage, storageLocation)
-      // getDownloadURL(gsReference)
-      //   .then((url) => {
-      //     console.log('test2 url:', url)
-      //     console.log('$store.state.user:', this.$store.state.user)
-      //     return url
-      //   })
-      // this.getLoginUserAvatarImage()
     }
   }
 }

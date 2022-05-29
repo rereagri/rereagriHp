@@ -14,8 +14,6 @@
             <v-form>
               <v-text-field v-model="blog.title" disabled label="Blog Title" />
               <v-text-field v-model="blogCardAvatarName" disabled label="Author" />
-              <!-- <v-textarea v-model="comment" rows="6" outlined autofocus label="Your Comment" /> -->
-              <!-- <quill-editor v-model="editor" /> -->
               <quill-editor v-model="comment" />
             </v-form>
           </v-card-text>
@@ -33,17 +31,12 @@
 
 <script>
 import { doc, getDoc, updateDoc } from '@firebase/firestore'
-// import { format } from 'date-fns'
 export default {
   name: 'CommentPage',
   data () {
     return {
       blogid: '',
-      // blog: {},
       comment: ''
-      // editorOption: {
-      //   theme: 'bubble'
-      // }
     }
   },
   computed: {
@@ -51,8 +44,6 @@ export default {
       return this.$store.state.blogs.blogs
     },
     blog () {
-      // const index = this.$route.query.index
-      // return this.blogs[index]
       const blogid = this.$route.query.blogid
       const blog = this.blogs.filter((blog) => {
         return blog.id === blogid
@@ -69,27 +60,19 @@ export default {
       return result
     },
     blogCardAvatarName () {
-      // console.log('this.blogCardAvatar:', this.blogCardAvatar)
       return this.blogCardAvatar[0].displayName
     }
   },
   mounted () {
     this.$store.dispatch('blogs/init')
     this.blogid = this.$route.query.blogid
-    // this.index = this.$route.query.index
-    // const docRef = doc(this.$db, 'blogs', this.blogId)
-    // getDoc(docRef).then((doc) => {
-    //   this.blog = doc.data()
-    // })
   },
   methods: {
     postComment () {
       const docRef = doc(this.$db, 'blogs', this.blogid)
-      // const newDate = format(new Date(), 'yyyy-MM-dd HH:mm')
       const newDate = new Date()
       getDoc(docRef).then((doc) => {
         const data = doc.data().comments || []
-        // const serverTimestamp = serverTimestamp()
         const commentId = this.getRandomStrings()
         data.push({
           comment_id: commentId,
@@ -99,7 +82,6 @@ export default {
           comment_user_name_atthattime: this.$store.state.user.displayName
         })
         updateDoc(docRef, { comments: data })
-        // this.$router.push('/')
         this.$router.push({ path: 'question_card_detail', query: { blogid: this.blogid } })
       })
     },

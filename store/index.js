@@ -80,8 +80,6 @@ export const actions = {
   },
   updateDisplayName ({ commit }, { name }) {
     console.log('Authentication displayName update')
-    // console.log('name @index.js:', name)
-    // console.log('this.$auth.currentUser:', this.$auth.currentUser)
     return new Promise((resolve, reject) => {
       setTimeout(async () => {
         try {
@@ -96,8 +94,6 @@ export const actions = {
   },
   updatePhotoURL ({ commit }, { url }) {
     console.log('Authentication photoURL update')
-    // console.log('photoURL@index.js:', url)
-    // console.log('this.$auth.currentUser:', this.$auth.currentUser)
     return new Promise((resolve, reject) => {
       setTimeout(async () => {
         try {
@@ -138,7 +134,6 @@ export const actions = {
     })
   },
   updatePassword ({ commit }, { email }) {
-    // console.log('email @index.js:', email)
     const auth = getAuth()
     const actionCodeSettings = {
       url: 'http://' + window.location.host
@@ -152,51 +147,4 @@ export const actions = {
         console.log(errorCode, errorMessage)
       })
   }
-  // updatePhotoUrl2 ({ commit }, { strageUrl }) {
-  //   console.log('strageUrl@index:', strageUrl)
-  //   const auth = getAuth()
-  //   updateProfile(auth.currentUser, { photoUrl: strageUrl }).then(() => {
-  //   }).catch((error) => {
-  //     console.log(error)
-  //   })
-  //   commit('setUser', this.$auth.currentUser)
-  // },
-  // reauthenticationForUpdateEmail ({ commit }, { currentPassword, newEmail }) {
-  //   const auth = getAuth()
-  //   const user = auth.currentUser
-  //   // TODO(you): prompt the user to re-provide their sign-in credentials
-  //   // const credential = promptForCredentials()
-  //   const currentEmail = auth.currentUser.email
-  //   const credential = EmailAuthProvider.credential(
-  //     currentEmail,
-  //     currentPassword
-  //   )
-  //   reauthenticateWithCredential(user, credential).then(() => {
-  //     console.log('reauthentication success!')
-  //     this.dispatch('updateEmil', { email: newEmail })
-  //   }).catch((error) => {
-  //     console.log(error)
-  //     alert('エラー')
-  //   })
-  // },
-  // updateEmil ({ commit }, { email }) {
-  //   console.log('updateEmail', email)
-  //   const auth = getAuth()
-  //   updateEmail(auth.currentUser, email).then(() => {
-  //     this.dispatch('sendEmailVerification')
-  //   }).catch((error) => {
-  //     console.log(error)
-  //     alert('エラー')
-  //   })
-  // },
-  // sendEmailVerification ({ commit }) {
-  //   const auth = getAuth()
-  //   const actionCodeSettings = {
-  //     url: 'http://' + window.location.host
-  //   }
-  //   sendEmailVerification(auth.currentUser, actionCodeSettings)
-  //     .then(() => {
-  //       console.log('verification email sended!')
-  //     })
-  // }
 }

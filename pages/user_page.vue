@@ -65,7 +65,6 @@ export default {
       const avatar = this.avatars.filter((avatar) => {
         return avatar.user_id === this.userId
       })
-      // console.log('avatar', avatar)
       if (avatar.length === 0) {
         return 0
       } else {

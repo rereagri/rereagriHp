@@ -29,8 +29,6 @@
 export default {
   name: 'SelectTags',
   props: {
-    // id: { type: String },
-    // name: { type: String }
   },
   data () {
     return {
