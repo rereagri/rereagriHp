@@ -2,7 +2,7 @@
   <v-expansion-panels focusable>
     <v-expansion-panel>
       <v-expansion-panel-header color="orange" class="white--text">
-        タグの選択
+        タグの選択（５つまで）
       </v-expansion-panel-header>
       <v-expansion-panel-content>
         <v-chip-group

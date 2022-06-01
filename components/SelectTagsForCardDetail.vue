@@ -2,7 +2,7 @@
   <v-expansion-panels focusable>
     <v-expansion-panel>
       <v-expansion-panel-header color="orange" class="white--text">
-        タグの選択・変更
+        タグの選択・変更（５つまで）
       </v-expansion-panel-header>
       <v-expansion-panel-content>
         <v-chip-group
@@ -26,6 +26,10 @@
             post
           </v-btn>
         </v-row>
+        <!-- <div>
+          {{ receivedTagIdArray }}
+          {{ receivedTagIdArray.length }}
+        </div> -->
       </v-expansion-panel-content>
     </v-expansion-panel>
   </v-expansion-panels>
@@ -52,7 +56,9 @@ export default {
   },
   methods: {
     receiveTag (tagId) {
-      if (this.receivedTagIdArray.length) {
+      if (this.receivedTagIdArray.length === 0) {
+        this.receivedTagIdArray.push(tagId)
+      } else if (this.receivedTagIdArray.length < 5) {
         const result = this.receivedTagIdArray.includes(tagId)
         if (result) {
           this.receivedTagIdArray = this.receivedTagIdArray.filter((id) => {
@@ -61,8 +67,13 @@ export default {
         } else {
           this.receivedTagIdArray.push(tagId)
         }
-      } else {
-        this.receivedTagIdArray.push(tagId)
+      } else if (this.receivedTagIdArray.length === 5) {
+        const result = this.receivedTagIdArray.includes(tagId)
+        if (result) {
+          this.receivedTagIdArray = this.receivedTagIdArray.filter((id) => {
+            return id !== tagId
+          })
+        }
       }
     },
     addBlogTagIds () {

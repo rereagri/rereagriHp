@@ -212,6 +212,7 @@ export default {
         searchedArray.includes(item) && noSolvedBlogsArray.includes(item)
       )
       const newDuplicatedArray = [...new Set(duplicatedArray)]
+      // console.log('newDuplicatedArray:', newDuplicatedArray)
       this.$store.dispatch('search/changeSlectedBtn', pushudeBtn)
       this.$store.dispatch('search/changeSlectedBtnToggleIndex', '2')
       this.$store.dispatch('search/changeSearchedItems', searchText)
@@ -224,13 +225,14 @@ export default {
       const searchText = this.searchingItems
       const searchedArray = search(this.blogs, searchKeys, searchText)
       const notCommentsArray = this.blogs.filter((blog) => {
-        return !blog.comments
+        return !blog.comments || !blog.comments.length
       })
       const combineArray = [...searchedArray, ...notCommentsArray]
       const duplicatedArray = combineArray.filter(item =>
         searchedArray.includes(item) && notCommentsArray.includes(item)
       )
       const newDuplicatedArray = [...new Set(duplicatedArray)]
+      // console.log('newDuplicatedArray:', newDuplicatedArray)
       this.$store.dispatch('search/changeSlectedBtn', pushudeBtn)
       this.$store.dispatch('search/changeSlectedBtnToggleIndex', '3')
       this.$store.dispatch('search/changeSearchedItems', searchText)

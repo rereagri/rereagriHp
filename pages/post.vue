@@ -19,6 +19,10 @@
           <br>
           <v-container>
             <select-tags @catchTag="receiveTag" />
+            <!-- <div>
+              {{ receivedTagIdArray }}
+              {{ receivedTagIdArray.length }}
+            </div> -->
           </v-container>
           <br>
           <v-card-actions>
@@ -70,7 +74,9 @@ export default {
         .then(() => this.$router.push('/'))
     },
     receiveTag (tagId) {
-      if (this.receivedTagIdArray.length) {
+      if (this.receivedTagIdArray.length === 0) {
+        this.receivedTagIdArray.push(tagId)
+      } else if (this.receivedTagIdArray.length < 5) {
         const result = this.receivedTagIdArray.includes(tagId)
         if (result) {
           this.receivedTagIdArray = this.receivedTagIdArray.filter((id) => {
@@ -79,8 +85,13 @@ export default {
         } else {
           this.receivedTagIdArray.push(tagId)
         }
-      } else {
-        this.receivedTagIdArray.push(tagId)
+      } else if (this.receivedTagIdArray.length === 5) {
+        const result = this.receivedTagIdArray.includes(tagId)
+        if (result) {
+          this.receivedTagIdArray = this.receivedTagIdArray.filter((id) => {
+            return id !== tagId
+          })
+        }
       }
     }
   }
