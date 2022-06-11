@@ -5,7 +5,7 @@
         <v-text-field
           v-model="searchingItems"
           outlined
-          label="検索フォーム"
+          label="キーワードまたはタグ名で検索"
           append-icon="mdi-magnify"
           @input="formSearch"
           @click="formSearch"
@@ -38,7 +38,7 @@
         <question-card ref="card" :blog="blog" :index="index" @close="closeAll" />
       </v-list-item>
     </v-list>
-    <span v-else>No Blogs...</span>
+    <span v-else>投稿がありません...</span>
     <paginate
       :page-count="getPageCount"
       :page-range="3"

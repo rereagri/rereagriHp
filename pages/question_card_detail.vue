@@ -82,13 +82,13 @@
               <span v-if="blog">{{ blog.viewCount }}</span>
             </v-btn>
             <v-btn
-              icon
               small
-              color="success"
+              color="primary"
               class="ml-6"
               @click="addComment"
             >
-              <v-icon>mdi-comment-edit</v-icon>
+              <!-- <v-icon>mdi-comment-edit</v-icon> -->
+              回答する
             </v-btn>
             <v-spacer />
             <v-btn v-if="blog && isBlogMine" icon x-small color="secondary" @click="remove">

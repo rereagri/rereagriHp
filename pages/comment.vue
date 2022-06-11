@@ -4,7 +4,7 @@
       <v-col cols="12">
         <v-card>
           <v-toolbar dense dark color="secondary">
-            <v-toolbar-title>New Comment for ...</v-toolbar-title>
+            <v-toolbar-title>あなたの回答</v-toolbar-title>
             <v-spacer />
             <v-btn icon @click="$router.back()">
               <v-icon>mdi-close</v-icon>
@@ -12,15 +12,15 @@
           </v-toolbar>
           <v-card-text>
             <v-form>
-              <v-text-field v-model="blog.title" disabled label="Blog Title" />
-              <v-text-field v-model="blogCardAvatarName" disabled label="Author" />
+              <!-- <v-text-field v-model="blog.title" disabled label="Blog Title" />
+              <v-text-field v-model="blogCardAvatarName" disabled label="Author" /> -->
               <quill-editor v-model="comment" />
             </v-form>
           </v-card-text>
           <v-card-actions>
             <v-spacer />
             <v-btn large color="secondary" @click="postComment">
-              post
+              回答を投稿する
             </v-btn>
           </v-card-actions>
         </v-card>

@@ -5,7 +5,7 @@
         <br>
         <v-card>
           <v-toolbar dense dark color="secondary">
-            <v-toolbar-title class="mx-auto">YourName（ハンドルネーム）の設定</v-toolbar-title>
+            <v-toolbar-title class="mx-auto">ユーザー名の設定</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
             <v-form ref="form" lazy-validation>

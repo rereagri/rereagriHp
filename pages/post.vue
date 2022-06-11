@@ -4,7 +4,7 @@
       <v-col cols="12">
         <v-card>
           <v-toolbar dense dark color="secondary">
-            <v-toolbar-title>New Q&A</v-toolbar-title>
+            <v-toolbar-title>質問の投稿</v-toolbar-title>
             <v-spacer />
             <v-btn icon @click="$router.back()">
               <v-icon>mdi-close</v-icon>
@@ -12,7 +12,7 @@
           </v-toolbar>
           <v-card-text>
             <v-form>
-              <v-text-field v-model="title" label="Title" placeholder="タイトルには質問概要を10字以上で書いてください" />
+              <v-text-field v-model="title" label="タイトル" placeholder="タイトルには質問概要を10字以上で書いてください" />
               <quill-editor v-model="content" rows="10" />
             </v-form>
           </v-card-text>
@@ -28,7 +28,7 @@
           <v-card-actions>
             <v-spacer />
             <v-btn large color="secondary" @click="postBlog">
-              post
+              質問を投稿する
             </v-btn>
           </v-card-actions>
         </v-card>

@@ -4,7 +4,7 @@
       <v-col cols="12" sm="10">
         <v-card>
           <v-toolbar dense dark color="primary">
-            <v-toolbar-title>Login</v-toolbar-title>
+            <v-toolbar-title>ログイン</v-toolbar-title>
             <v-spacer />
             <v-btn icon @click="$router.back()">
               <v-icon>mdi-close</v-icon>
@@ -13,19 +13,21 @@
           <v-card-text>
             <v-form ref="form" lazy-validation>
               <v-text-field v-model="email" type="email" label="E-mail" :rules="rules.email" />
-              <v-text-field v-model="password" type="password" label="Password" :rules="rules.password" />
+              <v-text-field v-model="password" type="password" label="パスワード" :rules="rules.password" />
             </v-form>
           </v-card-text>
           <v-card-text class="warning--text">
             {{ message }}
           </v-card-text>
           <v-card-actions>
-            <nuxt-link to="/signup">
-              Sign up
-            </nuxt-link>
+            <v-container>
+              <nuxt-link to="/signup">
+                新規アカウント登録
+              </nuxt-link>
+            </v-container>
             <v-spacer />
             <v-btn large color="primary" @click="login">
-              Login
+              ログイン
             </v-btn>
           </v-card-actions>
         </v-card>
