@@ -21,7 +21,7 @@
         <question-card ref="card" :blog="blog" :index="index" @close="closeAll" />
       </v-list-item>
     </v-list>
-    <span v-else>No Blogs...</span>
+    <span v-else>投稿がありません...</span>
     <paginate
       :page-count="getPageCount"
       :page-range="3"
