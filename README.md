@@ -20,7 +20,7 @@ $ firebase init
   
 $ firebse deploy
 
-<!-- firebaseへのディプロイ方法 -->
+<!-- firebaseへのディプロイ方法  -->
   npm run generate 
   → firebase deploy
 
