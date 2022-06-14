@@ -206,8 +206,7 @@ export default {
       this.$router.push({ path: '/user_page', query: { userId: id, userName: name } })
     },
     toMail () {
-      location.href = 'mailto:info@example.com'
-      // location.href = 'mailto:rereagri@gmail.com'
+      location.href = 'mailto:dtmservice0701@gmail.com'
     },
     isLogin () {
       return this.$store.getters.isAuthenticated
