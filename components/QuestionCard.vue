@@ -1,5 +1,5 @@
 <template>
-  <v-card ref="card" class="mb-3" color="blue lighten-4" @click="$router.push({path: 'question_card_detail', query: {blogid: blog.id}}); addViewCount()">
+  <v-card ref="card" class="mb-3" color="green lighten-4" @click="$router.push({path: 'question_card_detail', query: {blogid: blog.id}}); addViewCount()">
     <v-card-text class="pb-1 pointer">
       <div class="d-inline-block">
         <span>{{ created_datetime }} </span>
@@ -16,10 +16,10 @@
         {{ blog.title }}
       </div>
       <v-card-actions class="px-0">
-        <v-btn class="pointer-events-none" text x-small color="primary">
+        <!-- <v-btn class="pointer-events-none" text x-small color="primary">
           <v-icon>mdi-message-reply-text</v-icon>
           <span>{{ commentCount }}</span>
-        </v-btn>
+        </v-btn> -->
         <v-btn class="pointer-events-none" text x-small color="primary">
           <v-icon>mdi-eye</v-icon>
           <span>{{ blog.viewCount }}</span>

@@ -5,7 +5,7 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s',
-    title: 'DTM QA',
+    title: 'REREAGRI',
     htmlAttrs: {
       lang: 'ja'
     },
@@ -17,7 +17,7 @@ export default {
     ],
     link: [
       // { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon2.png' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon3.png' }
     ]
   },
 
@@ -56,6 +56,7 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/google-gtag'
   ],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
@@ -80,5 +81,10 @@ export default {
 
   router: {
     middleware: 'auth'
-  }
+  },
+
+  'google-gtag': {
+    id: "G-8R1922VVNW",
+    debug: false
+  },
 }

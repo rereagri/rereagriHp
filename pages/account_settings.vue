@@ -72,7 +72,7 @@
           </v-card-text>
         </v-card>
         <br><br><br>
-        <v-card>
+        <!-- <v-card>
           <v-toolbar dense dark color="secondary">
             <v-toolbar-title class="mx-auto">自己紹介・曲紹介</v-toolbar-title>
           </v-toolbar>
@@ -90,7 +90,7 @@
             </v-row>
             <br>
           </v-card-text>
-        </v-card>
+        </v-card> -->
         <br><br>
       </v-col>
     </v-row>

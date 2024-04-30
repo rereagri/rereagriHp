@@ -17,18 +17,18 @@
             </v-form>
           </v-card-text>
           <br>
-          <v-container>
+          <!-- <v-container>
             <select-tags @catchTag="receiveTag" />
-            <!-- <div>
+            <div>
               {{ receivedTagIdArray }}
               {{ receivedTagIdArray.length }}
-            </div> -->
-          </v-container>
+            </div>
+          </v-container> -->
           <br>
           <v-card-actions>
             <v-spacer />
             <v-btn large color="secondary" @click="postBlog">
-              質問を投稿する
+              投稿する
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -39,11 +39,11 @@
 
 <script>
 import { serverTimestamp } from 'firebase/firestore'
-import SelectTags from '~/components/SelectTags.vue'
+// import SelectTags from '~/components/SelectTags.vue'
 
 export default {
   name: 'PostPage',
-  components: { SelectTags },
+  // components: { SelectTags },
   data () {
     return {
       title: '',
@@ -71,7 +71,7 @@ export default {
         tagIds: this.receivedTagIdArray
       }
       this.$store.dispatch('blogs/add', blog)
-        .then(() => this.$router.push('/'))
+        .then(() => this.$router.push('/blog'))
     },
     receiveTag (tagId) {
       if (this.receivedTagIdArray.length === 0) {

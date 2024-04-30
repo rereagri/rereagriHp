@@ -3,7 +3,7 @@
     <v-row justify="center">
       <v-col cols="12" sm="10">
         <v-card>
-          <v-toolbar dense dark color="primary">
+          <v-toolbar dense dark color="green darken-4">
             <v-toolbar-title>ログイン</v-toolbar-title>
             <v-spacer />
             <v-btn icon @click="$router.back()">
@@ -20,13 +20,13 @@
             {{ message }}
           </v-card-text>
           <v-card-actions>
-            <v-container>
+            <!-- <v-container>
               <nuxt-link to="/signup">
                 新規アカウント登録
               </nuxt-link>
-            </v-container>
+            </v-container> -->
             <v-spacer />
-            <v-btn large color="primary" @click="login">
+            <v-btn class="white--text" large color="green darken-4" @click="login">
               ログイン
             </v-btn>
           </v-card-actions>

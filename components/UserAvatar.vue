@@ -1,5 +1,6 @@
 <template>
-  <span class="pointer" @click="toUserPage">
+  <!-- <span class="pointer" @click="toUserPage"> -->
+  <span class="pointer">
     <v-avatar v-if="photoURL==='null'" size="35">
       <v-icon size="35">
         mdi-account-circle

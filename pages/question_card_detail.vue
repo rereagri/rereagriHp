@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card ref="card" class="mb-3" color="blue lighten-4">
+    <v-card ref="card" class="mb-3" color="green lighten-4">
       <v-card-text class="pb-1">
         <div class="d-inline-block">
           <span>{{ created_datetime }} </span>
@@ -32,7 +32,7 @@
               <!-- eslint-disable-next-line vue/no-v-html -->
               <v-card-text class="content ql-editor" v-html="comment.comment" />
               <v-card-actions>
-                <v-btn text x-small color="primary" class="mb-2" @click="goodToggle(comment)">
+                <!-- <v-btn text x-small color="primary" class="mb-2" @click="goodToggle(comment)">
                   <v-icon v-if="isGoodReplyMine(comment)">
                     mdi-thumb-up
                   </v-icon>
@@ -40,8 +40,8 @@
                     mdi-thumb-up-outline
                   </v-icon>
                   <span>{{ goodReplyCount(comment) }}</span>
-                </v-btn>
-                <v-btn v-if="isBestAnswer(comment)" x-small color="success" class="pointer-events-none">
+                </v-btn> -->
+                <!-- <v-btn v-if="isBestAnswer(comment)" x-small color="success" class="pointer-events-none">
                   <div>
                     ベストアンサー
                   </div>
@@ -55,7 +55,7 @@
                   <div>
                     ベストアンサーにする
                   </div>
-                </v-btn>
+                </v-btn> -->
                 <v-spacer />
                 <v-btn v-if="isCommentUserId(comment)" icon x-small color="secondary" @click="removeComment(comment, index)">
                   <v-icon>mdi-delete</v-icon>
@@ -63,7 +63,7 @@
               </v-card-actions>
             </v-card>
           </v-container>
-          <div v-if="blog && isBlogMine">
+          <!-- <div v-if="blog && isBlogMine">
             <v-divider />
             <br>
             <v-container>
@@ -71,12 +71,12 @@
             </v-container>
             <br>
             <v-divider />
-          </div>
+          </div> -->
           <v-card-actions>
-            <v-btn class="pointer-events-none" text x-small color="primary">
+            <!-- <v-btn class="pointer-events-none" text x-small color="primary">
               <v-icon>mdi-message-reply-text</v-icon>
               <span v-if="blog">{{ commentCount }}</span>
-            </v-btn>
+            </v-btn> -->
             <v-btn class="pointer-events-none" text x-small color="primary" style="cursor: default">
               <v-icon>mdi-eye</v-icon>
               <span v-if="blog">{{ blog.viewCount }}</span>
@@ -86,9 +86,10 @@
               color="primary"
               class="ml-6"
               @click="addComment"
+              v-if="blog && isBlogMine"
             >
               <!-- <v-icon>mdi-comment-edit</v-icon> -->
-              回答する
+              追記する
             </v-btn>
             <v-spacer />
             <v-btn v-if="blog && isBlogMine" icon x-small color="secondary" @click="remove">
@@ -103,9 +104,9 @@
 
 <script>
 import { doc, updateDoc } from '@firebase/firestore'
-import SelectTagsForCardDetail from '~/components/SelectTagsForCardDetail.vue'
+// import SelectTagsForCardDetail from '~/components/SelectTagsForCardDetail.vue'
 export default {
-  components: { SelectTagsForCardDetail },
+  // components: { SelectTagsForCardDetail },
   data () {
     return {
       open: false,
@@ -157,13 +158,13 @@ export default {
   },
   methods: {
     remove () {
-      if (confirm('Are you sure?')) {
+      if (confirm('削除しますか?')) {
         this.$store.dispatch('blogs/remove', this.blog.id)
       }
-      this.$router.push('/')
+      this.$router.push('/blog')
     },
     removeComment (comment, index) {
-      if (confirm('Are you sure?')) {
+      if (confirm('削除しますか?')) {
         this.$store.dispatch('blogs/removeComment', { blogId: this.blog.id, commentObj: comment, commentsIndex: index })
       }
     },

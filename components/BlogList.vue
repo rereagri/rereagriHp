@@ -12,7 +12,7 @@
         />
       </v-container>
     </v-row>
-    <v-container text-center mb-3>
+    <!-- <v-container text-center mb-3>
       <v-btn-toggle v-model="selectingBtnToggleIndex" rounded dense>
         <v-btn class="btnToggle" color="primary" outlined @click="newArrivalOrder">
           新着順
@@ -27,7 +27,7 @@
           未回答
         </v-btn>
       </v-btn-toggle>
-    </v-container>
+    </v-container> -->
     <v-container v-if="searchedBlogs !== ''">
       <div>
         &emsp;検索結果&emsp;{{ searchedBlogs.length }}&emsp;件
