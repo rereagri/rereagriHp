@@ -54,6 +54,14 @@
                 <v-list-item-title>リリアグリについて</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
+            <v-list-item @click="$router.push('/accounts')">
+              <v-list-item-icon>
+                <v-icon>mdi-book-open-page-variant</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>決算書</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
             <!-- <v-list-item @click="toUserPage">
               <v-list-item-icon>
                 <v-icon>mdi-card-account-details</v-icon>
@@ -154,6 +162,14 @@
               </v-list-item-icon>
               <v-list-item-content>
                 <v-list-item-title>リリアグリについて</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item @click="$router.push('/accounts')">
+              <v-list-item-icon>
+                <v-icon>mdi-book-open-page-variant</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>決算書</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <!-- <v-list-item @click="$router.push('/user_ranking')">
