@@ -7,7 +7,7 @@ import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 
 const options = {
-  placeholder: 'わからないこと、解決したいこと、教えてほしいことの詳細を入力してください。'
+  placeholder: '記入欄。'
 }
 
 Vue.use(VueQuillEditor, options /* { default global options } */)
