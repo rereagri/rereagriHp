@@ -12,7 +12,7 @@
       </div>
       <user-avatar :id="blog.user_id" :name="blogCardAvatarName.toString()" />
       <render-tags :blog="blog" />
-      <div class="text-h5">
+      <div class="text-h5 mt-3">
         {{ blog.title }}
       </div>
       <v-card-actions class="px-0">
@@ -20,10 +20,12 @@
           <v-icon>mdi-message-reply-text</v-icon>
           <span>{{ commentCount }}</span>
         </v-btn> -->
-        <v-btn class="pointer-events-none" text x-small color="primary">
-          <v-icon>mdi-eye</v-icon>
-          <span>{{ blog.viewCount }}</span>
-        </v-btn>
+        <div v-if="$store.getters.isAuthenticated">
+          <v-btn class="pointer-events-none" text x-small color="primary" >
+            <v-icon>mdi-eye</v-icon>
+            <span>{{ blog.viewCount }}</span>
+          </v-btn>
+        </div>
       </v-card-actions>
     </v-card-text>
   </v-card>

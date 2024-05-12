@@ -77,10 +77,12 @@
               <v-icon>mdi-message-reply-text</v-icon>
               <span v-if="blog">{{ commentCount }}</span>
             </v-btn> -->
-            <v-btn class="pointer-events-none" text x-small color="primary" style="cursor: default">
-              <v-icon>mdi-eye</v-icon>
-              <span v-if="blog">{{ blog.viewCount }}</span>
-            </v-btn>
+            <div v-if="$store.getters.isAuthenticated">
+              <v-btn class="pointer-events-none" text x-small color="primary" style="cursor: default">
+                <v-icon>mdi-eye</v-icon>
+                <span v-if="blog">{{ blog.viewCount }}</span>
+              </v-btn>
+            </div>
             <v-btn
               small
               color="primary"
