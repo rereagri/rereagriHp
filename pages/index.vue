@@ -13,6 +13,14 @@
       </v-row> -->
     <br>
     <!-- <v-img src="https://firebasestorage.googleapis.com/v0/b/rereagrihp.appspot.com/o/%E3%82%B9%E3%83%A9%E3%82%A4%E3%83%88%E3%82%99%E3%82%B7%E3%83%A7%E3%83%BC%E3%80%80%E3%82%B3%E3%83%A1%E3%83%BB%E3%82%A2%E3%83%95%E3%82%9A%E3%83%AA%EF%BC%93%20(1).png?alt=media&token=aea726c4-51c0-4121-b673-063ec1e9ba91"></v-img> -->
+    <br>
+    <v-row justify="center">
+      <v-btn outlined rounded color="green" style="font-weight: bold;" @click="$router.push('/blog')">
+        <a style="color: green;" target="_blank">リリアグリのブログ</a>
+      </v-btn>
+    </v-row>
+    <br>
+    <br>
     <v-img src="https://firebasestorage.googleapis.com/v0/b/rereagrihp.appspot.com/o/topPage.png?alt=media&token=243d8e75-c4dd-43ff-9bf0-aeab905abcca"></v-img>
     <br><br>
     <v-row justify="center">

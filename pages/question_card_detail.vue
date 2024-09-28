@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card ref="card" class="mb-3" color="green lighten-4">
+    <v-card ref="card" class="mb-3" color="green lighten-4" v-if="blogs">
       <v-card-text class="pb-1">
         <div class="d-inline-block">
           <span>{{ created_datetime }} </span>
