@@ -30,7 +30,7 @@ export default {
       items: [
         {
           item: '名称',
-          content: '一般社団法人リリアグリ'
+          content: '内藤農園（旧：一般社団法人リリアグリ）'
         },
         // {
         //   item: '(Name)',
@@ -53,7 +53,7 @@ export default {
         //   content: 'May 29, 2020'
         // },
         {
-          item: '代表理事',
+          item: '代表',
           content: '内藤 晋介'
         },
         // {

@@ -2,6 +2,10 @@
   <v-container>
     <br><br>
     <v-row justify="center">
+      ※一般社団法人リリアグリ時代の決算書です。（2020年５月29日〜2024年４月１日）
+    </v-row>
+    <br><br>
+    <v-row justify="center">
       <a href="https://firebasestorage.googleapis.com/v0/b/rereagrihp.appspot.com/o/outputfile2023.pdf?alt=media&token=c04d953c-ba67-41b6-9502-aa653daa6c59" target="_blank">2023年度決算書</a>
     </v-row>
     <br><br>

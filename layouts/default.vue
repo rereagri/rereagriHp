@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar app dark color="green darken-4">
       <v-toolbar-title style="cursor:pointer" @click="$router.push('/')">
-        REREAGRI
+        内藤農園
       </v-toolbar-title>
       <v-spacer />
       <!-- <v-btn v-if="!$store.getters.isAuthenticated" icon :to="'/login'">
@@ -51,7 +51,7 @@
                 <v-icon>mdi-domain</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>リリアグリについて</v-list-item-title>
+                <v-list-item-title>内藤農園について</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-list-item @click="$router.push('/accounts')">
@@ -59,7 +59,7 @@
                 <v-icon>mdi-book-open-page-variant</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>決算書</v-list-item-title>
+                <v-list-item-title>リリアグリ時代の決算書</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <!-- <v-list-item @click="toUserPage">
@@ -161,7 +161,7 @@
                 <v-icon>mdi-domain</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>リリアグリについて</v-list-item-title>
+                <v-list-item-title>内藤農園について</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-list-item @click="$router.push('/accounts')">
@@ -169,7 +169,7 @@
                 <v-icon>mdi-book-open-page-variant</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>決算書</v-list-item-title>
+                <v-list-item-title>リリアグリ時代の決算書</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <!-- <v-list-item @click="$router.push('/user_ranking')">
@@ -218,7 +218,7 @@
           <br>
           <!-- <span class="pointer mx-2" @click="$router.push('/about')">DTM QAとは・お知らせ</span>
           <br> -->
-          <span class="pointer" @click="$router.push('/')">&copy; Copyright 一般社団法人リリアグリ All Rights {{ new Date().getFullYear() }}</span>
+          <span class="pointer" @click="$router.push('/')">&copy; Copyright 内藤農園 All Rights {{ new Date().getFullYear() }}</span>
         </v-col>
       </v-row>
     </v-footer>
