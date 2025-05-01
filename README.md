@@ -24,6 +24,8 @@ $ firebse deploy
   npm run generate 
   → firebase deploy
 
+<!-- ディプロイを止める方法 -->
+firebase hosting:disable
 
 For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
 
